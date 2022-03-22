@@ -1,0 +1,16 @@
+/*****Custom styling for fonts and other elements for 
+**Desktop
+**Mobile
+**Small mobiles
+**Ipad screen size
+*****/
+
+
+.work-sans-h1,h2,h3,h4,h5,h6{
+	
+	font-family:Work Sans;
+	font-weight:700;
+}
+.text-white-70{
+	font-family:'Spartan', 'Brandon Grotesque';
+}
