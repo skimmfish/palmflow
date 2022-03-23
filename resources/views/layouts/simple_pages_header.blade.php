@@ -36,7 +36,7 @@
 	
 <style>
 body{
-font-family:'Spartan','Brandon Grotesque' !important;	
+font-family:'Spartan','Brandon Grotesque' !important;	font-size:12.5px;
 }
 .event_li{
 	color:#000;
@@ -183,7 +183,8 @@ font-family:'Spartan','Brandon Grotesque' !important;
 				@if(Auth::check())
 					<a href="{{ route('admin.dashboard.index') }}"><img src="{{asset('img/'.Auth::user()->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
 				@else
-					<a class="btn btn-light btn-transition" href="#" data-bs-toggle="modal" data-bs-target="#signupModal" style="border-radius:7px;font-weight:700;">Get Started <i class="bi-chevron-right small ms-1" style="color:#000000;"></i></a>
+					<!-- data-bs-toggle="modal" data-bs-target="#signupModal" -->
+					<a class="btn btn-light btn-transition" href="{{route('login') }}" style="border-radius:7px;font-weight:700;">Get Started <i class="bi-chevron-right small ms-1" style="color:#000000;"></i></a>
 				@endif
 				
 				</a>

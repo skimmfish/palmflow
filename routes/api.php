@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\User;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +27,23 @@ Route::get('user/profile/{id}', function($id){
 	return $aUsers->toJson();
 	
 })->middleware('auth:api');
+
+
+//fetching all the users in the system who are active with an active and verified email address
+Route::get('allusers', function(){
+	
+$users = User::paginate(20); return $users->toJson();
+
+//return DB::select("SELECT *FROM users WHERE active=?",[1]);
+
+//	return User::where("active",1)->first();
+	
+});
+
+Route::namespace('Api')->group(function(){
+	
+	Route::apiResource('my-users','UserController@index');
+
+});
+//for creating new user
+Route::post('new-user', 'UserController@store');

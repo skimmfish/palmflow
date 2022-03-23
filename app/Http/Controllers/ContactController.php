@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Http\Requests\ContactFormRequest;
+use App\ContactModel;
 
-class UserController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,6 @@ class UserController extends Controller
     public function index()
     {
         //
-		return User::paginate(20);
-		
     }
 
     /**
@@ -38,14 +37,31 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-	$user = new User;
-	
-	$user->create($request->only(['email','api_token','username','password','phone_number']));
-	$user->save();
-	
-	return response()->json(['message'=>"User's profile saved successfully"],200);
-
-
+		
+		$rules =[
+            'first_name'=>'required',
+			'last_name' => 'required',
+			'email_address' => 'required | email',
+			'phone_number'=>'min:11|max:14',
+			'message'=>'required',
+			'issues_category'=>'required'
+		];
+		
+		$messages = [
+		'message'=>'You cannot leave this box empty',
+		'required'=>'This field is required'
+		];
+		
+		$validate = Validator::make($request->all(),$rules,$messages)->validate();
+		
+		$contact = new ContactModel;
+		
+		$contact->first_name = $request->first_name;
+		
+		
+		$contact->save();
+		
+		
     }
 
     /**

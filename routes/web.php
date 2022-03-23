@@ -38,7 +38,7 @@ Route::post('register/store','Auth\RegisterController@store')->name('register.st
 //resetting the read_status of notification to true for all messages belonging to the logged in user
 Route::get('notification_mark_all_read', function(){	
 $getAllRecords = NotificationModel::where(['pub_status'=>1,'read_status'=>0,'receiver_id'=>Auth::user()->id])->get();
-foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); } return redirect()->route('admin.dashboard')->withMessage('All notifications set to read');	
+foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); } return redirect()->route('admin.dashboard.index')->withMessage('All notifications set to read');	
 })->middleware('auth')->name('notification_mark_all_read');
 
 
@@ -61,8 +61,12 @@ Route::get('terms-and-conditions', function(){
 
 //contact-us page
 Route::get('contact-us',function(){
-	return view('contact-us');
+	return view('contact-us')->with('title','Contact Us');
 })->name('contact-us');
+
+//this processes contact us info
+Route::post('contact/store', 'ContactController@store')->name('contact_models.store');
+
 
 //the admin before attaching the auth middleware to make it authorizable route that must always be authenticated 
 Route::get('admin', function(){
@@ -121,7 +125,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function(){
 
 Route::put('users/update', 'UserController@update')->name('users.update');
 
-Route::get('home', function(User $user){
+Route::get('/', function(User $user){
 	
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
 	
@@ -159,8 +163,13 @@ Route::get('maintenance', function(){
 
 
 //route to all users page
-Route::get('allusers',function(){return view('admin.dashboard.allusers')->with('All Users');
+Route::get('allusers',function(){return view('admin.dashboard.allusers')->with('title','All Users');
 })->name('admin.dashboard.allusers');
+
+
+//route to all users page
+Route::get('transactions',function(){return view('admin.dashboard.transactions')->with('title','Transaction History');
+})->name('admin.dashboard.transactions');
 
 
 

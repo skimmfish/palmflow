@@ -87,7 +87,7 @@
                 </div>
                 <div class="card mb-3">
                   <div class="card-header">
-                    <h5 class="mb-0">Change Password</h5>
+                    <h6 class="mb-0">Change Password</h6>
                   </div>
                   <div class="card-body bg-light">
                     <form method="POST" action="">

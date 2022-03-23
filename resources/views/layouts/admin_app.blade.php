@@ -93,7 +93,7 @@
           <div class="d-flex align-items-center">
             <div class="toggle-icon-wrapper">
               <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            </div><a class="navbar-brand" href="{{ route('index') }}">
+            </div><a class="navbar-brand" href="{{route('admin.dashboard.index')}}">
               <div class="d-flex align-items-center py-3"><img class="me-2" src="{{ asset('img/floxpool.png') }}" alt="" width="90" /><span class="font-sans-serif"></span></div>
             </a>
           </div>
@@ -106,7 +106,11 @@
                   </a>
                   <ul class="nav collapse show" id="dashboard" style="line-height:26px;">
                     
-                    <li class="nav-item"><a class="nav-link active" href="" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link active" href="{{ route('admin.dashboard.index') }}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Dashboard Home</span></div>
+                      </a><!-- more inner pages-->
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.transactions') }}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Transactions History</span></div>
                       </a><!-- more inner pages-->
                     </li>
@@ -227,7 +231,7 @@
                     <div class="btn-close-falcon" aria-label="Close" data-bs-dismiss="alert"></div>
                   </div>
                   <div class="card-body text-center"><img src="assets/img/icons/spot-illustrations/navbar-vertical.png" alt="" width="80" />
-                    <p class="fs--2 mt-2">Loving how we roll here?<br />Give us a shout out <a href="{{route('index') }}">PalmFlow</a></p>
+                    <p class="fs--2 mt-2">Loving how we roll here?<br />Give us a shout out <a href="{{route('admin.dashboard.index') }}">PalmFlow</a></p>
                     <div class="d-grid"><a class="btn btn-sm btn-primary" href="" alt="facebook page" target="_blank">Facebook</a></div>
                   </div>
                 </div>
@@ -255,10 +259,7 @@
               <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">
          		  <a class="dropdown-item" href="{{ route('admin.dashboard.user') }}">Profile &amp; personal settings</a>					
-					@if(Auth::user()->is_admin===1)											  
-					<a class="dropdown-item" href="{{ route('admin.dashboard.maintenance') }}">Switch to maintenance</a>
-				  @endif
-                  
+					
                   <a class="dropdown-item" href="{{route('logout')}}">Logout</a>
                 </div>
               </div>
@@ -273,38 +274,7 @@
 
 		@include('layouts.admin_copyright_footer')
 		
-        <div class="modal fade" id="authentication-modal" tabindex="-1" role="dialog" aria-labelledby="authentication-modal-label" aria-hidden="true">
-          <div class="modal-dialog mt-6" role="document">
-            <div class="modal-content border-0">
-              <div class="modal-header px-5 position-relative modal-shape-header bg-shape">
-                <div class="position-relative z-index-1 light">
-                  <h4 class="mb-0 text-white" id="authentication-modal-label">Register</h4>
-                  <p class="fs--1 mb-0 text-white">Please create your free Falcon account</p>
-                </div><button class="btn-close btn-close-white position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body py-4 px-5">
-                <form>
-                  <div class="mb-3"><label class="form-label" for="modal-auth-name">Name</label><input class="form-control" type="text" autocomplete="on" id="modal-auth-name" /></div>
-                  <div class="mb-3"><label class="form-label" for="modal-auth-email">Email address</label><input class="form-control" type="email" autocomplete="on" id="modal-auth-email" /></div>
-                  <div class="row gx-2">
-                    <div class="mb-3 col-sm-6"><label class="form-label" for="modal-auth-password">Password</label><input class="form-control" type="password" autocomplete="on" id="modal-auth-password" /></div>
-                    <div class="mb-3 col-sm-6"><label class="form-label" for="modal-auth-confirm-password">Confirm Password</label><input class="form-control" type="password" autocomplete="on" id="modal-auth-confirm-password" /></div>
-                  </div>
-                  <div class="form-check"><input class="form-check-input" type="checkbox" id="modal-auth-register-checkbox" /><label class="form-label" for="modal-auth-register-checkbox">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label></div>
-                  <div class="mb-3"><button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Register</button></div>
-                </form>
-                <div class="position-relative mt-5">
-                  <hr class="bg-300" />
-                  <div class="divider-content-center">or register with</div>
-                </div>
-                <div class="row g-2 mt-2">
-                  <div class="col-sm-6"><a class="btn btn-outline-google-plus btn-sm d-block w-100" href="#"><span class="fab fa-google-plus-g me-2" data-fa-transform="grow-8"></span> google</a></div>
-                  <div class="col-sm-6"><a class="btn btn-outline-facebook btn-sm d-block w-100" href="#"><span class="fab fa-facebook-square me-2" data-fa-transform="grow-8"></span> facebook</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+       
       </div>
     </main><!-- ===============================================-->
     <!--    End of Main Content-->
