@@ -8,7 +8,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>@if(isset($title)) {{ $title }} @else {{ 'Users Dashboard ' }} - PalmFlow @endif</title>
+    <title>@if($title) {{ $title }} @else {{ 'Users Dashboard ' }} - PalmFlow Project @endif</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -33,8 +33,10 @@
     <link href="{{ asset('css/admin/css/theme-rtl.min.css') }}" rel="stylesheet" id="style-rtl">
     <link href="{{ asset('css/admin/css/theme.min.css')}}" rel="stylesheet" id="style-default">
     <link href="{{ asset('css/admin/css/user-rtl.min.css') }}" rel="stylesheet" id="user-style-rtl">
-    <link href="{{ asset('css/admin/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
-    <script>
+	<link href="{{ asset('css/admin/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
+	<link href="{{asset('css/custom_styles.css') }}" rel="stylesheet">
+	
+ <script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
       if (isRTL) {
         var linkDefault = document.getElementById('style-default');
@@ -52,17 +54,17 @@
 	
 	<style>
 	body{
-		font-family:'Spartan','Brandon Grotesque';font-size:17px;color:#000;
+		font-family:'Spartan','Brandon Grotesque';font-size:18px;color:#000;
 	}
 	h1,h2,h3,h4,h5,h6{font-family:'Spartan','Brandon Grotesque';
 	font-weight:600;
 	}
 	
-	.nav-link, .dropdown-item, .mb-1, .form-control, label, .btn{font-family:'Spartan','Brandon Grotesque';font-size:12.5px;
+	.nav-link, .dropdown-item, .mb-1, .form-control, label, .btn{font-family:'Spartan','Brandon Grotesque';font-size:11px !important;
 	}
-	.mb-1, .cust-link{font-weight:500;font-size:12px;}
+	.mb-1, .cust-link{font-weight:500;font-size:13px;}
 	.form-control{
-		font-size:13.5px;
+		font-size:13px;
 	}
 	label{font-weight:700;}
 	
@@ -102,29 +104,42 @@
               <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
                 <li class="nav-item">
                   <!-- parent pages--><a class="nav-link dropdown-indicator" href="#dashboard" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="dashboard">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1" style="font-family:'Spartan','Brandon Grotesque';font-weight:600;font-size:14px;color:#000;">Dashboard</span></div>
+                    <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1" style="font-family:'Spartan','Brandon Grotesque';font-weight:600;font-size:14px;color:#000;">Dashboard</span></div>
                   </a>
                   <ul class="nav collapse show" id="dashboard" style="line-height:26px;">
                     
-                    <li class="nav-item"><a class="nav-link active" href="{{ route('admin.dashboard.index') }}" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Dashboard Home</span></div>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.index') }}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-left"><span class="nav-link-text ps-1">Dashboard Home</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.transactions') }}" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Transactions History</span></div>
-                      </a><!-- more inner pages-->
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Withdrawals</span></div>
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.transactions',['uid'=>Auth::user()->id]) }}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-table"></span></span><span class="nav-link-text ps-1">Transactions History</span></div>
                       </a><!-- more inner pages-->
                     </li>
                     <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Fund Wallet</span></div>
+                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-credit-card"></span></span><span class="nav-link-text ps-1">Withdrawals</span></div>
+                      </a><!-- more inner pages-->
+                    </li>
+					
+					
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.fund_wallet') }}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-left">
+						<span class="nav-link-icon"><span class="fas fa-thin fa-wallet"></span></span>
+						<span class="nav-link-text ps-1">Fund Wallet</span></div>
                       </a><!-- more inner pages-->
                     </li>
                     
+					{{-- @if( App\Profile::UserProfile(Auth::user()->id)->country=='Nigeria') --}}
+					<li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.my_voucher') }}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-barcode"></span></span><span class="nav-link-text ps-1">My Vouchers</span></div>
+                      </a><!-- more inner pages-->
+                    </li>
+                    {{-- @endif --}}
+					
 					<li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Contact Customer Care</span></div>
+                        <div class="d-flex align-items-center">
+						<span class="nav-link-icon"><span class="fas fa-phone"></span></span>
+						<span class="nav-link-text ps-1">Customer Care</span></div>
                       </a><!-- more inner pages-->
                     </li>
                     
@@ -141,10 +156,10 @@
                       <hr class="mb-0 navbar-vertical-divider" />
                     </div>
                   </div><!-- parent pages--><a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-alt"></span></span><span class="nav-link-text ps-1">Trade Central</span></div>
+                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-line"></span></span><span class="nav-link-text ps-1">Trade Central</span></div>
                   </a><!-- parent pages-->
 				  <a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-note"></span></span><span class="nav-link-text ps-1">Logs</span></div>
+                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-book"></span></span><span class="nav-link-text ps-1">Logs</span></div>
                   </a><!-- parent pages--><a class="nav-link dropdown-indicator" href="#email" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="email">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-envelope-open"></span></span><span class="nav-link-text ps-1">Admin Notifications</span></div>
                   </a>

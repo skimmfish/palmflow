@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use DB;
-//use App\Articles;
 
 use Illuminate\Http\Request;
 
-class Articles extends Controller
+class ContentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,13 +13,8 @@ class Articles extends Controller
      */
     public function index()
     {
-        
-		//$articles = Articles::where('pub_status',1)->get();
-		$articles = DB::select("SELECT *from  articles WHERE pub_status=? ORDER BY created_at DESC LIMIT 10",[1]);
-		
-		return view('blog.index')->with('articlesModel',$articles);
-	
-}
+        //
+    }
 
     /**
      * Show the form for creating a new resource.

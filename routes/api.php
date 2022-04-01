@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use App\User;
-use App\Http\Controllers\UserController;
 
 
 /*
@@ -42,7 +41,7 @@ $users = User::paginate(20); return $users->toJson();
 
 Route::namespace('Api')->group(function(){
 	
-	Route::apiResource('my-users','UserController@index');
+	Route::apiResource('my-users','/UserController');
 
 });
 //for creating new user

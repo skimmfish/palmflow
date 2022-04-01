@@ -1,0 +1,17 @@
+/****
+**Extra custom_styles
+**
+*/
+
+.table_rws th, .table_rws td{
+	font-size:9px;font-weight:500;
+}
+.table_rws{
+	overflow-x:auto;
+}
+.table_rws th{font-weight:700;}
+.text-xs{font-size:11px;}
+
+.nav-link::active{
+color:#0099cc;	
+}

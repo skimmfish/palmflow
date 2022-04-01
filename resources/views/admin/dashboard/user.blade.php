@@ -35,6 +35,7 @@
                 <div class="card-body bg-light">
                   <form class="row g-3" method="POST" action="{{ route('users.update') }}">
 				  {{ csrf_field() }}
+				  @method('PUT')
                     @foreach($profile as $p)
 					<div class="col-lg-6"> 
 					<label class="form-label" for="first-name">First Name</label>
@@ -98,11 +99,11 @@
                 </div>
                 <div class="card">
                   <div class="card-header">
-                    <h6 class="mb-0">Danger Zone</h6>
+                    <h5 class="mb-0">Danger Zone</h5>
                   </div>
                   <div class="card-body bg-light">
-                    <h5 class="fs-0">Delete this account</h5>
-                    <p class="fs--1">Once you delete a account, there is no going back. Please be certain.</p><a class="btn btn-falcon-danger d-block" href="#!">Deactivate Account</a>
+                    <h6 class="fs-0">Delete this account</h6>
+                    <p class="fs--1"><small>Once you delete a account, there is no going back. Please be certain.</small></p><a class="btn btn-falcon-danger d-block" href="#!">Deactivate Account</a>
                   </div>
                 </div>
               </div>

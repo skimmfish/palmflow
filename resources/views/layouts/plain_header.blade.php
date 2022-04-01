@@ -36,7 +36,7 @@
 	
 <style>
 body{
-font-family:'Spartan','Brandon Grotesque' !important;	
+font-family:'Spartan','Brandon Grotesque' !important;	font-size:11px;
 }
 .event_li{
 	color:#000;

@@ -43,13 +43,13 @@
           <div class="row">
             <div class="col-sm-6">
               <h5 class="mb-1">Call us:</h5>
-              <p><a href="tel:+2349076191416">0800 - PALMFLOW</a></p>
+              <p><a href="tel:+2349076191416">0800 - BALMFLOW</a></p>
             </div>
             <!-- End Col -->
 
             <div class="col-sm-6">
               <h5 class="mb-1">Email us:</h5>
-              <p>hello@palmflowng.com</p>
+              <p><a href="mailto:hello@balmflowng.com">hello@balmflowng.com</a></p>
             </div>
             <!-- End Col -->
 
@@ -158,13 +158,27 @@
 				  <option selected value="wallet">Wallet Issues</option>
 				  <option selected value="technical">Technical Issues</option>
 				  </select>
+				  
+				    @if ($errors->has('issues_category'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('issues_category') }}</strong>
+                                    </span>
+                                @endif
+					
 				  </div>
 				  
 				  <!--details-->
 				  <div class="mb-3">
                     <label class="form-label" for="hireUsFormDetails">Details</label>
-                    <textarea class="form-control form-control-lg" name="message" id="hireUsFormDetails" placeholder="Your comments/suggestions/enquiries" aria-label="Tell us about your ..." rows="4"></textarea>
-                  </div>
+                    <textarea class="form-control form-control-lg" name="message" id="hireUsFormDetails" placeholder="Your comments/suggestions/enquiries" aria-label="Tell us about your issues and concerns..." rows="4"></textarea>
+					
+					  @if ($errors->has('message'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('message') }}</strong>
+                                    </span>
+                                @endif
+					
+				  </div>
                   <!-- End Form -->
 				  <div class="mb-3">
 					<label class="form-label" for="hireUsFormDetails">Attach a File</label>

@@ -22,7 +22,7 @@
                           <div class="fw-normal title">Pages <span class="fas fa-chevron-right mx-1 text-500 fs--2" data-fa-transform="shrink-2"></span> Events</div>
                         </div>
                       </a>
-                      <a class="dropdown-item fs--1 px-card py-1 hover-primary" href="app/e-commerce/customers.html">
+                      <a class="dropdown-item fs--1 px-card py-1 hover-primary" href="">
                         <div class="d-flex align-items-center">
                           <span class="fas fa-circle me-2 text-300 fs--2"></span>
                           <div class="fw-normal title">E-commerce <span class="fas fa-chevron-right mx-1 text-500 fs--2" data-fa-transform="shrink-2"></span> Customers</div>
@@ -179,27 +179,7 @@
               </li>
             </ul>
           </nav>
-          <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand-lg" style="display: none;" data-move-target="#navbarVerticalNav" data-navbar-top="combo">
-            <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="{{ route('index') }}">
-              <div class="d-flex align-items-center"><img class="me-2" src="{{ asset('img/floxpool.png') }}" alt="Logo" width="85" /><span class="font-sans-serif">{{ config('app_name') }}</span></div>
-            </a>
-            <div class="collapse navbar-collapse scrollbar" id="navbarStandard">
-              <ul class="navbar-nav" data-top-nav-dropdowns="data-top-nav-dropdowns">
-                <li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dashboards">Dashboards</a>
-                  <div class="dropdown-menu dropdown-menu-card border-0 mt-0" aria-labelledby="dashboards" style="line-height:45px !important;">
-                    <div class="bg-white dark__bg-1000 rounded-3 py-2">
-					<a class="dropdown-item link-600 fw-medium" href="">Wallets</a>
-					<a class="dropdown-item link-600 fw-medium" href="">Transaction History</a>
-					<a class="dropdown-item link-600 fw-medium" href="">Withdrawals</a>
-					<a class="dropdown-item link-600 fw-medium" href="">Fund Wallet</a>
-					<a class="dropdown-item link-600 fw-medium" href="">Contact Customer Care</a>
-					 </div>
-                </li>
-          
-		  </div>
-             </nav>
+        
           <script>
             var navbarPosition = localStorage.getItem('navbarPosition');
             var navbarVertical = document.querySelector('.navbar-vertical');

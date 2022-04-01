@@ -55,7 +55,8 @@
         </div>
         <!-- End Row -->
 
-        <p style="line-height:40px;">At PalmFlow, our mission has always been focused on bring joy and gladness to the heart of humanity as much as God has helped us, and this we do in all openess and transparency. Our modus Operandi is such 
+        <p style="line-height:40px;">At PalmFlow, our mission has always been focused on bring joy and gladness to the heart of humanity as much as God has helped us, and this we do in all openess and transparency. 
+		Our modus Operandi is such 
 		that, we make the most effective use of our contributors' funds to ensure that we keep to the task. We are on both sides of the coin that is in the business world as well as on the humanitarian front.
 		The summary of our vision is to feed at least one man per hour, people who have been subjected to hardship by reasons known and unknown; 
 		To eradicate ignorance amoung the most indigent set of individuals we can identify within our circle of influence;
@@ -78,7 +79,7 @@
 			<br/>
 			
 			Our modus operandi goes in 3 ways as follow:
-			<ul>
+			<ul style="line-height:37px;">
 			<li>Contributors stake crypto currencies from their preferred crypto wallets (USDT/BTC/ETH) </li>
 			<li>We trade the stakes using our proprietary softwares on the currencies and stocks market where we could track the micro-statistics on a daily basis</li>
 			<li>Contribute to community outreach and the "<b>Save The World</b>" project</li>

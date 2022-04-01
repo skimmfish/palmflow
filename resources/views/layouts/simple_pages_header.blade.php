@@ -18,7 +18,7 @@
     
 	
   <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@200;300;400;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet">
 
   <!-- CSS Implementing Plugins -->
 
@@ -36,11 +36,9 @@
 	
 <style>
 body{
-font-family:'Spartan','Brandon Grotesque' !important;	font-size:12.5px;
+font-family:'Spartan','Brandon Grotesque' !important;	font-size:13.5px;color:#000;font-weight:500;
 }
-.event_li{
-	color:#000;
-}
+
 .img_circle{
 	width:45px;height:45px;border-radius:50%;border:0;
 }
@@ -155,7 +153,7 @@ font-family:'Spartan','Brandon Grotesque' !important;	font-size:12.5px;
                 <div class="hs-sub-menu dropdown-menu" aria-labelledby="companyMegaMenu" style="min-width: 14rem;">
                   <a class="dropdown-item " href="{{route('about-us') }}">About PalmFlow</a>
                   <a class="dropdown-item " href="{{ route('vision-and-mission') }}">Our Vision & Mission</a>
-                  <a class="dropdown-item " href="{{ route('partners') }}">JV Partners</a>
+                 <!-- <a class="dropdown-item " href="{{ route('partners') }}">JV Partners</a>-->
                   <a class="dropdown-item " href="{{ route('faqs') }}">FAQs</a>
                   <a class="dropdown-item " href="{{ route('privacy-policy') }}">Privacy Policy</a>
                   <a class="dropdown-item " href="{{ route('terms-and-conditions') }}">Terms & Conditions</a>

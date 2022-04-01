@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactFormRequest;
 use App\ContactModel;
+use Illuminate\Contracts\Validation\Validator;
 
 class ContactController extends Controller
 {
@@ -52,17 +53,35 @@ class ContactController extends Controller
 		'required'=>'This field is required'
 		];
 		
+		
+		$faker = \Faker\Factory::create();
+
 		$validate = Validator::make($request->all(),$rules,$messages)->validate();
 		
 		$contact = new ContactModel;
 		
 		$contact->first_name = $request->first_name;
+		$contact->last_name = $request->last_name;
+		$contact->user__email = $request->user__email;
+		$contact->phone_number = $request->phone_number;
+		$contact->issues_category = $request->issues_category;
+		$contact->title = $request->issues_category;
+		$contact->message = $request->message;
+		$contact->ticket_id = $faker->numerify("#####-##-##");
 		
 		
+		//saving the contact info in the contact_models table with an auto-generated response
 		$contact->save();
 		
 		
     }
+	
+	
+	public function autoGenerate($num_of_chars){
+			
+			return Str::random($numChar);
+	
+	}
 
     /**
      * Display the specified resource.

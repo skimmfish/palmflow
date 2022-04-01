@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\User;
 
 class Profile extends Model
 {
@@ -25,5 +26,15 @@ public function User(){
 	return $this->belongsTo('App\User');
 	
 }
+
+/*
+*This function requires the user_id in question to retrieve the profile from other views
+*/
+public static function UserProfile($id){
+
+return User::find($id)->profile->country;	
+	
+}
+
 
 }

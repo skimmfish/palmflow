@@ -13,16 +13,27 @@
 use App\NotificationModel;
 use App\User;
 use App\Profile;
+use App\Articles;
+use App\Transactions;
 
 //declaring $dashboardNotification as a global variable usable
 
 global $dashboardNotification;
 
 
-Route::get('index', function () {    return view('index'); })->name('index');
+Route::get('/', function () {    return view('index'); })->name('index');
 
 //blog route
-Route::get('blog','Articles@index')->name('blog.index');
+Route::get('blog','ArticleController@index')->name('blog.index');
+
+Route::get('blog/categories/{cat}',function($cat){
+	
+	return DB::table('articles')->where(['pub_status'=>1,'category'=>$cat])->get(); 
+	
+})->name('blog.cat');
+
+//showing a single post
+Route::get('blog/{id}','ArticleController@show')->name('blog.show');
 
 //Authentication and authorization interfaces route
 Auth::routes();
@@ -118,6 +129,8 @@ Route::get('help_topics', function(){
 })->name('help');
 
 
+//author's post
+Route::get('blog/authors', 'ArticleController@authorsPost')->name('blog.authors.posts');
 
 //grouping all routes under the dashboard namespace
 Route::middleware('auth')->prefix('dashboard')->group(function(){
@@ -133,6 +146,27 @@ Route::get('/', function(User $user){
 	
 })->name('admin.dashboard.index');
 
+//for fund-wallet route
+Route::get('/fund_wallet', function(User $user){
+
+	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
+		
+	return view('admin.dashboard.fund_wallet')->with(['dashboardNotification'=>$dashboardNotification,'title'=>'Fund My Wallet - PalmFlow Project']);
+	
+})->name('admin.dashboard.fund_wallet');
+
+//for fund-wallet route
+Route::get('/my-vouchers', function(User $user){
+
+	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
+		
+	return view('admin.dashboard.my_voucher')->with(['dashboardNotification'=>$dashboardNotification,'title'=>'Vouchers - PalmFlow Project']);
+	
+})->name('admin.dashboard.my_voucher');
+
+
+//for processing transactions storage
+Route::post('transactions/store', 'TransactionController@store')->name('transactions.store');
 
 //dashboard/user/profile
 Route::get('user/profile', function(){
@@ -168,9 +202,12 @@ Route::get('allusers',function(){return view('admin.dashboard.allusers')->with('
 
 
 //route to all users page
-Route::get('transactions',function(){return view('admin.dashboard.transactions')->with('title','Transaction History');
-})->name('admin.dashboard.transactions');
+Route::get('transactions/{uid}','TransactionController@paginateRecords')->name('admin.dashboard.transactions');
 
+/*{	
+	return view('admin.dashboard.transactions')->with(['title'=>'Transaction History', 'Transactions'=>$transactions, 'id'=>$id, 'dashboardNotification'=>$dashboardNotification]);
+})->name('admin.dashboard.transactions');
+*/
 
 
 
