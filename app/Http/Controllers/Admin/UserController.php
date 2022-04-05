@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
+use DB;
 
 class UserController extends Controller
 {
@@ -15,8 +16,6 @@ class UserController extends Controller
     public function index()
     {
         //
-		return User::paginate(20);
-		
     }
 
     /**
@@ -38,14 +37,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-	$user = new User;
-	
-	$user->create($request->only(['email','api_token','username','password','phone_number']));
-	$user->save();
-	
-	return response()->json(['message'=>"User's profile saved successfully"],200);
-
-
     }
 
     /**
@@ -90,11 +81,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-  //      $user = User::find($id);
-	//	$user->delete();
+        DB::table('users')->where('id',$id)->delete();
 		
-		DB::table('users')->where('id',$id)->delete();
-		
-		return redirect()->route('dashboard/allusers');
+		return redirect()->route('admin.dashboard.core-admin.allusers')->with('message','User archived successfully');
+
     }
 }

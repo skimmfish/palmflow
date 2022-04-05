@@ -28,13 +28,19 @@ public function User(){
 }
 
 /*
-*This function requires the user_id in question to retrieve the profile from other views
+*This function requires the user_id in question to retrieve the profile model primary key in order to retrieve other fields
 */
 public static function UserProfile($id){
 
-return User::find($id)->profile->country;	
+return User::find($id)->id;	
 	
 }
 
+//this function returns an object array containing the user's profile
+public static function myProfile($users_id){
+	
+	return Profile::where('user_id',$users_id)->get();
+	
+}
 
 }

@@ -28,7 +28,7 @@
                    {
                      "coords": [37.4040344, -122.0289704],
                      "icon": {
-                       "iconUrl": "{{ asset('svg/components/map-pin.svg')}}",
+                       "iconUrl": "{{ asset("svg/components/map-pin.svg") }}",
                        "iconSize": [50, 45]
                      },
                      "popup": {
@@ -49,7 +49,7 @@
 
             <div class="col-sm-6">
               <h5 class="mb-1">Email us:</h5>
-              <p><a href="mailto:hello@balmflowng.com">hello@balmflowng.com</a></p>
+              <p><a href="mailto:hello@balmflow.com">hello@balmflow.com</a></p>
             </div>
             <!-- End Col -->
 
@@ -66,24 +66,24 @@
         <div class="col-lg-6">
           <div class="ps-lg-5">
 		  
-		  <div class="container">
-				@include('flash::message')
-						</div>
+		  <div class="container"> @if (session('message'))   <div class="alert alert-success">  {{ session('message') }}</div>@endif</div>
             <!-- Card -->
             <div class="card">
               <div class="card-header border-bottom text-center">
-                <h3 class="card-header-title">General inquiries</h3>
+                <h3 class="card-header-title">Requests and Complaints</h3>
               </div>
 
               <div class="card-body">
                 <!-- Form -->
                 <form method="POST" action="{{route('contact_models.store') }}">
+				@method('POST')
+				@csrf
                   <div class="row gx-3">
                     <div class="col-sm-6">
                       <!-- Form -->
                       <div class="mb-3">
                         <label class="form-label" for="hireUsFormFirstName">First name</label>
-                        <input type="text" class="form-control form-control-lg" name="first_name" id="hireUsFormFirstName" value="" placeholder="First name" aria-label="First name" required autofocus />
+                        <input type="text" class="form-control form-control-lg" name="first_name" id="hireUsFormFirstName" value="{{old('first_name') }}" placeholder="First name" aria-label="First name" required autofocus />
                       
 					  @if ($errors->has('first_name'))
                                     <span class="help-block">
@@ -99,7 +99,7 @@
                       <!-- Form -->
                       <div class="mb-3">
                         <label class="form-label" for="hireUsFormLasttName">Last name</label>
-                        <input type="text" class="form-control form-control-lg" name="last_name" id="hireUsFormLasttName" placeholder="Last name" aria-label="Last name" required />
+                        <input type="text" class="form-control form-control-lg" name="last_name" id="hireUsFormLasttName"  value="{{old('last_name') }}"placeholder="Last name" aria-label="Last name" required />
                       
 					    @if ($errors->has('last_name'))
                                     <span class="help-block">
@@ -118,7 +118,7 @@
                       <!-- Form -->
                       <div class="mb-3">
                         <label class="form-label" for="hireUsFormWorkEmail">Email address</label>
-                        <input type="email" class="form-control form-control-lg" name="user__email" id="hireUsFormWorkEmail" placeholder="your-email@tld.com" aria-label="your-email@tld.com" required />
+                        <input type="email" class="form-control form-control-lg" name="user__email" id="hireUsFormWorkEmail" value="{{old('user__email') }}"placeholder="your-email@tld.com" aria-label="your-email@tld.com" required />
                       </div>
                       <!-- End Form -->
                       @if ($errors->has('user__email'))
@@ -133,7 +133,7 @@
                       <!-- Form -->
                       <div class="mb-3">
                         <label class="form-label" for="hireUsFormPhone">Phone <span class="form-label-secondary">(Optional)</span></label>
-                        <input type="text" class="form-control form-control-lg" name="phone_number" id="hireUsFormPhone" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx">
+                        <input type="text" class="form-control form-control-lg" name="phone_number" value="{{old('phone_number')}}" id="hireUsFormPhone" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx">
                       </div>
                       <!-- End Form -->
                       @if ($errors->has('phone_number'))
@@ -170,7 +170,7 @@
 				  <!--details-->
 				  <div class="mb-3">
                     <label class="form-label" for="hireUsFormDetails">Details</label>
-                    <textarea class="form-control form-control-lg" name="message" id="hireUsFormDetails" placeholder="Your comments/suggestions/enquiries" aria-label="Tell us about your issues and concerns..." rows="4"></textarea>
+                    <textarea class="form-control form-control-lg" name="message" id="hireUsFormDetails" placeholder="Your comments/suggestions/enquiries" aria-label="Tell us about your issues and concerns..." rows="4">{{ old('message') }}</textarea>
 					
 					  @if ($errors->has('message'))
                                     <span class="help-block">

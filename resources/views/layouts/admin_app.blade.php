@@ -8,7 +8,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>@if($title) {{ $title }} @else {{ 'Users Dashboard ' }} - PalmFlow Project @endif</title>
+    <title>@if($title) {{ $title }} @else {{ 'Users Dashboard ' }} - BalmFlow Project @endif</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -23,6 +23,7 @@
     <meta name="theme-color" content="#ffffff">
     <script src="{{ asset('css/admin/js/config.js') }}"></script>
     <script src="{{ asset('css/admin/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
@@ -92,10 +93,16 @@
               document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
             }
           </script>
+		  
+		  <!--wallet modals-->
+				  
+		  
+		  <!------------------------end-->
+		  
           <div class="d-flex align-items-center">
             <div class="toggle-icon-wrapper">
               <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            </div><a class="navbar-brand" href="{{route('admin.dashboard.index')}}">
+            </div><a class="navbar-brand" href="{{route('admin.dashboard.core-admin.index')}}">
               <div class="d-flex align-items-center py-3"><img class="me-2" src="{{ asset('img/floxpool.png') }}" alt="" width="90" /><span class="font-sans-serif"></span></div>
             </a>
           </div>
@@ -108,7 +115,7 @@
                   </a>
                   <ul class="nav collapse show" id="dashboard" style="line-height:26px;">
                     
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.index') }}" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.core-admin.index') }}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-left"><span class="nav-link-text ps-1">Dashboard Home</span></div>
                       </a><!-- more inner pages-->
                     </li>
@@ -129,6 +136,7 @@
                       </a><!-- more inner pages-->
                     </li>
                     
+					
 					{{-- @if( App\Profile::UserProfile(Auth::user()->id)->country=='Nigeria') --}}
 					<li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.my_voucher') }}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-barcode"></span></span><span class="nav-link-text ps-1">My Vouchers</span></div>
@@ -181,15 +189,15 @@
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-day"></span></span><span class="nav-link-text ps-1">Users</span></div>
                   </a>
                   <ul class="nav collapse" id="events">
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.allusers')}}" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.core-admin.allusers')}}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">All Users</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="app/events/event-detail.html" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">New User</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="app/events/event-list.html" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Deleted Users</span></div>
                       </a><!-- more inner pages-->
                     </li>
@@ -234,7 +242,7 @@
                   </div><!-- parent pages--><a class="nav-link" href="route('admin.dashboard.settings') }}" role="button" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-flag"></span></span><span class="nav-link-text ps-1">Settings & Configuration</span></div>
                   </a><!-- parent pages-->
-				  <a class="nav-link" href="{{ route('admin.dashboard.maintenance') }}" role="button" data-bs-toggle="" aria-expanded="false">
+				  <a class="nav-link" href="{{ route('admin.dashboard.core-admin.maintenance') }}" role="button" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-globe"></span></span><span class="nav-link-text ps-1">Maintenance</span></div>
                   </a>
                     </li>
@@ -246,7 +254,7 @@
                     <div class="btn-close-falcon" aria-label="Close" data-bs-dismiss="alert"></div>
                   </div>
                   <div class="card-body text-center"><img src="assets/img/icons/spot-illustrations/navbar-vertical.png" alt="" width="80" />
-                    <p class="fs--2 mt-2">Loving how we roll here?<br />Give us a shout out <a href="{{route('admin.dashboard.index') }}">PalmFlow</a></p>
+                    <p class="fs--2 mt-2">Loving how we roll here?<br />Give us a shout out <a href="{{route('admin.dashboard.core-admin.index') }}">BalmFlow</a></p>
                     <div class="d-grid"><a class="btn btn-sm btn-primary" href="" alt="facebook page" target="_blank">Facebook</a></div>
                   </div>
                 </div>
@@ -258,7 +266,7 @@
         <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand-xl" style="display: none;">
           <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
           <a class="navbar-brand me-1 me-sm-3" href="{{ route('index') }}">
-            <div class="d-flex align-items-center"><img class="me-2" src="{{ asset('img/floxpool.png') }}" alt="" width="40" /><span class="font-sans-serif">PalmFlow</span></div>
+            <div class="d-flex align-items-center"><img class="me-2" src="{{ asset('img/floxpool.png') }}" alt="" width="40" /><span class="font-sans-serif">BalmFlow</span></div>
           </a>
           <div class="collapse navbar-collapse scrollbar" id="navbarStandard">
            

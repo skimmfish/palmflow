@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AddApiTokenToUsersTable extends Migration
+class AddLastLoginToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +15,7 @@ class AddApiTokenToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-			$table->string('api_token', 10)->unique()->nullable();
-			$table->integer('is_admin')->nullable();
+			$table->date('last_login')->nullable();
         });
     }
 
@@ -28,9 +27,7 @@ class AddApiTokenToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
-			$table->dropColumn('api_token');
-			$table->dropColumn('is_admin');
+            $table->dropColumn('last_login');
         });
     }
 }

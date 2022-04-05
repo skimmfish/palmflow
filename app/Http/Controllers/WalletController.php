@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\WalletModel;
 
 class WalletController extends Controller
 {
@@ -26,6 +27,12 @@ class WalletController extends Controller
         //
     }
 
+	public function walletLookup($uid){
+	
+		return count(WalletModel::where('user_id',$uid)->get());
+		
+	}
+	
     /**
      * Store a newly created resource in storage.
      *

@@ -170,7 +170,7 @@
                 <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
                   <div class="bg-white dark__bg-1000 rounded-2 py-2">
 				  @if((Auth::user()->is_admin)===1)
-					<a class="dropdown-item" href="{{ route('admin.dashboard.maintenance') }}">Maintenance</a>				  
+					<a class="dropdown-item" href="{{ route('admin.dashboard.core-admin.maintenance') }}">Maintenance</a>				  
 				  @endif
                     <a class="dropdown-item" href="{{ route('admin.dashboard.user',['id'=>Auth::user()->id]) }}">Profile &amp; settings</a>
                     <a class="dropdown-item" href="{{route('logout')}}">Logout</a>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
+use Illuminate\Http\RedirectResponse;
 
 use Closure;
 
@@ -23,7 +24,8 @@ class AdminAuthentication
         return $next($request);
     }
 }
-return new RedirectResponse(url('/'));
+//return new RedirectResponse(url('/login'));
+return redirect()->route('login')->with('message','You are not authorized to view that page');
 
 	}
 	}

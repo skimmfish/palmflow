@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/logout';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -75,9 +75,9 @@ class RegisterController extends Controller
         ]);
 
 		//logout the user first before redirecting
-	//	Auth::logout();    
+			//Auth::logout();    
 
-	return redirect()->route('logout')->with('message','You have been successfully registered, please check your e-mail');
+	return redirect()->route('login')->with('message','You have been successfully registered, please check your e-mail');
 }
 
 
@@ -104,7 +104,8 @@ public function store(Request $request){
 					];
 
 		//initializing the validator variable to hold responses returned from the facade method calls
-		$validator = Validator::make($request->all(), $rules, $messages)->validate();
+		$validator = $request->validate($rules);
+		//, $rules, $messages)->validate();
 	
 	
 	$user = new User;
@@ -117,7 +118,7 @@ public function store(Request $request){
 	$user->save();
 	
 	
-	return redirect()->route('auth.login');
+	return redirect()->route('auth.login')->with('message','You have been successfully registered, please check your e-mail');
 	
 }
 

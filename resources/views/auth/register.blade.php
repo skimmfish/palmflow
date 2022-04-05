@@ -12,7 +12,7 @@
             <figure class="text-center">
 
               <div class="mb-4">
-                <img class="avatar avatar-xl avatar-4x3" src="{{ asset('img/floxpool_white_logo.png') }}" alt="Logo">
+                <a href=""><img class="avatar avatar-xl avatar-4x3" src="{{ asset('img/floxpool_white_logo.png') }}" alt="Logo"></a>
               </div>
 
               <blockquote class="blockquote blockquote-light">“ It all starts with a desire to help, then every other things follow  ”</blockquote>
@@ -39,6 +39,12 @@
             <div class="text-center mb-5 mb-md-7">
               <h1 class="h3">Welcome to PalmFlow</h1>
               <p>Fill in your details to get started.</p>
+              <p>
+			  
+			  <!--flash message goes here-->
+			    <div class="container"> @if (session('status'))   <div class="alert alert-success">  {{ session('status') }}</div>@endif</div>
+         
+			  </p>
             </div>
             <!-- End Heading -->
 
@@ -84,7 +90,7 @@
 
                 <div class="input-group input-group-merge" data-hs-validation-validate-class>
                   <input type="password" class="js-toggle-password form-control form-control-lg shrink_form_control" name="password" style="height:30px;" 
-				  id="signupModalFormSignupPassword" placeholder="8+ characters required" aria-label="6+ characters required" required
+				  id="signupModalFormSignupPassword" placeholder="6+ characters required" aria-label="6+ characters required" required
                           data-hs-toggle-password-options='{
                              "target": [".js-toggle-password-target-1", ".js-toggle-password-target-2"],
                              "defaultClass": "bi-eye-slash",
@@ -133,8 +139,9 @@
               <!-- Check -->
               <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="signupHeroFormPrivacyCheck" name="signupFormPrivacyCheck" name="remember" {{ old('agree') ? 'checked' : '' }} required >
-                <label class="form-check-label small" for="signupHeroFormPrivacyCheck"> By submitting this form I have read and acknowledged the <a href="{{ route('privacy-policy') }}">Privacy Policy</a></label>
-                <span class="invalid-feedback">Please accept our Privacy Policy.</span>
+                <label class="form-check-label small" for="signupHeroFormPrivacyCheck"> By submitting this form I have read and acknowledged the 
+				<a href="{{ route('privacy-policy') }}" target="_blank">Privacy Policy</a> and our <a href="{{route('terms-and-conditions')}}" target="_blank">Terms and Condition</a></label>
+                <span class="invalid-feedback">Please accept our Privacy Policy & Terms and Conditions clauses.</span>
               </div>
               <!-- End Check -->
 

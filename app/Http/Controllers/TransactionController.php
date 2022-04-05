@@ -61,10 +61,9 @@ class TransactionController extends Controller
 		'originating_wallet_id.required'=>'A 34-char length string wallet ID of TRC20 type is required'
 		];
 		
-		$validate = Validator::make($request->all(),$rules,$messages)->validate();
 		*/
 		
-		//$request->validate([$rules]);
+		$request->validate($rules);
 
 		$faker = \Faker\Factory::create();
 		

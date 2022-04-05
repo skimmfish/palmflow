@@ -15,7 +15,7 @@
             <!-- Media -->
             <div class="d-flex align-items-center">
               <div class="flex-shrink-0">
-          <h1 class="h2 center">About PalmFlow</h1>
+          <h1 class="h2 center">About BalmFlow</h1>
                
 			   <!--<img class="avatar avatar-circle" src="{{ asset('img/160x160/img9.jpg') }}" alt="Image Description">-->
               </div>
@@ -58,7 +58,7 @@
         <p style="line-height:40px;">At PalmFlow, our mission has always been focused on bring joy and gladness to the heart of humanity as much as God has helped us, and this we do in all openess and transparency. 
 		Our modus Operandi is such 
 		that, we make the most effective use of our contributors' funds to ensure that we keep to the task. We are on both sides of the coin that is in the business world as well as on the humanitarian front.
-		The summary of our vision is to feed at least one man per hour, people who have been subjected to hardship by reasons known and unknown; 
+		<br/>The summary of our vision is to feed at least one man per hour, people who have been subjected to hardship by reasons known and unknown; 
 		To eradicate ignorance amoung the most indigent set of individuals we can identify within our circle of influence;
 		and to give back rebates on the divested funds contributed by our partners world-wide in a most transparent manner.			
 		
@@ -99,7 +99,7 @@
         </figure>
         <!-- End Blockquote -->
 
-        <h3>Bringing back the culture of supporting the weak and the hungry</h3>
+        <h3>Bringing back the culture of supporting the weak and the less-priviledged</h3>
 
         <p style="line-height:40px;">Central to our mission is to see every girl-child adequately educated, this we do on a continual basis as the need arise. </p>
 
@@ -111,8 +111,8 @@
 
       <div class="w-lg-65 mx-lg-auto" style="line-height:40px;">
         <p>At the heart of what we stand for is the propensity to address issues that has bedeviled our society in the name of scams. Many promising projects that could have benefited humanity has been rusted by the unquenchable 'dust' of
-		scams in the name of cloud mining. We are not a mining rig but a team of professionals wanting to make a difference in the world of trading. We trade with the funds, give to our contributors and also contribute immensely to the society which is the major
-		of what PalmFlow stands for. We don't mine, we do not own any mining rig, no Bitcoin mining rig, but transacting values on financial exchanges with time-tested model of trade execution and risk management.
+		scams in the name of cloud mining. <br/>We do not own a mining rig but a team of professionals wanting to make a difference in our world. We trade with the funds, give to our contributors and also contribute immensely to the society which is the major
+		of what BalmFlow stands No Bitcoin mining rig, but transacting values on financial exchanges with time-tested model of trade execution and risk management.
 		<br/>
 		All you need do is to give us a chance to prove what we stand for. The more we give, the more we are confident that the our good deeds will keep us in the picture for long while we contribute to the sustenance of humanity in different dimensions.
 		

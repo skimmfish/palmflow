@@ -11,8 +11,9 @@
 		 <div class="col-5">
               <div class="card mb-3 btn-reveal-trigger">
 
-				@include('flash::message')
 
+  <div class="container"> @if (session('message'))   <div class="alert alert-success">  {{ session('message') }}</div>@endif</div>
+         
 			  
                 <div class="card-header position-relative min-vh-25 mb-8">
                   <h6>Funding Your Wallet</h6>

@@ -12,7 +12,7 @@
             <!-- Media -->
             <div class="d-flex align-items-center">
               <div class="flex-shrink-0">
-          <h1 class="h2 center">Our Vision & Mission</h1>
+          <h1 class="h2 center" style="font-weight:800;">Our Vision & Mission</h1>
                
 			   <!--<img class="avatar avatar-circle" src="{{ asset('img/160x160/img9.jpg') }}" alt="Image Description">-->
               </div>
@@ -41,7 +41,7 @@
 		<br/>
 		<b>Here is a summary of our mission statement at PalmFlow</b><br/>
 	
-	<ul style="line-height:40px;">
+	<ul style="line-height:40px;font-weight:500;color:#000">
 			<li>To build a sustainable online staking platform that could yield with good and calculated trading algorithm that has been thoroughly tested over the years</li>
 			<li>To stand-out among many other online systems that has emanated several years with the intention to scam people, and to prove to the online community that it is still possible to build wealth through online systems without compromise and risk of huge loss</li>
 			<li>To give back to the society through our charity foundation that is built solely for the purpose of feeding the hungry and educating the minority especially the female gender belonging to

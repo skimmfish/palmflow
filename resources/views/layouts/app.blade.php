@@ -36,12 +36,10 @@
 	
 <style>
 body{
-font-family:'Spartan','Brandon Grotesque' !important;	
+font-family:'Spartan','Brandon Grotesque' !important;font-size:14px;COLOR:#000;	
 }
-.event_li{
-	color:#000;
-}
-
+p{font-size:15px;line-height:34px;font-weight:600;}
+ul>li{line-height:35px;}
 .img_circle{
 	width:40px;height:40px;border-radius:50%;
 }
@@ -98,7 +96,7 @@ font-family:'Spartan','Brandon Grotesque' !important;
         <!-- Default Logo -->
         <a class="navbar-brand" href="{{route('index') }}" aria-label="Front">
         <!--  <img class="navbar-brand-logo" src="{{ asset('svg/logos/logo-white.svg') }}" alt="Logo">-->
-		@if(!\Request::is('index'))
+		@if(!\Request::is('/'))
           <img class="navbar-brand-logo" src="{{ asset('img/floxpool.png') }}" alt="Logo">
 			@else
 			<img class="navbar-brand-logo" src="{{ asset('img/floxpool_white_logo.png') }}" alt="Logo">

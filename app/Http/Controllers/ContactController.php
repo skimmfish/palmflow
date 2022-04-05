@@ -40,9 +40,9 @@ class ContactController extends Controller
         //
 		
 		$rules =[
-            'first_name'=>'required',
-			'last_name' => 'required',
-			'email_address' => 'required | email',
+            'first_name'=>'required | min:3 | max:30',
+			'last_name' => 'required | min:3 | max:30',
+			'user__email' => 'required | email',
 			'phone_number'=>'min:11|max:14',
 			'message'=>'required',
 			'issues_category'=>'required'
@@ -56,7 +56,8 @@ class ContactController extends Controller
 		
 		$faker = \Faker\Factory::create();
 
-		$validate = Validator::make($request->all(),$rules,$messages)->validate();
+				
+		$request->validate($rules);
 		
 		$contact = new ContactModel;
 		
@@ -73,6 +74,9 @@ class ContactController extends Controller
 		//saving the contact info in the contact_models table with an auto-generated response
 		$contact->save();
 		
+		//session()->put('message','Thank you. Your request has been noted, Please check your e-mail for more information');
+		
+		return redirect()->route('contact-us')->with('message','Thank you. Your request has been noted, Please check your e-mail for more information');
 		
     }
 	

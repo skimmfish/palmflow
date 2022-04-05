@@ -79,11 +79,24 @@
                   </div>
                   <div class="card-body bg-light">
                     <h6>2-FA Authentication Setting</h6>
-                    <form></form><a class="btn btn-falcon-default btn-sm" href="#!">Set your 2-Fa Token</a>
+                    <form></form><a class="btn btn-danger btn-sm btn-round" href="#!">Set your 2-Fa Token</a>
                   </div>
                   <div class="card-body bg-light border-top">
                     <h6>Wallet</h6>
-                    <p class="fs-0"><small>You have not added any withdrawal wallet!</small></p><a class="btn btn-falcon-default btn-sm" href="#!">Add Wallet </a>
+                    @if( $wallet->walletLookup(Auth::user()->id)<=0 )
+					<p class="fs-0"><small>You have not added any withdrawal wallet!</small></p>
+				<a class="btn btn-primary btn-round btn-sm" type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#demoModal">Add Wallet </a>
+				
+					 <button class="btn btn-primary btn-lg" type="button" wire:click="$emit('showModal', 'SomeData')">Open Modal</button>
+					
+					<livewire:modals.new-wallet-modal />
+					@livewireScripts
+                    
+					@else
+					{{-- show the link to all wallets here --}}
+					<p class="fs-0"><a href="{{route('my_wallets') }}">View Wallets</a> <a class="btn btn-info btn-sm" href="#" id="walletModal"><!--this shows a popup modal -->Add Wallet </a>
+				
+				@endif
                   </div>
                 </div>
                 <div class="card mb-3">

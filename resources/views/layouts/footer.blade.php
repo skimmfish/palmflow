@@ -90,7 +90,7 @@
 
     <div class="row align-items-sm-center">
       <div class="col-sm mb-4 mb-sm-0">
-        <p class="small mb-0">&copy; PalmFlow . {{date('Y')}} . All rights reserved.</p>
+        <p class="small">&copy; BalmFlow . {{date('Y')}} . All rights reserved.</p>
       </div>
       <!-- End Col -->
 

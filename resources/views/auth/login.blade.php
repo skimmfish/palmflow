@@ -19,11 +19,11 @@
 
               <figcaption class="blockquote-footer blockquote-light">
                 <div class="mb-3">
-                  <img class="avatar avatar-circle" src="{{ asset('img/160x160/img9.jpg')}}" alt="CEO">
+                  <a href=""><img class="avatar avatar-circle" src="{{ asset('img/160x160/img9.jpg')}}" alt="CEO"></a>
                 </div>
 
                 Emmanuel Olabiyi
-                <span class="blockquote-footer-source">CEO | PalmFlow</span>
+                <span class="blockquote-footer-source">CEO | BalmFlow</span>
               </figcaption>        
             </figure>
             <!-- End Blockquote -->
@@ -60,7 +60,11 @@
               <h1 class="h2">Welcome back</h1>
               <p>Login to manage your account.</p>
 			  <br/>
-              <p><!--flash message comes here--></p>
+              <p><!--flash message comes here-->
+			  
+			    <div class="container"> @if (session('message'))   <div class="alert alert-info">  {{ session('message') }}</div>@endif</div>
+         
+			  </p>
             </div>
             <!-- End Heading -->
 
@@ -71,7 +75,7 @@
               <!-- Form -->
               <div class="mb-4 form-group{{ $errors->has('username') ? ' has-error' : '' }}"">
                 <label class="form-label" for="signupModalFormLoginUsername">Your username</label>
-                <input type="text" class="form-control form-control-lg" name="username" id="signupModalFormLoginUsername" placeholder="Username" value="{{ old('username') }}" aria-label="Username" required autofocus />
+                <input type="text" class="form-control form-control-lg" name="username" id="signupModalFormLoginUsername" placeholder="Username" value="{{ old('username') }}" aria-label="Username" required />
                 <span class="invalid-feedback">Please enter your username <br/>
 				
 				
