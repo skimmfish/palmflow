@@ -18,12 +18,12 @@
 
                   <h5 style="margin:20px 0 20px 0">Registered Users and Contributors</h5>
 				
-		 <div class="col-12">
-              <div class="card mb-3 btn-reveal-trigger">
+	
+              <div class="card mb-12 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-12">
 				  <small style="font-size:10.5px;color:#0d2453;font-weight:600;">Herein lies all users in the portal, investors and contributors with their statuses</small><br/>
 				  
-				  <table class="table table-responsive table-bordered table_rws">
+				  <table class="table table-responsive table-bordered table_rws" style="width:auto;overflow-x:auto;">
 				  <thead>
 				  <tr>
 				  <th>S/n</th>
@@ -32,8 +32,9 @@
 				  <th>Last Name</th>
 				  <th>Address <hr/> Phone Number</th>
 				  <th>Admin Status</th>
+				  <th>Profile Img</th>
 				  <th>Date Registered</th>
-				  <th>Last Login</th>
+				 
 				  <th>Action</th>
 				  </tr>
 				  </thead>
@@ -41,19 +42,20 @@
 				  <tbody>
 				
 				 
-				 @foreach($users as $u)
+				 @foreach($profiles as $u)
 				  <tr>
 					<td>{{ $id++ }}</td>
-					<td><a href="#" id="userPropModal" data-href="userpropmodal" class="text-dark">{{ $u->username }}</a></td>
-						{{-- <td>{{ App\User::with>first()->first_name }} </td> --}}
-					<td>{{-- App\Profile::myProfile($u->id) --}} </td>
-					<td>{{ $u->last_name }} </td>
-					<td> </td>
-					<td>@if($u->is_admin) {{'Admin'}} @else {{ 'Contributor' }} @endif </td>
-					<td>{{ date('d F Y, h:i:s A', strtotime($u->created_at)) }}</td>
-					<td>{{ $u->last_login }}</td>
+					<td><a href="#" data-attr="{{route('viewuser',['id'=>$u->id])}}" data-toggle="modal" id="smallButton" data-target="#userModal" 
+					class="text-dark">{{App\Profile::find($u->id)->user->username }} </a></td>
+						<td>{{ $u->first_name }} </td>
+						<td>{{ $u->last_name }} </td>
+						<td> {{$u->telephone  }}</td>
+						<td>@if( App\Profile::find($u->id)->user->is_admin ) {{'Admin'}} @else {{ 'Contributor' }} @endif </td>
+						<td><img src="{{asset('img/160x160/'.$u->profile_img) }}" class="img-responsive img-round center" style="display:block;margin:auto;" lazyload></td>
+						<td>{{ date('d F Y, h:i:s A', strtotime($u->created_at)) }}</td>
+					
 					<td>
-					<a href="#" data-href="{{route('admin.dashboard.core-admin.viewuser',['id'=>$u->id])}}">View User</a>
+					<a href="#" data-attr="{{ route('viewuser',['id'=>$u->id]) }}" data-toggle="modal" id="smallButton" data-target="#userModal">View</a>
 					
 					<form action="{{route('admin.dashboard.core-admin.deleteuser',['id'=>$u->id]) }}" method="POST">
 					@csrf 
@@ -76,18 +78,39 @@
 				  <th>Last Name</th>
 				  <th>Address <hr/> Phone Number</th>
 				  <th>Admin Status</th>
+				  <th>Profile Img</th>
 				  <th>Date Registered</th>
-				  <th>Last Login</th>
+				 
 				  <th>Action</th>
 				  
 				  </tr>
 				  </tfoot>
 				  </table>
-                	 {!! $users->links('vendor.pagination.bootstrap-4') !!}
+                	 {!! $profiles->links('vendor.pagination.bootstrap-4') !!}
 				</div>
 				
               </div>
+           
+		
+		
+		 <!-- view user modal -->
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
 		
 
 @endsection

@@ -188,11 +188,16 @@ h6{font-size:19px;font-weight:700;font-family:'Spartan','Brandon Grotesque';}
               <!-- Button -->
               <li class="nav-item">
 				
+				
 				@if(Auth::check())
-					<a href="{{ route('admin.dashboard.index') }}"><img src="{{asset('img/'.Auth::user()->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
+						@if(Auth::user()->is_admin==true)
+					<a href="{{ route('admin.dashboard.core-admin.index') }}"><img src="{{asset('img/'.App\Profile::find(1)->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
 				@else
-					<!-- data-bs-toggle="modal" data-bs-target="#signupModal" -->
+					<a href="{{ route('admin.dashboard.index') }}"><img src="{{asset('img/'.App\Profile::find(1)->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
+								@endif
+								@else
 					<a class="btn btn-light btn-transition" href="{{route('login') }}" style="border-radius:7px;font-weight:700;">Get Started <i class="bi-chevron-right small ms-1" style="color:#000000;"></i></a>
+					
 				@endif
 				
 				</a>

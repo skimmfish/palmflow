@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+use App\Profile;
+
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+     public function index(User $user)
     {
-        //
+   	   $profile = $user->user();
+	   return view('profile')->withUser($user)->withProfile($profile);
+
     }
 
     /**
@@ -47,7 +50,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+       $profile = App\Profile::find($id);		
+		return view('admin.dashboard.core-admin.viewuser')->with(['title'=>'View User','profile'=>$profile]);
+
     }
 
     /**
@@ -81,9 +86,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('profiles')->where('id',$id)->delete();
-		
-		return redirect()->route('admin.dashboard.core-admin.allusers')->with('message','User archived successfully');
-
+     
+	 
     }
 }

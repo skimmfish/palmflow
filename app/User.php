@@ -6,13 +6,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use lluminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
 
 use App\Profile;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 	use SoftDeletes;
+	use CanResetPassword;
 	
 	
 	/*protected static function boot(){
@@ -29,7 +32,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = ['email', 'password','username','is_admin','active' ];
-
+	protected $casts =[	'email_verified_at'
+	];
     /**
      * The attributes that should be hidden for arrays.
      *

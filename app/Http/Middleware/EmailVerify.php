@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Middleware;
-use Illuminate\Http\RedirectResponse;
 
 use Closure;
 
-class AdminAuthentication
+class EmailVerify
 {
     /**
      * Handle an incoming request.
@@ -16,16 +15,19 @@ class AdminAuthentication
      */
     public function handle($request, Closure $next)
     {
-		
-		if ($request->user())
+        //return $next($request);
+    
+	
+			if ($request->user())
  {
- if ($request->user()->is_admin == true){
+ if ($request->user()->email_verified_at != NULL){
         return $next($request);
 		}
 	}
 //return new RedirectResponse(url('/login'));
-return redirect()->route('login')->with('message','You are not authorized to view that page');
+return redirect()->route('login')->with('message','You are not authorized to view this page!');
 
+	
+	
 	}
-
 }

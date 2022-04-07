@@ -10,6 +10,8 @@
 			
 			<!--navigation row-->
 			
+			<div class="container"> @if (session('message'))   <div class="alert alert-success alert-note-style">  {{ session('message') }}</div>@endif</div>
+			
 		 <div class="col-12">
               <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-8">
@@ -19,7 +21,8 @@
                     <input class="d-none" id="upload-cover-image" type="file" /><label class="cover-image-file-input" for="upload-cover-image"><span class="fas fa-camera me-2"></span><span style="font-family:'Spartan','Brandon Grotesque';color:#fff">Change cover photo</span></label>
                   </div>
                   <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
-                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="{{ asset('img/'.Auth::user()->profile_img)}}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" /><input class="d-none" id="profile-image" type="file" /><label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span><span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block" style="font-family:'Spartan','Brandon Grotesque';">Update</span></span></label></div>
+                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="{{ asset('img/'.Auth::user()->profile_img)}}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" /><input class="d-none" id="profile-image" type="file" /><label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span>
+					<span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block" style="font-family:'Spartan','Brandon Grotesque';">Update</span></span></label></div>
                   </div>
                 </div>
               </div>
@@ -85,16 +88,12 @@
                     <h6>Wallet</h6>
                     @if( $wallet->walletLookup(Auth::user()->id)<=0 )
 					<p class="fs-0"><small>You have not added any withdrawal wallet!</small></p>
-				<a class="btn btn-primary btn-round btn-sm" type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#demoModal">Add Wallet </a>
+					<a class="btn btn-primary btn-round btn-sm m-2" type="button" href="#" data-toggle="modal" id="walletButton" data-target="#walletModal">Add Wallet </a> 
 				
-					 <button class="btn btn-primary btn-lg" type="button" wire:click="$emit('showModal', 'SomeData')">Open Modal</button>
-					
-					<livewire:modals.new-wallet-modal />
-					@livewireScripts
-                    
 					@else
 					{{-- show the link to all wallets here --}}
-					<p class="fs-0"><a href="{{route('my_wallets') }}">View Wallets</a> <a class="btn btn-info btn-sm" href="#" id="walletModal"><!--this shows a popup modal -->Add Wallet </a>
+					<p class="fs-0"><a href="{{route('admin.dashboard.my_wallets', ['id'=>Auth::user()->id]) }}" target="_blank" class="text-xs text-underline">View Wallets</a>
+					<a class="btn btn-success btn-sm text-xs btn-round btn-sm m-2" data-attr="{{ route('admin.dashboard.new-wallet') }}" data-toggle="modal" id="walletButton" data-target="#walletModal">Add Wallet </a>
 				
 				@endif
                   </div>
@@ -124,5 +123,23 @@
           </div>
 
 		
+				 <!-- view user modal -->
+    <div class="modal fade" id="walletModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

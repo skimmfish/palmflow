@@ -33,13 +33,20 @@ public function User(){
 public static function UserProfile($id){
 
 return User::find($id)->id;	
-	
+	////$profile = Profile::find(1)->user->username
 }
 
 //this function returns an object array containing the user's profile
 public static function myProfile($users_id){
 	
 	return Profile::where('user_id',$users_id)->get();
+	
+}
+
+public static function getprofileuser($profile_id){
+	
+	$profile = new Profile;
+	return $userModelId = $profile->find($profile_id)->user_id;
 	
 }
 

@@ -18,7 +18,7 @@
     
 	
   <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@200;300;400;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
 
   <!-- CSS Implementing Plugins -->
 
@@ -186,9 +186,14 @@ ul>li{line-height:35px;}
               <li class="nav-item">
 				
 				@if(Auth::check())
-					<a href="{{route('admin.dashboard.index') }}"><img src="{{asset('img/'.Auth::user()->profile_img) }}" alt="{{Auth::user()->username}}" class="img-responsive img_circle" /></a>
-					@else	
-				<a class="btn btn-light btn-transition" href="#" data-bs-toggle="modal" data-bs-target="#signupModal" style="border-radius:7px;font-weight:700;">Get Started <i class="bi-chevron-right small ms-1" style="color:#000000;"></i></a>
+						@if(Auth::user()->is_admin==true)
+					<a href="{{ route('admin.dashboard.core-admin.index') }}"><img src="{{asset('img/'.App\Profile::find(1)->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
+				@else
+					<a href="{{ route('admin.dashboard.index') }}"><img src="{{asset('img/'.App\Profile::find(1)->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
+								@endif
+								@else
+					<a class="btn btn-light btn-transition" href="{{route('login') }}" style="border-radius:7px;font-weight:700;">Get Started <i class="bi-chevron-right small ms-1" style="color:#000000;"></i></a>
+					
 				@endif
 				
 				

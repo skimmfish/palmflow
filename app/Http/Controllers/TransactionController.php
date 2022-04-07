@@ -19,7 +19,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $transactions = Transactions::paginate(40);
+		$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>1])->get();
+		return view('admin.dashboard.core-admin.alltransactions')->with(['transactions'=>$transactions,'id'=>1,'dashboardNotification'=>$dashboardNotification,'title'=>'All Transactions Record']);
     }
 
     /**

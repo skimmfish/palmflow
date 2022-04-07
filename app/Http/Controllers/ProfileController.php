@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-
+use DB;
 
 class ProfileController extends Controller
 {
@@ -49,7 +49,12 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-       
+	
+		$profile = DB::table('profiles')->where('id',$id)->get();
+		
+		return view('admin.dashboard.core-admin.viewuser')->with(['title'=>'View User','profile'=>$profile]);
+
+	 
     }
 
     /**
@@ -83,6 +88,9 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+                DB::table('profiles')->where('id',$id)->delete();
+		
+		return redirect()->route('admin.dashboard.core-admin.allusers')->with('message','User archived successfully');
+
     }
 }

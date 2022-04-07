@@ -37,6 +37,7 @@
 	<link href="{{ asset('css/admin/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
 	<link href="{{asset('css/custom_styles.css') }}" rel="stylesheet">
 	
+		
  <script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
       if (isRTL) {
@@ -53,19 +54,99 @@
       }
     </script>
 	
+	
+	<script>
+        // display a modal (small modal)
+        $(document).on('click', '#smallButton', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(result) {
+                    $('#userModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+                error: function(jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+</script>
+
+<!--this is for new wallet modal-->
+<script>
+        // display a modal (small modal)
+        $(document).on('click', '#walletButton', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(result) {
+                    $('#walletModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+                error: function(jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+</script>
+	
+	<script>
+	/*function closeModal(){
+	/*
+	var div = document.getElementById(modalToClose); 
+	div.style.display=none;
+	
+	}*/
+	
+	/*
+	$(document).ready(function(){
+        $(".close").click(function(){
+            $("#walletModal").modal('close');
+        });    
+		}); 
+	*/
+	</script>
+	
+	
+	<script>   $('#closeWallet').click( function () {
+		$('#walletModal').modal('hide');     }); 
+		</script>
+	
 	<style>
 	body{
-		font-family:'Spartan','Brandon Grotesque';font-size:18px;color:#000;
+		font-family:'Spartan','Brandon Grotesque';font-size:16px;color:#000;
 	}
 	h1,h2,h3,h4,h5,h6{font-family:'Spartan','Brandon Grotesque';
 	font-weight:600;
 	}
 	
-	.nav-link, .dropdown-item, .mb-1, .form-control, label, .btn{font-family:'Spartan','Brandon Grotesque';font-size:11px !important;
+	.nav-link, .dropdown-item, .mb-1, .form-control, label, .btn{font-family:'Spartan','Brandon Grotesque';font-size:12px !important;
 	}
-	.mb-1, .cust-link{font-weight:500;font-size:13px;}
+	.mb-1, .cust-link{font-weight:500;font-size:12px;}
 	.form-control{
-		font-size:13px;
+		font-size:12px;
 	}
 	label{font-weight:700;}
 	
@@ -163,9 +244,17 @@
                     <div class="col ps-0">
                       <hr class="mb-0 navbar-vertical-divider" />
                     </div>
-                  </div><!-- parent pages--><a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
+                  </div><!-- parent pages-->
+				  
+				  <a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-line"></span></span><span class="nav-link-text ps-1">Trade Central</span></div>
-                  </a><!-- parent pages-->
+                  </a>
+				  
+				  <a class="nav-link" href="{{route('admin.dashboard.core-admin.alltransactions') }}" role="button" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-line"></span></span><span class="nav-link-text ps-1">All transactions</span></div>
+                  </a>
+				  
+				  <!-- parent pages-->
 				  <a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-book"></span></span><span class="nav-link-text ps-1">Logs</span></div>
                   </a><!-- parent pages--><a class="nav-link dropdown-indicator" href="#email" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="email">
@@ -314,9 +403,22 @@
     <script src="{{ asset('css/admin/vendors/echarts/echarts.min.js') }}"></script>
     <script src="{{ asset('css/admin/vendors/fontawesome/all.min.js') }}"></script>
     <script src="{{ asset('css/admin/vendors/lodash/lodash.min.js') }}"></script>
-    <script src="../../../polyfill.io/v3/polyfill.min58be.js?features=window.scroll"></script>
     <script src="{{ asset('css/admin/vendors/list.js/list.min.js') }}"></script>
     <script src="{{ asset('css/admin/js/theme.js') }}"></script>
+	<!-- Script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<!--generic function to close all bootstrap modals-->
+<script type="text/javascript">
+
+function closeModal(modalToClose){
+$('#closeModal').click( function (){
+$(modalToClose).modal('hide');     
+}); 
+}
+</script>	
+
+
+</script>
 </body>
 </html>

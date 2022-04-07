@@ -36,7 +36,7 @@ Route::get('blog/categories/{cat}',function($cat){
 Route::get('blog/{id}','ArticleController@show')->name('blog.show');
 
 //Authentication and authorization interfaces route
-Auth::routes();
+Auth::routes(['verify'=>true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -49,7 +49,8 @@ Route::post('register/store','Auth\RegisterController@store')->name('register.st
 //resetting the read_status of notification to true for all messages belonging to the logged in user
 Route::get('notification_mark_all_read', function(){	
 $getAllRecords = NotificationModel::where(['pub_status'=>1,'read_status'=>0,'receiver_id'=>Auth::user()->id])->get();
-foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); } return redirect()->route('admin.dashboard.index')->withMessage('All notifications set to read');	
+foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); 
+} return redirect()->route('login')->with('message','All notifications set to read');	
 })->middleware('auth')->name('notification_mark_all_read');
 
 
@@ -134,15 +135,61 @@ Route::get('blog/authors', 'ArticleController@authorsPost')->name('blog.authors.
 
 
 
-/**** route for all users
-
-****
-
+/**** 
+==============================
+route for all non-admin authenticated routes
+================================
 */
 
+	
+//viewing a user's profile
+Route::get('dashboard/viewuser/{id}', 'ProfileController@show')->middleware(['admin','auth','verified'])->name('viewuser');
+
+//add new wallet
+Route::get('dashboard/new-wallet', 'WalletController@create')->middleware(['auth','verified'])->name('admin.dashboard.new-wallet');
+
+//route to all user transactions (personal transactions ) page for a single logged in user
+Route::get('dashboard/alltransactions','TransactionController@index')->middleware(['auth','admin','verified'])->name('admin.dashboard.core-admin.alltransactions');
 
 
-Route::middleware('auth')->prefix('dashboard')->group(function(){
+//==========saving new wallet==============
+Route::post('dashboard/savewallet', 'WalletController@store')->middleware(['auth','verified'])->name('wallet_models.store');
+
+
+//===========this pulls up the confirmation modal ===========
+Route::get('dashboard/modwallet/{id}', function($id){
+	return view('admin.dashboard.walletmodifier')->with(['id'=>$id]);
+})->middleware(['auth','verified'])->name('admin.dashboard.walletmodifier');
+
+//This route actually modifies the wallet
+Route::get('dashboard/modifywalletdefault/{id}', function($id){
+	
+$walletController = new App\Http\Controllers\WalletController;
+$walletController->editStatus($id);
+return redirect()->route('admin.dashboard.my_wallets')->with(['message'=>'Wallet status modified successfully']);
+
+})->middleware(['auth','verified'])->name('admin.dashboard.modwalletdefault');
+
+//=============My wallets route=================
+Route::get('dashboard/my_wallets', 'WalletController@myWallets')->middleware(['auth','verified'])->name('admin.dashboard.my_wallets');
+
+
+
+/**
+**==========This routes are for other non-admin users==============
+**/
+
+Route::middleware(['auth','verified'])->prefix('dashboard')->group(function(){
+
+Route::get('/', function(User $user){
+	
+	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
+	
+	return view('admin.dashboard.index')->with(['title'=>'Dashboard','dashboardNotification'=>$dashboardNotification,'user'=>$user]);
+	
+})->name('admin.dashboard.index');
+
+
 
 //for fund-wallet route
 Route::get('/fund_wallet', function(User $user){
@@ -188,15 +235,20 @@ Route::get('notifications', function(){
 })->name('admin.dashboard.notifications');
 
 
-//route to all user transactions page for a single logged in user
+//route to all user transactions (personal transactions ) page for a single logged in user
 Route::get('transactions/{uid}','TransactionController@paginateRecords')->name('admin.dashboard.transactions');
 
 });
 
-/**All the routes below for users who has is-admin priviledge***/
+
+/**
+===============================================
+All the routes below for users who has is-admin and email_verified priviledge
+=============================================
+***/
 
 //grouping all routes under the dashboard namespace
-Route::middleware('admin')->prefix('dashboard')->namespace('admin')->group(function(){
+Route::middleware(['auth','admin','verified'])->prefix('dashboard')->namespace('admin')->group(function(){
 
 
 Route::put('users/update', 'UserController@update')->name('users.update');
@@ -218,39 +270,23 @@ Route::get('maintenance', function(){
 
 
 //route to all users page
-Route::get('allusers',function(Profile $profile){
+Route::get('allusers',function(){
+	
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
 	
-	return view('admin.dashboard.core-admin.allusers')->with(['title'=>'All Users','users'=>User::paginate(5),'id'=>1,'profile'=>$profile, 'dashboardNotification'=>$dashboardNotification]);
+	return view('admin.dashboard.core-admin.allusers')->with(['title'=>'All Users','users'=>User::paginate(5),'id'=>1,'profiles'=>Profile::paginate(5), 'dashboardNotification'=>$dashboardNotification]);
 
 })->name('admin.dashboard.core-admin.allusers');
 
 
-//viewing a user's profile
-Route::get('viewuser/{id}',function(){
-	
-	return view('admin.dashboard.core-admin.viewuser')->with(['title'=>'View User']);
-
-})->name('admin.dashboard.core-admin.viewuser');
-
 //deleting a user
 Route::delete('/deleteuser/{id}', 'UserController@destroy')->name('admin.dashboard.core-admin.deleteuser');
 
-/*Route::delete('/deleteuser/{id}', function($id, Profile $profile){
-
-	User::findOrFail($id)->delete();
-	
-	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
-	
-	//return view('admin.dashboard.core-admin.allusers')->with(['title'=>'All Users','message'=>'User deleted successfully!','id'=>1,'profile'=>$profile,'dashboardNotification'=>$dashboardNotification,'users'=>User::paginate(3)]);
-	return redirect()->route('allusers')->with(['title'=>'All Users','message'=>'User deleted successfully!','id'=>1,'profile'=>$profile,'dashboardNotification'=>$dashboardNotification,'users'=>User::paginate(3)]);
-	
-})->name('admin.dashboard.core-admin.deleteuser');
-*/
+//route to all user transactions (personal transactions ) page for a single logged in user
+//Route::get('alltransactions','TransactionController@allTransactions')->name('admin.dashboard.core-admin.alltransactions');
 
 
-
-
+//Route::get('viewuser/{id}', 'ProfileController@show')->name('viewuser');
 
 //end of the grouping
 });
