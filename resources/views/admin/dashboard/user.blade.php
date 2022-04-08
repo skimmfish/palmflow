@@ -36,21 +36,32 @@
                   <h5 class="mb-0">Profile Settings</h5>
                 </div>
                 <div class="card-body bg-light">
-                  <form class="row g-3" method="POST" action="{{ route('users.update') }}">
+                  <form class="row g-3" method="POST" action="{{ route('users.update',['id'=>$profile_id]) }}">
 				  {{ csrf_field() }}
 				  @method('PUT')
                     @foreach($profile as $p)
+					
+					<div class="col-12"> 
+					<label class="form-label" for="username">Username</label>
+					<input class="form-control" id="username" type="text" value="{{ Auth::user()->username }}" disabled /></div>
+                    
 					<div class="col-lg-6"> 
 					<label class="form-label" for="first-name">First Name</label>
-					<input class="form-control" id="first-name" type="text" value="{{ $p->first_name }}" /></div>
-                    <div class="col-lg-6"> <label class="form-label" for="last-name">Last Name</label><input class="form-control" id="last-name" type="text" value="{{ $p->last_name }}" /></div>
-                    <div class="col-lg-6"> <label class="form-label" for="email1">Email</label><input class="form-control" id="email1" type="email" value="{{ Auth::user()->email }}" /></div>
-                    <div class="col-lg-6"> <label class="form-label" for="email2">Phone</label><input class="form-control" id="email2" type="text" value="{{ $p->telephone }}" /></div>
-                    <div class="col-lg-6"> <label class="form-label" for="email2">Address</label><textarea class="form-control" id="address">{{$p->address}}</textarea></div>
-                    <div class="col-lg-6"> <label class="form-label" for="email2">City</label><input class="form-control" id="city" type="text" value="{{$p->city}}" /></div>
-					<div class="col-lg-6"> <label class="form-label" for="email2">Province/State</label><input class="form-control" id="state" type="text" value="{{$p->state}}" /></div>
-                    <div class="col-lg-6"> <label class="form-label" for="email2">Country</label>
-					<select class="form-control" id="country">
+					<input class="form-control" id="first-name" type="text" value="{{ $p->first_name }}" name="first_name" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="last-name">Last Name</label><input class="form-control" id="last-name" name="last_name" type="text" value="{{ $p->last_name }}" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="email1">Email</label><input class="form-control" id="email1" type="email" name="email" value="{{ Auth::user()->email }}" disabled /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="phone">Phone</label><input class="form-control" id="phone" type="text" name="telephone" value="{{ $p->telephone }}" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="linkedin">Linkedin Profile Url</label><input class="form-control" id="linkedin" type="text" name="linkedin_url" value="{{ $p->linkedin_url }}" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="twitter">Twitter Profile Url</label><input class="form-control" id="linkedin" type="text" name="twitter_url" value="{{ $p->twitter_url }}" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="facebook">Facebook Profile Url</label><input class="form-control" id="linkedin" type="text" name="facebook_url" value="{{ $p->facebook_url }}" /></div>
+                    
+					<div class="col-lg-6"> <label class="form-label" for="address">Address</label><textarea class="form-control" name="address" id="address">{{$p->address}}</textarea></div>
+                    <div class="col-lg-6"> <label class="form-label" for="city">City</label><input class="form-control" id="city" type="text" name="city" value="{{$p->city}}" /></div>
+					<div class="col-lg-6"> <label class="form-label" for="state">Province/State</label><input class="form-control" id="state" type="text" name="state" value="{{$p->state}}" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="country">Country</label>
+					
+					<select class="form-control" id="country" name="country">
+					
 					@if($p->country===NULL) <option>Select your country</option> 
 
 					<option>England</option>					
@@ -63,7 +74,7 @@
 					@endif
 					</select>
 					</div>
-                    <div class="col-12 d-flex justify-content-end"><button class="btn btn-primary" type="submit">Update </button></div>
+                    <div class="col-6 d-flex" style="margin-top:45px;"><button class="btn btn-primary btn-lg" style="padding-top:5px;width:100%;height:35px;" type="submit">Update </button></div>
                   
 				  @endforeach
 				  </form>
@@ -129,7 +140,7 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                    <button type="button" class="close" onClick="closeModal('#walletModal')" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

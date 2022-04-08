@@ -77,8 +77,25 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+			$profile = \App\Profile::find($id);
+				
+				$profile->first_name = $request->first_name;
+				$profile->last_name = $request->last_name;
+				$profile->city = $request->city;
+				$profile->country = $request->country;
+				$profile->state = $request->state;
+				$profile->telephone = $request->telephone;
+				$profile->linkedin_url = $request->linkedin_url;
+				$profile->twitter_url  = $request->twitter_url;
+				$profile->facebook_url = $request->facebook_url;
+			
+				$profile->save($request->all());
+			
+			flash("User profile updated successfully")->success();
+		
+			return redirect()->route('admin.dashboard.user')->with('message','User profile updated successfully');
+    
+	}
 
     /**
      * Remove the specified resource from storage.

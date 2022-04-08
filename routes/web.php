@@ -174,21 +174,19 @@ return redirect()->route('admin.dashboard.my_wallets')->with(['message'=>'Wallet
 Route::get('dashboard/my_wallets', 'WalletController@myWallets')->middleware(['auth','verified'])->name('admin.dashboard.my_wallets');
 
 
-
 /**
 **==========This routes are for other non-admin users==============
 **/
 
 Route::middleware(['auth','verified'])->prefix('dashboard')->group(function(){
 
-Route::get('/', function(User $user){
-	
-	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
-	
-	return view('admin.dashboard.index')->with(['title'=>'Dashboard','dashboardNotification'=>$dashboardNotification,'user'=>$user]);
-	
-})->name('admin.dashboard.index');
+Route::get('/', function(User $user){ 
 
+$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get(); 
+
+return view('admin.dashboard.index')->with(['title'=>'Dashboard - BalmFlow Project','dashboardNotification'=>$dashboardNotification,'user'=>$user]); 
+
+})->name('admin.dashboard.index');
 
 
 //for fund-wallet route
@@ -216,13 +214,12 @@ Route::post('transactions/store', 'TransactionController@store')->name('transact
 //dashboard/user/profile
 Route::get('user/profile', function(){
 $dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
-//$userPk = User::find(Auth::user()->id)
 
 $userProfile = Profile::where('user_id',Auth::user()->id)->get();
 
 $user = new User;
 $wallet = new \App\Http\Controllers\WalletController;
-return view('admin.dashboard.user')->with(['title'=>'My Profile','dashboardNotification'=>$dashboardNotification, 'user'=>$user, 'profile'=>$userProfile,'wallet'=>$wallet]);
+return view('admin.dashboard.user')->with(['title'=>'My Profile','dashboardNotification'=>$dashboardNotification, 'user'=>$user, 'profile'=>$userProfile,'wallet'=>$wallet,'profile_id'=>1]);
 	
 })->name('admin.dashboard.user');
 
@@ -236,7 +233,17 @@ Route::get('notifications', function(){
 
 
 //route to all user transactions (personal transactions ) page for a single logged in user
-Route::get('transactions/{uid}','TransactionController@paginateRecords')->name('admin.dashboard.transactions');
+Route::get('transaction','TransactionController@paginateRecords')->name('admin.dashboard.transactions');
+
+//this route updates wallet
+Route::get('editwallet/{id}', 'WalletController@edit')->name('admin.dashboard.editwallet');
+
+//wallet update route
+Route::put('modifywalletcreds/{id}', 'WalletController@update')->name('wallet_models.update');
+
+
+Route::put('users/update/{id}', 'ProfileController@update')->name('users.update');
+
 
 });
 
@@ -250,14 +257,13 @@ All the routes below for users who has is-admin and email_verified priviledge
 //grouping all routes under the dashboard namespace
 Route::middleware(['auth','admin','verified'])->prefix('dashboard')->namespace('admin')->group(function(){
 
-
-Route::put('users/update', 'UserController@update')->name('users.update');
-
-Route::get('/', function(User $user){
+Route::get('/', function(){
 	
+	$user = new User;
+	$reportModel = \App\Http\Controllers\DailyReportController::getReports();
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
 	
-	return view('admin.dashboard.core-admin.index')->with(['title'=>'Dashboard','dashboardNotification'=>$dashboardNotification,'user'=>$user]);
+	return view('admin.dashboard.core-admin.index')->with(['title'=>'Dashboard','dashboardNotification'=>$dashboardNotification,'user'=>$user,'reports'=>$reportModel]);
 	
 })->name('admin.dashboard.core-admin.index');
 

@@ -14,10 +14,10 @@
     <!--    Favicons-->
     <!-- ===============================================-->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.ico') }} ">
-<!--    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">-->
+    <link rel="icon" type="image/ico" sizes="32x32" href="{{ asset('favicon.ico') }}" />
+<!--    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">-->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <link rel="manifest" href="{{ asset('img/favicons/manifest.json') }}">
 
     <meta name="msapplication-TileImage" content="">
     <meta name="theme-color" content="#ffffff">
@@ -29,7 +29,7 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.gstatic.com/">
-    <link href="https://fonts.googleapis.com/css?family=Spartan:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Spartan:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
     <link href="{{ asset('css/admin/vendors/overlayscrollbars/OverlayScrollbars.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin/css/theme-rtl.min.css') }}" rel="stylesheet" id="style-rtl">
     <link href="{{ asset('css/admin/css/theme.min.css')}}" rel="stylesheet" id="style-default">
@@ -112,27 +112,7 @@
         });
 </script>
 	
-	<script>
-	/*function closeModal(){
-	/*
-	var div = document.getElementById(modalToClose); 
-	div.style.display=none;
 	
-	}*/
-	
-	/*
-	$(document).ready(function(){
-        $(".close").click(function(){
-            $("#walletModal").modal('close');
-        });    
-		}); 
-	*/
-	</script>
-	
-	
-	<script>   $('#closeWallet').click( function () {
-		$('#walletModal').modal('hide');     }); 
-		</script>
 	
 	<style>
 	body{
@@ -197,7 +177,7 @@
                   <ul class="nav collapse show" id="dashboard" style="line-height:26px;">
                     
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.core-admin.index') }}" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-left"><span class="nav-link-text ps-1">Dashboard Home</span></div>
+                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-home"></span></span><span class="nav-link-text ps-1">Dashboard Home</span></div>
                       </a><!-- more inner pages-->
                     </li>
                     <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.transactions',['uid'=>Auth::user()->id]) }}" data-bs-toggle="" aria-expanded="false">
@@ -218,12 +198,12 @@
                     </li>
                     
 					
-					{{-- @if( App\Profile::UserProfile(Auth::user()->id)->country=='Nigeria') --}}
+					{{-- @if( App\Profile::where('user_id',Auth::user()->id)->get()->country=='Nigeria') --}}
 					<li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.my_voucher') }}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-barcode"></span></span><span class="nav-link-text ps-1">My Vouchers</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    {{-- @endif --}}
+					{{-- @endif --}}
 					
 					<li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
@@ -396,17 +376,21 @@
         <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    <script src="{{ asset('css/admin/vendors/popper/popper.min.js') }}"></script>
-    <script src="{{ asset('css/admin/vendors/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('css/admin/vendors/anchorjs/anchor.min.js') }}"></script>
-    <script src="{{ asset('css/admin/vendors/is/is.min.js') }}"></script>
-    <script src="{{ asset('css/admin/vendors/echarts/echarts.min.js') }}"></script>
-    <script src="{{ asset('css/admin/vendors/fontawesome/all.min.js') }}"></script>
-    <script src="{{ asset('css/admin/vendors/lodash/lodash.min.js') }}"></script>
-    <script src="{{ asset('css/admin/vendors/list.js/list.min.js') }}"></script>
-    <script src="{{ asset('css/admin/js/theme.js') }}"></script>
-	<!-- Script -->
+    
+		<!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	
+	<script src="{{ asset('css/admin/vendors/popper/popper.min.js') }}"></script>
+    <script src="{{ asset('css/admin/vendors/bootstrap/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('css/admin/vendors/anchorjs/anchor.min.js') }}"></script>
+    <script src="{{ asset('css/admin/vendors/echarts/echarts.min.js') }}"></script>
+	<script src="{{ asset('css/admin/vendors/fontawesome/all.min.js') }}"></script>
+    <script src="{{ asset('css/admin/vendors/lodash/lodash.min.js') }}"></script>
+    <script src="{{ asset('css/admin/polyfill.io/v3/polyfill.min58be.js?features=window.scroll') }}"></script>
+    <script src="{{ asset('css/admin/vendors/is/is.min.js') }}"></script>
+    <script src="{{ asset('css/admin/js/theme.js') }}"></script>
+		
 
 <!--generic function to close all bootstrap modals-->
 <script type="text/javascript">
@@ -418,7 +402,119 @@ $(modalToClose).modal('hide');
 }
 </script>	
 
+<script>
+
+var docReady = function docReady(fn) {
+  // see if DOM is already available
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fn);
+  } else {
+    setTimeout(fn, 1);
+  }
+};
+
+
+var weeklySalesInit = function weeklySalesInit() {
+  var ECHART_BAR_WEEKLY_SALES = '.echart-bar-weekly-sales';
+  var $echartBarWeeklySales = document.querySelector(ECHART_BAR_WEEKLY_SALES);
+
+  if ($echartBarWeeklySales) {
+    // Get options from data attribute
+    var userOptions = utils.getData($echartBarWeeklySales, 'options');
+    var data = [120, 200, 150, 80, 70, 110, 140]; // Max value of data
+
+    var yMax = Math.max.apply(Math, data); // const dataBackground = data.map(() => yMax);
+
+    var chart = window.echarts.init($echartBarWeeklySales); // Default options
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          formatter: '{b0} : {c0}',
+          transitionDuration: 0,
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          boundaryGap: false,
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisPointer: {
+            type: 'none'
+          }
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisPointer: {
+            type: 'none'
+          }
+        },
+        series: [{
+          type: 'bar',
+          showBackground: true,
+          backgroundStyle: {
+            borderRadius: 10
+          },
+          barWidth: '5px',
+          itemStyle: {
+            barBorderRadius: 10,
+            color: utils.getColors().primary
+          },
+          data: data,
+          z: 10,
+          emphasis: {
+            itemStyle: {
+              color: utils.getColors().primary
+            }
+          }
+        }],
+        grid: {
+          right: 5,
+          left: 10,
+          top: 0,
+          bottom: 0
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+  }
+};
+
+
+docReady(weeklySalesInit);
 
 </script>
+
 </body>
 </html>

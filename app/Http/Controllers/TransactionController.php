@@ -105,8 +105,10 @@ class TransactionController extends Controller
 	*This function fetches all the transaction records for the specified user with the $uid parameter passed, the recorsd sare paginated at 20 records per table
 	*
 	*/
-	public static function paginateRecords($uid){
+	public static function paginateRecords(){
 
+	//fetching the currently logged in user
+	$uid = auth()->id();
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>$uid])->get();
 
 	$transactions = Transactions::select('transaction_id','transaction_hash','trx_amount','created_at','trxn_complete_status','originating_wallet_id','transaction_type')->where('user_id', $uid)->paginate(20);	

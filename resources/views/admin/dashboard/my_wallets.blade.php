@@ -61,7 +61,7 @@
 				  <td>@if($trx->use_for_withdrawal==false)
 					  <a href="#" data-attr="{{route('admin.dashboard.walletmodifier',['id'=>$trx->id])}}" data-target="#walletModal"  id="walletButton" class="text-primary text-xs">Make Default?</a> @else
 				  <a id="checkWallet" class="text-success text-xs">Default</a>	  @endif
-			  	 | <a data-attr="" data-target=""  id="editWallet" class="text-warning text-xs">Edit</a>	  
+			  	 | <a href="#" data-attr="{{ route('admin.dashboard.editwallet',['id'=>$trx->id]) }}" data-target="#walletModal"  id="walletButton" class="text-warning text-xs">Edit</a>	  
 				</td>
 			  
 				  @endforeach

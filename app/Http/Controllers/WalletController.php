@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\WalletModel;
+use App\NotificationModel;
 use DB;
 
 class WalletController extends Controller
@@ -35,14 +36,16 @@ public function myWallets(){
 $id= auth()->id();
 
 $wallets =  WalletModel::where('user_id',$id)->paginate(5);	
+$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>$id])->get();
+
 	return view('admin.dashboard.my_wallets')->with(['title'=>'My Wallets','wallets'=>$wallets,'id'=>1,'dashboardNotification'=>array()]);	
 }
 
 //looking up a wallet
 	public function walletLookup($id){
-	
-		return count(WalletModel::where('user_id',$id)->get());
 		
+		return count(WalletModel::where('user_id',$id)->get());
+	
 	}
 	
     /**
@@ -64,7 +67,6 @@ $wallets =  WalletModel::where('user_id',$id)->paginate(5);
 			$wallet = new WalletModel;
 			$wallet->wallet_id = $request->wallet_id;
 			$wallet->wallet_identifier = $request->wallet_identifier;
-			//$wallet->use_for_withdrawal = $request->use_for_withdrawal;
 			$wallet->user_id = $request->user_id;
 			
 			$wallet->save();
@@ -96,6 +98,11 @@ $wallets =  WalletModel::where('user_id',$id)->paginate(5);
      */
     public function edit($id)
     {
+		
+		$walletData = WalletModel::find($id);
+		return view("admin.dashboard.editwallet")->with(['walletData'=>$walletData,'id'=>$id]);
+		
+		
     }
 
 
@@ -113,7 +120,7 @@ $wallets =  WalletModel::where('user_id',$id)->paginate(5);
 			//reset their use_for_withdrawal field to 0 first of all
 			foreach($allWallets as $a){
 				
-				DB::update('UPDATE wallet_models SET use_for_withdrawal=0 WHERE id=?',[$a->id]);
+				DB::update('UPDATE wallet_models SET use_for_withdrawal=0 WHERE id=? AND user_id=?',[$a->id,auth()->id()]);
 				
 			}
 			
@@ -126,10 +133,12 @@ $wallets =  WalletModel::where('user_id',$id)->paginate(5);
 				//WalletModel::update("UPDATE wallet_models SET use_for_withdrawal=0 WHERE id=?",[$id]);
 				
 				$walletInfo->save();
+				
+				//flashing the session storage
 				flash("Wallet status modified successfully")->success();
 				
 				return redirect()->route('admin.dashboard.my_wallets')->with(['message'=>'Wallet status modified successfully']);
-	}
+}
 
 
     /**
@@ -140,38 +149,45 @@ $wallets =  WalletModel::where('user_id',$id)->paginate(5);
      * @return \Illuminate\Http\Response
      */
 
+public function updateWallet(Request $request, $id)
+    {
+	}
+	
     public function update(Request $request, $id)
     {
 	
 				
 		//retrieving the wallet to modify here
-			$walletInfo = WalletModel::find($id);
+		$walletInfo = WalletModel::find($id);
+			
+			$rules = [
+			'wallet_id'=> 'required | min:10 | max: 30',
+			'wallet_identifier'=> 'required | max:72'
+			];
 			
 			
-			//get all wallets for this person so we can loop through them
-			$allWallets = WalletModel::all();
+			/*
+			$wallet_id = $request->wallet_id;
+			$wallet_identifier = $request->wallet_identifier;
+			$user_id = auth()->id();
+			$use_for_withdrawal = $request->use_for_withdrawal;
 			
-			//reset their use_for_withdrawal field to 0 first of all
-			foreach($allWallets as $a){
-				
-				DB::table('wallet_models')->update('UPDATE wallet_models SET use_for_withdrawal=? WHERE id=?',[0,$a->id]);
-				
-			}
+			$request->validate($rules);
 			
-				//fields for managing the withdrawals
-				$walletInfo->use_for_withdrawal = 1;
-				$walletInfo->updated_at = date('d-m-Y, h:i:s A', time());
+			DB::update("UPDATE wallet_models SET wallet_id=?, wallet_identifier=? WHERE id=? AND user_id=?",[$wallet_id,$wallet_identifier,$id,$user_id]);
+			*/
 			
-				WalletModel::update("UPDATE wallet_models SET use_for_withdrawal=? WHERE id=? AND wallet_id=?",[1,$id,$request->wallet_id]);
-				
-				//WalletModel::update("UPDATE wallet_models SET use_for_withdrawal=0 WHERE id=?",[$id]);
-				
-				$walletInfo->save();
-				flash::message("Wallet status modified successfully")->success();
-				
-				return redirect()->route('admin.dashboard.my_wallets')->with('message','Wallet status modified successfully');
-
-	
+			$walletInfo->wallet_id = $request->wallet_id;
+			$walletInfo->wallet_identifier = $request->wallet_identifier;
+			$walletInfo->user_id = $request->user_id;
+			$walletInfo->use_for_withdrawal = $request->use_for_withdrawal;
+			$walletInfo->save($request->all());
+			
+			//flashing the session storage
+			flash("Wallet updated successfully")->success();
+			
+			return redirect()->route('admin.dashboard.my_wallets')->with(['message'=>'Wallet credentials updated successfully']);
+			
     }
 
     /**

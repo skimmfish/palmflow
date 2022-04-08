@@ -64,7 +64,7 @@
                         </div>
                       </a>
                       <hr class="bg-200 dark__bg-900" />
-                      <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Members</h6><a class="dropdown-item px-card py-2" href="pages/user/profile.html">
+                      <h6 class="dropdown-header fw-medium text-uppercase px-card fs--2 pt-0 pb-2">Members</h6><a class="dropdown-item px-card py-2" href="">
                         <div class="d-flex align-items-center">
                           <div class="avatar avatar-l status-online me-2">
                             <img class="rounded-circle" src="assets/img/team/1.jpg" alt="" />
@@ -172,7 +172,7 @@
 				  @if((Auth::user()->is_admin)===1)
 					<a class="dropdown-item" href="{{ route('admin.dashboard.core-admin.maintenance') }}">Maintenance</a>				  
 				  @endif
-                    <a class="dropdown-item" href="{{ route('admin.dashboard.user',['id'=>Auth::user()->id]) }}">Profile &amp; settings</a>
+                    <a class="dropdown-item" href="{{ route('admin.dashboard.user') }}">Profile &amp; settings</a>
                     <a class="dropdown-item" href="{{route('logout')}}">Logout</a>
                   </div>
                 </div>

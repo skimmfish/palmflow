@@ -56,7 +56,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+       
     }
 
     /**
@@ -79,7 +79,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+		
+		$user->save($request->all());
+		flash("User profile updated successfully")->success();
+		
+		return redirect()->route('admin.dashboard.user')->with('message','User profile updated successfully');
     }
 
     /**
