@@ -19,7 +19,7 @@ class DailyReportController extends Controller
 
 public static function getReports(){
 	
-return $report = DailyReportModel::select('total_daily_roi','stakers_split','directors_split','charity_split')->whereDate("created_at",Carbon::today())->get();
+return $report = \App\DailyReportModel::select('total_daily_roi','stakers_split','directors_split','charity_split')->whereDate("created_at", \Carbon\Carbon::today())->get();
 //return view('admin.dashboard.core-admin.index')->with('report'=>$report);
 	
 }

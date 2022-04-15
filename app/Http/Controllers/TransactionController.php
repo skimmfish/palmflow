@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Transactions;
 use App\NotificationModel;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 //use Illuminate\Contracts\Validation\Validator;
 

@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailVerification;
 
 class RegisterController extends Controller
 {
@@ -76,7 +78,7 @@ class RegisterController extends Controller
 
 		//logout the user first before redirecting
 			//Auth::logout();    
-
+		
 	return redirect()->route('login')->with('message','You have been successfully registered, please check your e-mail');
 }
 
@@ -117,10 +119,11 @@ public function store(Request $request){
 	
 	$user->save();
 	
+	//send email to the user
+	Mail::to($request->email)->send(new EmailVerification($user));
 	
 	return redirect()->route('auth.login')->with('message','You have been successfully registered, please check your e-mail');
-	
-}
+	}
 
 
 }

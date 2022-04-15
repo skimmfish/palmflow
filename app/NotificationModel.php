@@ -13,5 +13,10 @@ protected $fillable = ['pub_status','read_status','note','subject','notification
 
 protected $dates = ['deleted_at'];
 
+public function getNotifications(){
+	
+return	$this->where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>1])->get();
+	
+}
 
 }

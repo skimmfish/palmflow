@@ -4,7 +4,7 @@
 */
 
 .table_rws th, .table_rws td{
-	font-size:10px;font-weight:500;
+	font-size:10px;font-weight:600;font-family:'Spartan','Work Sans','Brandon Grotesque';
 }
 .table_rws{
 	overflow-x:auto;
@@ -23,9 +23,15 @@ color:#0099cc;
 }
 
 .text-underline{text-decoration:underline;}
-.alert-note-style{font-family:'Spartan','Brandon Grotesque';font-size:11px;}
-.btn-circle{border-radius:50%;font-size:10px;width:48px;height:48px;line-height:40px;text-align:center;position:relative;font-size:8px;}
+.alert-note-style{font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:11px;}
+.btn-circle{border-radius:50%;font-size:10px;width:50px;height:50px;line-height:40px;text-align:center;position:relative;font-size:8px;}
 .form-control{
 	height:37px !important;font-size:12px;
 }
 .btn{height:37px !important;}
+.round_ball{
+	width:auto;padding-left:30px;padding-right:30px;padding-top:2px;height:50px;border-radius:60px;border:0;background:#0d2453;color:#fff;text-align:center;font-size:17px;line-height:45px;font-weight:400;font-family:Work Sans;}
+.round_ball a{font-size:13px;font-family:'Spartan','Brandon Grotesque';}
+.r small{font-size:9px;}
+.withdraw_btn:hover{text-decoration:none;}
+.withdraw_btn{}

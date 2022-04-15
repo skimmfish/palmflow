@@ -23,7 +23,6 @@
     <meta name="theme-color" content="#ffffff">
     <script src="{{ asset('css/admin/js/config.js') }}"></script>
     <script src="{{ asset('css/admin/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
@@ -116,15 +115,15 @@
 	
 	<style>
 	body{
-		font-family:'Spartan','Brandon Grotesque';font-size:16px;color:#000;
+		font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:16px;color:#000;font-weight:500;color:#000;
 	}
-	h1,h2,h3,h4,h5,h6{font-family:'Spartan','Brandon Grotesque';
-	font-weight:600;
+	h1,h2,h3,h4,h5,h6{font-family:'Spartan','Work Sans','Brandon Grotesque';
+	font-weight:700;
 	}
 	
-	.nav-link, .dropdown-item, .mb-1, .form-control, label, .btn{font-family:'Spartan','Brandon Grotesque';font-size:12px !important;
+	.nav-link, .nav-link-text, .dropdown-item, .mb-1,.mb-0, .form-control, label, .btn{font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:12px !important;
 	}
-	.mb-1, .cust-link{font-weight:500;font-size:12px;}
+	.mb-1, .cust-link{font-weight:400;font-size:12px;}
 	.form-control{
 		font-size:12px;
 	}
@@ -184,8 +183,8 @@
                         <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-table"></span></span><span class="nav-link-text ps-1">Transactions History</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-credit-card"></span></span><span class="nav-link-text ps-1">Withdrawals</span></div>
+                    <li class="nav-item"><a href="{{ route('admin.dashboard.stakings') }}" class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-credit-card"></span></span><span class="nav-link-text ps-1">Stakings & Withdrawals</span></div>
                       </a><!-- more inner pages-->
                     </li>
 					

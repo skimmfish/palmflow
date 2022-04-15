@@ -241,9 +241,34 @@ Route::get('editwallet/{id}', 'WalletController@edit')->name('admin.dashboard.ed
 //wallet update route
 Route::put('modifywalletcreds/{id}', 'WalletController@update')->name('wallet_models.update');
 
-
+//this updates users' profile information
 Route::put('users/update/{id}', 'ProfileController@update')->name('users.update');
 
+//all stakings
+Route::get('stakings', 'StakingsController@index')->name('admin.dashboard.stakings');
+
+//this is for staking_snapshot
+Route::get('stakings_snapshot/{id}','StakingsController@show')->name('admin.dashboard.staking_snapshot');
+
+
+//mailable mails testing route
+Route::get('mailable/{id}',function($id){
+	
+	$newUser = \App\User::find($id);
+	
+	//the $newUser object passes the user object into the mailable class to retrieve some of the user's data into the mailable class before sending.
+	return new App\Mail\EmailVerification($newUser);
+
+});
+
+Route::get('withdrawall/{id}', function($id){
+
+	$stakeE = new \App\Http\Controllers\StakingsController;
+	$returnedResponse = $stakeE->withdrawAll($id,$stakingids);
+	
+	return redirect()->route('admin.dashboard.stakings')->with(['message'=>'Your request has been received, kindly wait while we process your order','returned'=>$returnedResponse]);
+	
+})->name('admin.dashboard.withdrawall');
 
 });
 

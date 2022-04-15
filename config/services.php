@@ -34,5 +34,14 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+	
+	'paypal'=>[
+    'key' => env('paypal_key'),
+    'secret' => env('paypal_secret'),
+	],
+	
+	'now_payments' =>[
+	'key'=> env('NOW_API_KEY')
+	]
 
 ];

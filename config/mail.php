@@ -16,7 +16,10 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('MAIL_DRIVER', 'mailgun'),
+
+
+	'reply_to' => ['address' => 'hello@balmflow.com', 'name' => 'BalmFlow Stake Project'],
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +59,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@balmflow.com'),
+        'name' => env('MAIL_FROM_NAME', 'BalmFlow'),
     ],
 
     /*

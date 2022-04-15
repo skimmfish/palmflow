@@ -29,7 +29,6 @@
           <li><a class="text-body" href="{{ route('index') }}">PalmFlow Home</a></li>
           <li><a class="text-body" href="{{ route('about-us') }}">About PalmFlow</a></li>
           <li><a class="text-body" href="{{ route('road-map') }}">Strategic Road Map</a></li>
-          <li><a class="text-body" href="{{ route('terms-of-use') }}">Terms of Use</a></li>
           <li><a class="text-body" href="{{route('terms-and-conditions') }}">Terms & Conditions</a></li>
         </ul>
         <!-- End List -->
