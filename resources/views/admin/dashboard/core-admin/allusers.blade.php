@@ -16,7 +16,7 @@
 
 <!--showing last 6 transactions-->
 
-                  <h5 style="margin:20px 0 20px 0">Registered Users and Contributors</h5>
+                  <h5 style="margin:20px 0 20px 0">@if($type=='all') Registered Users and Contributors @else Archived Users @endif</h5>
 				
 	
               <div class="card mb-12 btn-reveal-trigger">
@@ -41,12 +41,12 @@
 				   
 				  <tbody>
 				
-				 
+				@if($type=='all')
 				 @foreach($profiles as $u)
 				  <tr>
 					<td>{{ $id++ }}</td>
 					<td><a href="#" data-attr="{{route('viewuser',['id'=>$u->id])}}" data-toggle="modal" id="smallButton" data-target="#userModal" 
-					class="text-dark">{{App\Profile::find($u->id)->user->username }} </a></td>
+					class="text-dark">{{App\Profile::find($u->id)->user->username }}</a></td>
 						<td>{{ $u->first_name }} </td>
 						<td>{{ $u->last_name }} </td>
 						<td> {{$u->telephone  }}</td>
@@ -67,7 +67,42 @@
 					
 				  </tr>
 				  @endforeach
+				@elseif($type=='deleted')
 
+{{-- for deleted users --}}
+
+				@foreach($deletedprofiles as $u)
+				  <tr>
+					<td>{{ $id++ }}</td>
+	<td><a href="#" data-attr="{{route('viewuser',['id'=>$u->id])}}" data-toggle="modal" id="smallButton" data-target="#userModal" class="text-dark">{{ \App\User::get_deleted_user($u->user_id,'username') }}</a></td>
+						<td>{{ $u->first_name }} </td>
+						<td>{{ $u->last_name }} </td>
+						<td> {{$u->telephone  }}</td>
+						<td>
+						@if( \App\User::get_deleted_user($u->user_id,'is_admin')) {{ 'Admin' }} @else {{ 'User' }} @endif
+						</td>
+						<td><img src="{{asset('img/160x160/'.$u->profile_img) }}" class="img-responsive img-round center" style="display:block;margin:auto;" lazyload></td>
+						<td>{{ date('d F Y, h:i:s A', strtotime($u->created_at)) }}</td>
+					
+					<td>
+					<a href="#" data-attr="{{ route('viewuser',['id'=>$u->id]) }}" data-toggle="modal" id="smallButton" data-target="#userModal">View</a>
+					
+					<form action="{{route('admin.dashboard.core-admin.deleteuser',['id'=>$u->id,'deleteType'=>'force_delete']) }}" method="POST">
+					@csrf 
+					@method('delete')
+					<button type='submit' class="text-danger btn-orderless" onclick="">Delete</button> | <a href='{{ route("admin.dashboard.core-admin.user-restore",["id"=>$u->user_id,"profile_id"=>$u->id]) }}' type='submit' class="text-danger btn-orderless">Restore</a>
+					
+					</form>
+					
+					</td>
+					
+				  </tr>
+				  @endforeach
+				
+
+
+
+					@endif
 				  </tbody>
 				 
 					<tfoot>
@@ -86,7 +121,7 @@
 				  </tr>
 				  </tfoot>
 				  </table>
-                	 {!! $profiles->links('vendor.pagination.bootstrap-4') !!}
+  {{-- {!! $profiles->links('vendor.pagination.bootstrap-4') !!} --}}
 				</div>
 				
               </div>

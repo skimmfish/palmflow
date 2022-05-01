@@ -35,15 +35,25 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-	$user = new User;
-	
-	$user->create($request->only(['email','api_token','username','password','phone_number']));
-	$user->save();
-	
-	return response()->json(['message'=>"User's profile saved successfully"],200);
+public function store(Request $request)
+{
+//
+$user = new User;
+echo $user->email = $request->input(email_address);
+$user->password = bcrypt($request->input('password'));
+$user->username = $request->input('username');
+$user->active = 0;
+$user->is_admin = 1;
+$user->provider_handle = $request->input('provider_handle');
+$user->handle_google = $request->input('handle_google');
+$user->phone_number = $request->input('phone_number');
+$user->api_token = $request->input('api_token');
+
+//$filledIn = $request->input();echo toString($filledIn);
+
+$user->save();
+
+return response()->json(['message'=>"User's profile saved successfully"],200);
 
 
     }

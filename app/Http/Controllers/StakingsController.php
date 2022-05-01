@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\NotificationModel;
 use DB;
+use Illuminate\Http\Client;
 
 //for sending emails
 use Illuminate\Support\Facades\Mail;
@@ -36,14 +37,13 @@ class StakingsController extends Controller
 		
 		
 		return view('admin.dashboard.stakings')->with(['title'=>'User Stakings','id'=>1,'stakings'=>$stakings,'dashboardNotification'=>$note->getNotifications(),
-		'amtWithdrawable'=>$amountWithdrawable,'stakedTotal'=>$staked_amount,'stakeIDs'=>$stakingID]);
+		'amtWithdrawable'=>$amountWithdrawable,'stakedTotal'=>$staked_amount,'stakeIDs'=>$stakingID,'minimumWithdrawal'=>6]);
 		
 	}
 	
 	  /**
      * Display the specified resource.
-     *
-     * @param  int  $id
+     *@param  int  $id
      * @return \Illuminate\Http\Response
      */
 	public function show($id){
@@ -94,10 +94,88 @@ class StakingsController extends Controller
 *@param $id - user_id who is withdrawing from the website
 *@param $stakeids - a simple arrow containing all the stake ids 
 */
-public function withdrawAll($id,$type='all'){
-	
-	
-	
+public function withdrawAll($id){
+
+$res = \App\Stakings::where('user_id',$id)->get();
+$accumulativeBalanceWithdrawable = 0;
+
+
+foreach($res as $x){
+//print_r($x);
+$accumulativeBalanceWithdrawable += $x['staked_amount'] * ($x['balance_withdrawable']/100);
+$response = DB::table('stakings')->where(['user_id'=>$id, 'trx_id'=>$x['trx_id']])->update(['percent_withdrawn_sofar'=>($x['percent_withdrawn_sofar']+$x['balance_withdrawable']), 
+'balance_withdrawable'=>0]);
+}
+
+//sending the same value to the crypto payment endpoint
+$resv = $this->withdrawToWallet($id, $accumulativeBalanceWithdrawable);
+return $resv;
+}
+
+/*
+*@param - user_id, and $amount
+*/
+public function withdrawToWallet($uid,$amount){
+//fetch the user's wallet first before continuining
+
+}
+
+public static function getArbitrage(){
+
+
+$curl = curl_init();
+curl_setopt_array($curl, [
+	CURLOPT_URL => "https://crypto-arbitrage.p.rapidapi.com/crypto-arb?pair=XRP%2FUSD&consider_fees=True&selected_exchanges=exmo%20cex%20bitstamp%20hitbtc",
+	CURLOPT_RETURNTRANSFER => true,
+	CURLOPT_FOLLOWLOCATION => true,
+	CURLOPT_ENCODING => "",
+	CURLOPT_MAXREDIRS => 10,
+	CURLOPT_TIMEOUT => 30,
+	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	CURLOPT_CUSTOMREQUEST => "GET",
+	CURLOPT_HTTPHEADER => [
+		"X-RapidAPI-Host: crypto-arbitrage.p.rapidapi.com",
+		"X-RapidAPI-Key: d9ddb80eddmshbf40b6f49014c0cp118c49jsne8852cfc7825"
+	],
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+	echo "cURL Error #:" . $err;
+} else {
+return $response;
+}
+
+
+/*
+$request = new Request;
+$request->setUrl('https://crypto-arbitrage.p.rapidapi.com/crypto-arb');
+$request->setMethod(HTTP_METH_GET);
+
+$request->setQueryData([
+	'pair' => 'BTC/USD',
+	'consider_fees' => 'False',
+	'selected_exchanges' => 'exmo cex bitstamp hitbtc'
+]);
+
+$request->setHeaders([
+	'X-RapidAPI-Host' => 'crypto-arbitrage.p.rapidapi.com',
+	'X-RapidAPI-Key' => 'd9ddb80eddmshbf40b6f49014c0cp118c49jsne8852cfc7825'
+]);
+
+try {
+	$response = $request->send();
+
+	echo $response->getBody();
+} catch (HttpException $ex) {
+	echo $ex;
+}*/
+
+
 }
 
 }

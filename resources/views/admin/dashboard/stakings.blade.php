@@ -7,13 +7,16 @@
 			
 		 <div class="row">
 
-			<div class="container"> @if (session('message'))   <div class="alert alert-success alert-note-style">  {{ session('message') }}</div>@endif</div>
+			<div class="container"> @if (session('message'))   <div class="alert alert-success alert-note-style">  {{ session('message') }}, 
+			</div>@endif</div>
 
                   <div class="row">
 				  <div class="col-6"><h5 style="margin:20px 0 20px 0">Stakings and Withdrawal History</h5></div>
 				  <div class="col-6 pull-right round_ball" style="margin-top:4px"><!--<span class="nav-link-icon">
-				<span class="fas fa-thin fa-2x fa-wallet"></span></span>--> <div class="r">{{ number_format($amtWithdrawable,2) }}<small>USDT</small>  |  
-				<a href="{{ route('admin.dashboard.withdrawall', ['id'=>Auth::user()->id]) }}" class="withdraw_btn text-success text-xs btn btn-pill" style="padding:1px auto 5px autopx;border-radius:50px;height:25px !important;color:#fff !important;">Withdraw All  <span class="fas fa-thin fa-chevron-right"></span></span></a>
+				<span class="fas fa-thin fa-2x fa-wallet"></span></span>-->
+				 <div class="r"><span style='font-family:Work Sans !important;'>{{ number_format($amtWithdrawable,2) }}</span><small class='work-sans' style='font-size:11px !important;'>USDT</small>
+				@if($amtWithdrawable <= $minimumWithdrawal)  |  <a href="#" data-attr="{{ route('admin.dashboard.withdraw-notifier') }}" data-toggle="modal" id="walletButton" data-target="#walletModal"
+				class="withdraw_btn text-success text-xs btn btn-pill" style="padding:1px auto 5px autopx;border-radius:50px;height:25px !important;color:#fff !important;">Withdraw All  <span class="fas fa-thin fa-chevron-right"></span></span></a> @endif
 				 </div>
 				  </div>
 				  

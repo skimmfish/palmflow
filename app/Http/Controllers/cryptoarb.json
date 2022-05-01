@@ -1,0 +1,12 @@
+{
+"arbitrage_profit": 0.0015292164858820012, 
+"order_sell": {
+"exchange": "cex", "bid": 38634.3, "volume": 0.01833678, "fees": 0, "datetime": "2022-04-30T12:36:19.000Z"
+},
+"order_buy": {"exchange": "bitstamp", "ask": 38575.31, "volume": 0.18107289, "fees": 0, "datetime": "2022-04-30T12:36:16.569Z"}, 
+"pair": "BTC/USD", "considered_exchanges": ["bitstamp", "cex"], 
+"warning": "exchanges hitbtc exmo do not cover BTC/USD, possible exchanges are 
+ bitflyer southxchange itbit cex 
+ bitfinex bitstamp1 bitstamp bitmex lykke bitfinex2 
+ kraken independentreserve gemini bitbay"
+}

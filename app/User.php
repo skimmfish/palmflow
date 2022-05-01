@@ -50,4 +50,13 @@ public function profile(){
 	return $this->hasOne('Profile');
 }
 
+public static function get_deleted_user($id,$field_to_return){
+$body = User::withTrashed()->where('id',$id)->get();
+$res = null;
+foreach($body as $x){
+$res = $x[$field_to_return];
+}
+return $res;
+}
+
 }

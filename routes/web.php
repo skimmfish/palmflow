@@ -250,6 +250,11 @@ Route::get('stakings', 'StakingsController@index')->name('admin.dashboard.stakin
 //this is for staking_snapshot
 Route::get('stakings_snapshot/{id}','StakingsController@show')->name('admin.dashboard.staking_snapshot');
 
+//this is for staking_snapshot
+Route::get('withdraw-notifier',function(){
+return view('admin.dashboard.withdraw-notifier');
+})->name('admin.dashboard.withdraw-notifier');
+
 
 //mailable mails testing route
 Route::get('mailable/{id}',function($id){
@@ -261,20 +266,31 @@ Route::get('mailable/{id}',function($id){
 
 });
 
+//for withdraing rebates via crypto
 Route::get('withdrawall/{id}', function($id){
 
-	$stakeE = new \App\Http\Controllers\StakingsController;
-	$returnedResponse = $stakeE->withdrawAll($id,$stakingids);
-	
-	return redirect()->route('admin.dashboard.stakings')->with(['message'=>'Your request has been received, kindly wait while we process your order','returned'=>$returnedResponse]);
-	
+$stakeE = new \App\Http\Controllers\StakingsController;
+$returnedResponse = $stakeE->withdrawAll($id);
+return redirect()->route('admin.dashboard.stakings')->with(['message'=>'Your request has been received, kindly wait while we process your order','returned'=>$returnedResponse]);
 })->name('admin.dashboard.withdrawall');
 
+
+//to stake cryptos via fiat deposits
+Route::get('stake-crypto-fiat',function(){
+
+return view('admin.dashboard.stake-crypto-fiat')->with('title','Stake Cryptos via Voucher Center');
+
+})->name('admin.dashboard.stake-crypto-fiat');
+
+Route::get('withdraw-rebate',function(){
+
+return view('admin.dashboard.withdraw-rebate')->with('title','Withdraw rebates via Voucher Center');
+
+})->name('admin.dashboard.withdraw-rebate');
+
+
 });
-
-
-/**
-===============================================
+/**===============================================
 All the routes below for users who has is-admin and email_verified priviledge
 =============================================
 ***/
@@ -301,25 +317,58 @@ Route::get('maintenance', function(){
 
 
 //route to all users page
-Route::get('allusers',function(){
+Route::get('users/{type}',function($type){
 	
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
-	
-	return view('admin.dashboard.core-admin.allusers')->with(['title'=>'All Users','users'=>User::paginate(5),'id'=>1,'profiles'=>Profile::paginate(5), 'dashboardNotification'=>$dashboardNotification]);
+	if($type=='all'){
+	return view('admin.dashboard.core-admin.allusers')->with(['title'=>'All Users','type'=>'all','users'=>User::paginate(5),'id'=>1,'profiles'=>Profile::paginate(5), 'dashboardNotification'=>$dashboardNotification]);
 
-})->name('admin.dashboard.core-admin.allusers');
+}else if($type=='deleted'){
 
+//$deletedUsers = User::withTrashed()->where('id',4)->get();
+$deletedUsers = Profile::onlyTrashed()->get();
+return view('admin.dashboard.core-admin.allusers')->with(['title'=>'Deleted Users', 'type'=>'deleted','users'=>User::onlyTrashed()->get(),'id'=>1,'deletedprofiles'=>$deletedUsers,'dashboardNotification'=>$dashboardNotification]);}})->name('admin.dashboard.core-admin.allusers');
 
+//creating new user - only a super admin function
+Route::get('create-new-user',function(){
+return view('admin.dashboard.core-admin.create-user')->with('title','New User');
+})->name('admin.dashboard.core-admin.create-user');
 //deleting a user
 Route::delete('/deleteuser/{id}', 'UserController@destroy')->name('admin.dashboard.core-admin.deleteuser');
 
+//restore a user
+Route::get('user-restore/{id}/{profile_id}', function($id,$profile_id){
+$user = User::find($id);
+$profile = Profile::find($profile_id);
+if($user->trashed()){
+$user->restore();
+}
+
+//do same for profile
+if($profile->trashed()){
+$profile->restore();
+}
+
+
+})->name('admin.dashboard.core-admin.user-restore');
+
+//Route::get()->name('admin.dashboard.core-admin.deleted');
+
 //route to all user transactions (personal transactions ) page for a single logged in user
 //Route::get('alltransactions','TransactionController@allTransactions')->name('admin.dashboard.core-admin.alltransactions');
-
 
 //Route::get('viewuser/{id}', 'ProfileController@show')->name('viewuser');
 
 //end of the grouping
 });
+
+
+/**this routes here defines testing routes for the arbitrage features and merger */
+Route::get('arb',function(){
+
+$jsonResponse = \App\Http\Controllers\StakingsController::getArbitrage();
+print_r($jsonResponse);
+return view('arbitragetester')->with(['title'=>'Arbitrage Tester']);
+})->name('arbitragetester');
 
 /* End of routes definition*/

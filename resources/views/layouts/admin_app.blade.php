@@ -29,6 +29,8 @@
     <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link href="https://fonts.googleapis.com/css?family=Spartan:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
+
     <link href="{{ asset('css/admin/vendors/overlayscrollbars/OverlayScrollbars.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin/css/theme-rtl.min.css') }}" rel="stylesheet" id="style-rtl">
     <link href="{{ asset('css/admin/css/theme.min.css')}}" rel="stylesheet" id="style-default">
@@ -36,7 +38,10 @@
 	<link href="{{ asset('css/admin/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
 	<link href="{{asset('css/custom_styles.css') }}" rel="stylesheet">
 	
-		
+				<!-- Script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
  <script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
       if (isRTL) {
@@ -257,15 +262,15 @@
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-day"></span></span><span class="nav-link-text ps-1">Users</span></div>
                   </a>
                   <ul class="nav collapse" id="events">
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.core-admin.allusers')}}" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.core-admin.allusers',['type'=>'all'])}}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">All Users</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.core-admin.create-user') }}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">New User</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.core-admin.allusers',['type'=>'deleted'])}}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Deleted Users</span></div>
                       </a><!-- more inner pages-->
                     </li>
@@ -375,11 +380,7 @@
         <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    
-		<!-- Script -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-	
+    	
 	<script src="{{ asset('css/admin/vendors/popper/popper.min.js') }}"></script>
     <script src="{{ asset('css/admin/vendors/bootstrap/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('css/admin/vendors/anchorjs/anchor.min.js') }}"></script>
@@ -401,119 +402,6 @@ $(modalToClose).modal('hide');
 }
 </script>	
 
-<script>
-
-var docReady = function docReady(fn) {
-  // see if DOM is already available
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', fn);
-  } else {
-    setTimeout(fn, 1);
-  }
-};
-
-
-var weeklySalesInit = function weeklySalesInit() {
-  var ECHART_BAR_WEEKLY_SALES = '.echart-bar-weekly-sales';
-  var $echartBarWeeklySales = document.querySelector(ECHART_BAR_WEEKLY_SALES);
-
-  if ($echartBarWeeklySales) {
-    // Get options from data attribute
-    var userOptions = utils.getData($echartBarWeeklySales, 'options');
-    var data = [120, 200, 150, 80, 70, 110, 140]; // Max value of data
-
-    var yMax = Math.max.apply(Math, data); // const dataBackground = data.map(() => yMax);
-
-    var chart = window.echarts.init($echartBarWeeklySales); // Default options
-
-    var getDefaultOptions = function getDefaultOptions() {
-      return {
-        tooltip: {
-          trigger: 'axis',
-          padding: [7, 10],
-          formatter: '{b0} : {c0}',
-          transitionDuration: 0,
-          backgroundColor: utils.getGrays()['100'],
-          borderColor: utils.getGrays()['300'],
-          textStyle: {
-            color: utils.getColors().dark
-          },
-          borderWidth: 1,
-          position: function position(pos, params, dom, rect, size) {
-            return getPosition(pos, params, dom, rect, size);
-          }
-        },
-        xAxis: {
-          type: 'category',
-          data: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-          boundaryGap: false,
-          axisLine: {
-            show: false
-          },
-          axisLabel: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          },
-          axisPointer: {
-            type: 'none'
-          }
-        },
-        yAxis: {
-          type: 'value',
-          splitLine: {
-            show: false
-          },
-          axisLine: {
-            show: false
-          },
-          axisLabel: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          },
-          axisPointer: {
-            type: 'none'
-          }
-        },
-        series: [{
-          type: 'bar',
-          showBackground: true,
-          backgroundStyle: {
-            borderRadius: 10
-          },
-          barWidth: '5px',
-          itemStyle: {
-            barBorderRadius: 10,
-            color: utils.getColors().primary
-          },
-          data: data,
-          z: 10,
-          emphasis: {
-            itemStyle: {
-              color: utils.getColors().primary
-            }
-          }
-        }],
-        grid: {
-          right: 5,
-          left: 10,
-          top: 0,
-          bottom: 0
-        }
-      };
-    };
-
-    echartSetOption(chart, userOptions, getDefaultOptions);
-  }
-};
-
-
-docReady(weeklySalesInit);
-
-</script>
 
 </body>
 </html>

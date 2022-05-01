@@ -56,6 +56,12 @@ public function active(){
 	return 'active';	
 }
 
+//this returns the 'active' column value for this user
+public function is_admin(){
+return 'is_admin';	
+}
+
+
 
 /*public function login(Request $request){
 	
