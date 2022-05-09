@@ -21,8 +21,13 @@
                     <input class="d-none" id="upload-cover-image" type="file" /><label class="cover-image-file-input" for="upload-cover-image"><span class="fas fa-camera me-2"></span><span style="font-family:'Spartan','Brandon Grotesque';color:#fff">Change cover photo</span></label>
                   </div>
                   <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
-                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="{{ asset('img/'.Auth::user()->profile_img)}}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" /><input class="d-none" id="profile-image" type="file" /><label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span>
-					<span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block" style="font-family:'Spartan','Brandon Grotesque';">Update</span></span></label></div>
+                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="{{ asset('img/160x160/'.\App\Profile::get_profile_data(auth()->id(),'profile_img'))}}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
+                    <form action="{{ route('admin.dashboard.update_picture',['id'=>auth()->id()]) }}" method="POST">
+                      @csrf
+                        @method('PUT')
+                      <input class="d-none" id="profile-image" name="my_avatar" type="file" /><label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span>
+                    </form>
+                    <span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block" style="font-family:'Spartan','Brandon Grotesque';">Update</span></span></label></div>
                   </div>
                 </div>
               </div>
@@ -36,11 +41,12 @@
                   <h5 class="mb-0">Profile Settings</h5>
                 </div>
                 <div class="card-body bg-light">
-                  <form class="row g-3" method="POST" action="{{ route('users.update',['id'=>$profile_id]) }}">
+                  <form class="row g-3" method="POST" action="{{ route('users.update',['id'=>$profile_id,'user_id'=>Auth::user()->id]) }}">
 				  {{ csrf_field() }}
 				  @method('PUT')
-                    @foreach($profile as $p)
-					
+          @if(count($profile)>0)
+          @foreach($profile as $p)
+				
 					<div class="col-12"> 
 					<label class="form-label" for="username">Username</label>
 					<input class="form-control" id="username" type="text" value="{{ Auth::user()->username }}" disabled /></div>
@@ -50,7 +56,7 @@
 					<input class="form-control" id="first-name" type="text" value="{{ $p->first_name }}" name="first_name" /></div>
                     <div class="col-lg-6"> <label class="form-label" for="last-name">Last Name</label><input class="form-control" id="last-name" name="last_name" type="text" value="{{ $p->last_name }}" /></div>
                     <div class="col-lg-6"> <label class="form-label" for="email1">Email</label><input class="form-control" id="email1" type="email" name="email" value="{{ Auth::user()->email }}" disabled /></div>
-                    <div class="col-lg-6"> <label class="form-label" for="phone">Phone</label><input class="form-control" id="phone" type="text" name="telephone" value="{{ $p->telephone }}" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="phone">Phone</label><input class="form-control" id="phone" type="text" name="telephone" value="{{ $p->telephone }}" disabled /></div>
                     <div class="col-lg-6"> <label class="form-label" for="linkedin">Linkedin Profile Url</label><input class="form-control" id="linkedin" type="text" name="linkedin_url" value="{{ $p->linkedin_url }}" /></div>
                     <div class="col-lg-6"> <label class="form-label" for="twitter">Twitter Profile Url</label><input class="form-control" id="linkedin" type="text" name="twitter_url" value="{{ $p->twitter_url }}" /></div>
                     <div class="col-lg-6"> <label class="form-label" for="facebook">Facebook Profile Url</label><input class="form-control" id="linkedin" type="text" name="facebook_url" value="{{ $p->facebook_url }}" /></div>
@@ -77,6 +83,48 @@
                     <div class="col-6 d-flex" style="margin-top:45px;"><button class="btn btn-primary btn-lg" style="padding-top:5px;width:100%;height:35px;" type="submit">Update </button></div>
                   
 				  @endforeach
+         @else
+    <input type="hidden" name="user_id" value="{{Auth::user()->id}}" />
+         <div class="col-12"> 
+					<label class="form-label" for="username">Username</label>
+					<input class="form-control" id="username" type="text" value="{{ Auth::user()->username }}" disabled /></div>
+                    
+					<div class="col-lg-6"> 
+					<label class="form-label" for="first-name">First Name</label>
+					<input class="form-control" id="first-name" type="text" value="" placeholder="First name" name="first_name" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="last-name">Last Name</label>
+                    <input class="form-control" id="last-name" name="last_name" type="text" value="" placeholder="Last name" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="email1">Email</label>
+                    <input class="form-control" id="email1" type="email" name="email" value="{{ Auth::user()->email }}" disabled /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="phone">Phone</label>
+                    <input class="form-control" id="phone" type="text" name="telephone" value=""  maxlength="14" placeholder="Telephone Number" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="linkedin">Linkedin Profile Url</label>
+                    <input class="form-control" id="linkedin" type="text" name="linkedin_url" value="" placeholder="Linkedin URL" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="twitter">Twitter Profile Url</label>
+                    <input class="form-control" id="linkedin" type="text" name="twitter_url" value="" placeholder="Twitter URL"/></div>
+                    <div class="col-lg-6"> <label class="form-label" for="facebook">Facebook Profile Url</label>
+                    <input class="form-control" id="linkedin" type="text" name="facebook_url" value="" placeholder="Facebook URL" /></div>
+                    
+					<div class="col-lg-6"> <label class="form-label" for="address">Address</label>
+          <textarea class="form-control" name="address" id="address" placeholder="Your address here"></textarea></div>
+                    <div class="col-lg-6"> <label class="form-label" for="city">City</label>
+                    <input class="form-control" id="city" type="text" name="city" value="" placeholder="City" /></div>
+					<div class="col-lg-6"> <label class="form-label" for="state">Province/State</label>
+          <input class="form-control" id="state" type="text" name="state" value="" placeholder="State/Province" /></div>
+                    <div class="col-lg-6"> <label class="form-label" for="country">Country</label>
+					
+					<select class="form-control" id="country" name="country">
+			    <option>Select your country</option>
+					<option>England</option>					
+					<option>Nigeria</option>
+					<option>Scotland</option>
+					<option>Wales</option>
+					<option>United States of America</option>
+					</select>
+					</div>
+          <div class="col-6 d-flex" style="margin-top:45px;"><button class="btn btn-primary btn-lg" style="padding-top:5px;width:100%;height:35px;" type="submit">Update </button></div>
+  
+          @endif
 				  </form>
                 </div>
               </div>

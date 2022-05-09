@@ -73,8 +73,15 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
 			'active'=>0,
 			'is_admin'=>0
-			
+        
         ]);
+
+/*            Profile::create([
+                'first_name'=> '',
+                'last_name'=>'',
+                'profile_img'=>'',
+                'telephone'=>'',
+            ]);*/
 
 		//logout the user first before redirecting
 			//Auth::logout();    

@@ -84,7 +84,7 @@
 				<td>{{ $id++ }}</td>
 				  <td>{{ $trx->trx_amount }}</td>
 				  
-				  <td><span class="text-info">{{ Illuminate\Support\Str::limit($trx->transaction_hash,35) }}</span> <br/><br/> {{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</td>
+				  <td><span class="text-info">{{ Illuminate\Support\Str::limit($trx->transaction_hash,25) }}</span> <br/><br/> {{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</td>
 				  
 				  <td> <?php if(($trx->trxn_complete_status)==1){echo ' <u class="text-success">Completed</u>'; }else{ echo '<u class="text-danger">Incomplete</u>'; } ?>	  </td>
 				  @endforeach

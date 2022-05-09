@@ -50,4 +50,23 @@ public static function getprofileuser($profile_id){
 	
 }
 
+
+
+/*
+*@param $user_id obtained through the profile's model
+@return - field_to_return
+*/
+
+public static function get_profile_data($user_id,$field_to_return){
+    $res = null;
+    $req = Profile::where('user_id',$user_id)->get();
+    //traversing through the resultset
+    foreach($req as $t){
+    $res = $t[$field_to_return];
+    }
+
+return $res;
+}
+
+
 }

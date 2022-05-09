@@ -87,6 +87,36 @@
         });
 </script>
 
+
+<script>
+        // display transaction modals only
+        $(document).on('click', '#smallButton', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(result) {
+                    $('#transactionmodal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+                error: function(jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+</script>
+
+
 <!--this is for new wallet modal-->
 <script>
         // display a modal (small modal)
@@ -120,10 +150,10 @@
 	
 	<style>
 	body{
-		font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:16px;color:#000;font-weight:500;color:#000;
+		font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:16px;color:#000;font-weight:500;color:#000;line-height:38px;
 	}
 	h1,h2,h3,h4,h5,h6{font-family:'Spartan','Work Sans','Brandon Grotesque';
-	font-weight:700;
+	font-weight:700;line-height:36px !important;
 	}
 	
 	.nav-link, .nav-link-text, .dropdown-item, .mb-1,.mb-0, .form-control, label, .btn{font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:12px !important;
@@ -312,10 +342,10 @@
                     <div class="col ps-0">
                       <hr class="mb-0 navbar-vertical-divider" />
                     </div>
-                  </div><!-- parent pages--><a class="nav-link" href="route('admin.dashboard.settings') }}" role="button" data-bs-toggle="" aria-expanded="false">
+                  </div><!-- parent pages--><a class="nav-link" href="{{ route('admin.dashboard.core-admin.settings') }}" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-flag"></span></span><span class="nav-link-text ps-1">Settings & Configuration</span></div>
                   </a><!-- parent pages-->
-				  <a class="nav-link" href="{{ route('admin.dashboard.core-admin.maintenance') }}" role="button" data-bs-toggle="" aria-expanded="false">
+      				  <a class="nav-link" href="{{ route('admin.dashboard.core-admin.maintenance') }}" role="button" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-globe"></span></span><span class="nav-link-text ps-1">Maintenance</span></div>
                   </a>
                     </li>
@@ -326,7 +356,7 @@
                   <div class="btn-close-falcon-container">
                     <div class="btn-close-falcon" aria-label="Close" data-bs-dismiss="alert"></div>
                   </div>
-                  <div class="card-body text-center"><img src="assets/img/icons/spot-illustrations/navbar-vertical.png" alt="" width="80" />
+                  <div class="card-body text-center"><img src="{{ asset('img/icons/spot-illustrations/navbar-vertical.png') }}" alt="" width="80" />
                     <p class="fs--2 mt-2">Loving how we roll here?<br />Give us a shout out <a href="{{route('admin.dashboard.core-admin.index') }}">BalmFlow</a></p>
                     <div class="d-grid"><a class="btn btn-sm btn-primary" href="" alt="facebook page" target="_blank">Facebook</a></div>
                   </div>
@@ -349,8 +379,12 @@
          	<!-- START OF TOP NAVIGATION-->
             <li class="nav-item dropdown"><a class="nav-link pe-0 ps-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-xl">
-                  <img class="rounded-circle" src="{{ asset('img/'.Auth::user()->profile_img) }}" alt="{{Auth::user()->username}}" />
-                </div>
+                  @if(Auth::user()->profile_img!=NULL)
+                  <img class="rounded-circle" src="{{ asset('img/160x160/'.Auth::user()->profile_img) }}" alt="{{Auth::user()->username}}" />
+@else
+<img class="rounded-circle" src="{{ asset('img/160x160/img1.jpg') }}" alt="{{Auth::user()->username}}" />
+@endif
+]                </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">

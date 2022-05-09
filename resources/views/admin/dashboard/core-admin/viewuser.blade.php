@@ -1,15 +1,15 @@
-<h6 class="mb-0 text-center">Viewing User's Profile</h6>
+<h6 class="mb-0 text-center">Viewing User's Profile <Br/>
+</h6>
+<hr/>
 
 <table class="table table-responsive table_rws">
 <thead>
-
 <!--user profile comes here-->
-
-
 @foreach($profile as $ui)
 <tr>
 <th>Username</th>
 <th> {{ App\Profile::find($ui->id)->user->username }}</th>
+<th><img src="@if($ui->profile_img) {{asset('img/160x160/'.$ui->profile_img) }} @else {{ asset('img/160x160/img1.jpg') }} @endif" class="img-responsive img-circle img-round"/></th>
 </tr>
 
 <tr><th>First Name</th> <th>{{ $ui->first_name }}</th></tr>

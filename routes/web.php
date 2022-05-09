@@ -46,14 +46,6 @@ Route::get('logout',function(){ Auth::logout(); return redirect()->route('login'
 //Route::post('register/store',['as'=>'/signup', 'uses'=>'UserController@store']);
 Route::post('register/store','Auth\RegisterController@store')->name('register.store');
 
-//resetting the read_status of notification to true for all messages belonging to the logged in user
-Route::get('notification_mark_all_read', function(){	
-$getAllRecords = NotificationModel::where(['pub_status'=>1,'read_status'=>0,'receiver_id'=>Auth::user()->id])->get();
-foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); 
-} return redirect()->route('login')->with('message','All notifications set to read');	
-})->middleware('auth')->name('notification_mark_all_read');
-
-
 //for privacy policy
 Route::get('privacy-policy', function(){
 	return view('privacy-policy');
@@ -61,9 +53,8 @@ Route::get('privacy-policy', function(){
 
 //About us page
 Route::get('about-us', function(){
-	return view('about-us')->with('title','About PlamFlow');
+	return view('about-us')->with('title','About BalmFlow');
 })->name('about-us');
-
 
 //Terms and conditions
 Route::get('terms-and-conditions', function(){
@@ -137,24 +128,23 @@ Route::get('blog/authors', 'ArticleController@authorsPost')->name('blog.authors.
 
 /**** 
 ==============================
-route for all non-admin authenticated routes
+route for all non-admin authenticated routes accessible by super admins as well
 ================================
 */
 
-	
-//viewing a user's profile
-Route::get('dashboard/viewuser/{id}', 'ProfileController@show')->middleware(['admin','auth','verified'])->name('viewuser');
+//resetting the read_status of notification to true for all messages belonging to the logged in user
+Route::get('notification_mark_all_read', function(){
+$getAllRecords = NotificationModel::where(['pub_status'=>1,'read_status'=>0,'receiver_id'=>Auth::user()->id])->get();
+foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); 
+} return redirect()->route('login')->with('message','All notifications set to read');	
+})->middleware(['auth','verified'])->name('notification_mark_all_read');
+
 
 //add new wallet
 Route::get('dashboard/new-wallet', 'WalletController@create')->middleware(['auth','verified'])->name('admin.dashboard.new-wallet');
 
-//route to all user transactions (personal transactions ) page for a single logged in user
-Route::get('dashboard/alltransactions','TransactionController@index')->middleware(['auth','admin','verified'])->name('admin.dashboard.core-admin.alltransactions');
-
-
 //==========saving new wallet==============
 Route::post('dashboard/savewallet', 'WalletController@store')->middleware(['auth','verified'])->name('wallet_models.store');
-
 
 //===========this pulls up the confirmation modal ===========
 Route::get('dashboard/modwallet/{id}', function($id){
@@ -174,20 +164,42 @@ return redirect()->route('admin.dashboard.my_wallets')->with(['message'=>'Wallet
 Route::get('dashboard/my_wallets', 'WalletController@myWallets')->middleware(['auth','verified'])->name('admin.dashboard.my_wallets');
 
 
-/**
-**==========This routes are for other non-admin users==============
-**/
+//dashboard/user/profile
+Route::get('dashboard/user/profile', function(){
+	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
+	
+	$userProfile = Profile::where('user_id',Auth::user()->id)->get();
+	
+	$user = new User;
+	$wallet = new \App\Http\Controllers\WalletController;
+	return view('admin.dashboard.user')->with(['title'=>'My Profile','dashboardNotification'=>$dashboardNotification, 'user'=>$user, 'profile'=>$userProfile,'wallet'=>$wallet,'profile_id'=>1]);
+		
+	})->middleware(['auth','verified'])->name('admin.dashboard.user');
+	
 
+
+
+
+
+
+
+/*
+*This routes are for floor users and the super-admin
+*/
 Route::middleware(['auth','verified'])->prefix('dashboard')->group(function(){
 
 Route::get('/', function(User $user){ 
 
 $dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get(); 
-
 return view('admin.dashboard.index')->with(['title'=>'Dashboard - BalmFlow Project','dashboardNotification'=>$dashboardNotification,'user'=>$user]); 
-
 })->name('admin.dashboard.index');
 
+//this route is for viewing transaction details across the blockchain
+Route::get('view-transaction/{id}',function($id){
+	$singleTransaction = DB::table('transactions')->where(['id'=>$id])->get();
+	return view('admin.dashboard.view-transaction',['singleTransaction'=>$singleTransaction]);
+	})->name('admin.dashboard.view-transaction');
+	
 
 //for fund-wallet route
 Route::get('/fund_wallet', function(User $user){
@@ -211,19 +223,6 @@ Route::get('/my-vouchers', function(User $user){
 //for processing transactions storage
 Route::post('transactions/store', 'TransactionController@store')->name('transactions.store');
 
-//dashboard/user/profile
-Route::get('user/profile', function(){
-$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
-
-$userProfile = Profile::where('user_id',Auth::user()->id)->get();
-
-$user = new User;
-$wallet = new \App\Http\Controllers\WalletController;
-return view('admin.dashboard.user')->with(['title'=>'My Profile','dashboardNotification'=>$dashboardNotification, 'user'=>$user, 'profile'=>$userProfile,'wallet'=>$wallet,'profile_id'=>1]);
-	
-})->name('admin.dashboard.user');
-
-
 //route to notification the user dashboard
 Route::get('notifications', function(){
 	
@@ -242,7 +241,7 @@ Route::get('editwallet/{id}', 'WalletController@edit')->name('admin.dashboard.ed
 Route::put('modifywalletcreds/{id}', 'WalletController@update')->name('wallet_models.update');
 
 //this updates users' profile information
-Route::put('users/update/{id}', 'ProfileController@update')->name('users.update');
+Route::put('users/update/{id}/{user_id}', 'ProfileController@update')->name('users.update');
 
 //all stakings
 Route::get('stakings', 'StakingsController@index')->name('admin.dashboard.stakings');
@@ -290,14 +289,47 @@ return view('admin.dashboard.withdraw-rebate')->with('title','Withdraw rebates v
 
 
 });
+/****End of common routes for both super admins and floor users */
+
+
+
+
+
+
+
+
+
 /**===============================================
-All the routes below for users who has is-admin and email_verified priviledge
+All the routes below for users who has is-admin authorization and email_verified priviledge
 =============================================
 ***/
 
-//grouping all routes under the dashboard namespace
-Route::middleware(['auth','admin','verified'])->prefix('dashboard')->namespace('admin')->group(function(){
+//grouping all routes under the dashboard/admin namespace for super-admin users
+Route::middleware(['auth','admin','verified'])->prefix('dashboard/admin')->namespace('admin')->group(function(){
 
+
+//assets and investment data capture
+Route::get('assets/store','AssetManagerController@store')->name('assetmanager.store');
+
+//update route
+Route::get('assets/update/{id}','AssetManagerController@store')->name('assetmanager.update');
+
+//viewing a user's profile
+Route::get('viewuser/{id}', '\App\Http\Controllers\ProfileController@show')->middleware(['admin','auth','verified'])->name('viewuser');
+
+//settings endpoint
+Route::get('settings-and-config',function(){
+$user = new User;
+$Assets = \App\AssetManager::all();
+$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
+return view('admin.dashboard.core-admin.settings',['title'=>'Settings and Configurations','dashboardNotification'=>$dashboardNotification,'Assets'=>$Assets]);
+
+})->name('admin.dashboard.core-admin.settings');
+//route to all user transactions (personal transactions ) page for a single logged in user
+Route::get('alltransactions','\App\Http\Controllers\TransactionController@index')->name('admin.dashboard.core-admin.alltransactions');
+
+
+//this route goes to the main super-admin's dashboard
 Route::get('/', function(){
 	
 	$user = new User;
@@ -310,11 +342,16 @@ Route::get('/', function(){
 
 //route to maintenance page
 Route::get('maintenance', function(){
-	
-	return view('admin.dashboard.core-admin.maintenance')->with('title','Maintenance Mode Manager');
-	
+
+return view('admin.dashboard.core-admin.maintenance')->with('title','Maintenance Mode Manager');
+
 })->name('admin.dashboard.core-admin.maintenance');
 
+
+//this confirms if the admin  user wants to restore a user back to the fold
+Route::get('confirmrestore/{id}/{profile_id}',function($id,$profile_id){
+return view('admin.dashboard.core-admin.confirmrestore',['id'=>$id,'profile_id'=>$profile_id]);
+})->name('admin.dashboard.core-admin.confirmrestore');
 
 //route to all users page
 Route::get('users/{type}',function($type){
@@ -333,24 +370,28 @@ return view('admin.dashboard.core-admin.allusers')->with(['title'=>'Deleted User
 Route::get('create-new-user',function(){
 return view('admin.dashboard.core-admin.create-user')->with('title','New User');
 })->name('admin.dashboard.core-admin.create-user');
+
 //deleting a user
-Route::delete('/deleteuser/{id}', 'UserController@destroy')->name('admin.dashboard.core-admin.deleteuser');
+Route::delete('deleteuser/{id}', 'UserController@destroy')->name('admin.dashboard.core-admin.deleteuser');
 
 //restore a user
 Route::get('user-restore/{id}/{profile_id}', function($id,$profile_id){
-$user = User::find($id);
-$profile = Profile::find($profile_id);
-if($user->trashed()){
+$user = User::onlyTrashed()->where('id',$id);
+$profile = Profile::onlyTrashed()->where('id',$profile_id);
+
 $user->restore();
-}
 
 //do same for profile
-if($profile->trashed()){
+//if($profile->trashed()){
 $profile->restore();
-}
-
-
+//}
+//flashing the session manager
+//flash::message("User restored!");
+return redirect()->route('admin.dashboard.core-admin.allusers',['type'=>'all'])->with('message','User(s) restored successfully');
 })->name('admin.dashboard.core-admin.user-restore');
+
+//updating picture avatar
+Route::put('update_picture/{id}', 'ProfileController@update_avatar')->name('admin.dashboard.update_picture');
 
 //Route::get()->name('admin.dashboard.core-admin.deleted');
 

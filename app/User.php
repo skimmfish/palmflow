@@ -26,6 +26,18 @@ class User extends Authenticatable implements MustVerifyEmail
 		
 	}*/
 	
+    protected $table = 'users';
+    /*
+    *isAdmin returns if a user is a super admin
+    */
+    public function isAdmin(){
+        return $this->role = 'admin';
+    }
+
+    public function isUser(){
+        return $this->role ='user';
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -43,6 +55,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
 	protected $dates = ['deleted_at'];
 	
+
+
+
 public function profile(){
 	
 	//$user = User::find(1)->profile->telephone; this line retrieves the users' phone number via the profile model if the telephone number is within the Profile scope
@@ -50,6 +65,10 @@ public function profile(){
 	return $this->hasOne('Profile');
 }
 
+
+/*
+*@param $id - user_id and the name of the column to return through the return statement
+*/
 public static function get_deleted_user($id,$field_to_return){
 $body = User::withTrashed()->where('id',$id)->get();
 $res = null;
@@ -58,5 +77,23 @@ $res = $x[$field_to_return];
 }
 return $res;
 }
+
+/*
+*@param $user_id obtained through the profile's model
+@return - field_to_return
+*Only fields obtainable from the User's model can be retrieved from here
+*/
+
+public static function get_profile_data($user_id,$field_to_return){
+    $res = null;
+    $req = User::where('id',$user_id)->get();
+    //traversing through the resultset
+    foreach($req as $t){
+    $res = $t[$field_to_return];
+    }
+
+return $res;
+}
+
 
 }

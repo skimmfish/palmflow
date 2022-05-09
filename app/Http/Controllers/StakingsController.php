@@ -24,7 +24,7 @@ class StakingsController extends Controller
 //store the amount withdrawable here
 		$amountWithdrawable = 0;
 		$staked_amount=0;
-		
+		$stakingID = null;
 		$note = new NotificationModel;
 		$stakings = \App\Stakings::where('user_id',auth()->id())->paginate(10);
 		

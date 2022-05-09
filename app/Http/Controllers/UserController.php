@@ -14,10 +14,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-		return User::paginate(20);
-		
-    }
+    //
+//		return User::paginate(20);
+return $users = User::paginate(20); return $users->toJson();
+}
 
     /**
      * Show the form for creating a new resource.
@@ -37,9 +37,9 @@ class UserController extends Controller
      */
 public function store(Request $request)
 {
-//
+
 $user = new User;
-echo $user->email = $request->input(email_address);
+$user->email = $request->email;
 $user->password = bcrypt($request->input('password'));
 $user->username = $request->input('username');
 $user->active = 0;
@@ -49,14 +49,9 @@ $user->handle_google = $request->input('handle_google');
 $user->phone_number = $request->input('phone_number');
 $user->api_token = $request->input('api_token');
 
-//$filledIn = $request->input();echo toString($filledIn);
-
 $user->save();
-
 return response()->json(['message'=>"User's profile saved successfully"],200);
-
-
-    }
+}
 
     /**
      * Display the specified resource.
@@ -97,19 +92,51 @@ return response()->json(['message'=>"User's profile saved successfully"],200);
 		return redirect()->route('admin.dashboard.user')->with('message','User profile updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
+/**
+     * Remove the specified resource from being active by setting the deleted_at column to the current datetime.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-  //      $user = User::find($id);
-	//	$user->delete();
-		
-		DB::table('users')->where('id',$id)->delete();
-		
-		return redirect()->route('dashboard/allusers');
+{
+DB::table('users')->where('id',$id)->update(["deleted_at"=>NULL]);
+return redirect()->route('admin.dashboard.core-admin.allusers',['type'=>'all']);
+}
+
+
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+public function forcedelete($id){
+
+$user = User::onlyTrashed()->where('id',$id)->forceDelete();
+$msg = "User profile completely deleted successfully";
+
+//flashing session storage
+flash($msg)->success($msg);
+
+return redirect()->route('admin.dashboard.core-admin.allusers',['type'=>'all'])->with('message',$msg);
+}
+
+
+/*logout() function for the /api/auth/logout endpoing
+*@param Request object
+*@return Response
+*/
+public function logout(Request $request)
+{
+    $user = Auth::guard('api')->user();
+
+    if ($user) {
+        $user->api_token = null;
+        $user->save();
     }
+
+    return response()->json(['data' => 'User logged out.'], 200);
+}
+
 }

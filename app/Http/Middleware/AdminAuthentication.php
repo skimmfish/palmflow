@@ -19,12 +19,14 @@ class AdminAuthentication
 		
 		if ($request->user())
  {
- if ($request->user()->is_admin == true){
+ if ($request->user()->is_admin == true && $request->user()->active==1){
         return $next($request);
-		}
+		}else{
+
+      return redirect()->route('home')->with('title','You are not permitted to view this page!');
+
+    }
 	}
-//return new RedirectResponse(url('/login'));
-return redirect()->route('login')->with('message','You are not authorized to view that page');
 
 	}
 

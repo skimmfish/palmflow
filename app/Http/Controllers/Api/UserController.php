@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 
-class \UserController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,7 @@ class \UserController extends Controller
      */
     public function index()
     {
-        //
-		$user = new User;
-		return $user->all();
+//      return $users = User::paginate(20); return $users->toJson();
     }
 
     /**

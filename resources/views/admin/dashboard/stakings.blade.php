@@ -21,7 +21,7 @@
 				  </div>
 				  
 				  <br/><Br/>
-				
+@if(count($stakings)>0)
 		 <div class="col-12">
               <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-12">
@@ -81,8 +81,11 @@
               </div>
             </div>
             </div>
-		
-			 <!-- view staking modal -->
+			@else
+			<div><hr/><p class="alert alert-info">Oops! You don't have any stakings registered yet, kindly <a href="{{route('admin.dashboard.fund_wallet')}}"><u>fund your wallet here</u></a></p></div>
+				@endif
+
+				<!-- view staking modal -->
     <div class="modal fade" id="walletModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">

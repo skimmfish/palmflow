@@ -4,7 +4,7 @@
 */
 
 .table_rws th, .table_rws td{
-	font-size:10px;font-weight:600;font-family:'Spartan','Work Sans','Brandon Grotesque';
+	font-size:9px;font-weight:600;font-family:'Spartan','Work Sans','Brandon Grotesque';
 }
 .table_rws{
 	overflow-x:auto;
@@ -35,8 +35,9 @@ color:#0099cc;
 .round_ball a{font-size:13px;font-family:'Spartan','Brandon Grotesque';}
 .r small{font-size:9px;}
 .withdraw_btn:hover{text-decoration:none;}
-.withdraw_btn{}
-
+.alert-info, .alert-success, .alert-warning{
+font-family: 'Spartan','Brandon Grotesque','Work Sans';font-size:14px;
+}
 @media(max-width:425px){
 
 

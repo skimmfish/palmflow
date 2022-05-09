@@ -11,7 +11,8 @@
 <!--showing last 6 transactions-->
 
                   <h5 style="margin:20px 0 20px 0">Transaction History</h5><br/><Br/>
-				
+
+ @if(count($Transactions)>0)
 		 <div class="col-12">
               <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-12">
@@ -66,6 +67,9 @@
               </div>
             </div>
             </div>
-		
+		@else
+		<div><hr/><p class="alert alert-info">Oops! You don't have any transactions recorded yet</p></div>
+				@endif
+
 
 @endsection

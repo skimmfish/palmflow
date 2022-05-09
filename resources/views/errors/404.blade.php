@@ -14,7 +14,7 @@
         <p class="fs-4">If you think this is a problem with us, please <a class="link" href="{{ route('contact-us') }}">Reach out to us</a>.</p>
       </div>
 
-      <a class="btn btn-primary" href="{{ route('index') }}" style="background-color:#0d2345;border-radius:50px;border:0;height:auto;padding:20px 35px 20px 35px"> <i class="bi-chevron-left small ms-1"></i> Go back home</a>
+      <a class="btn btn-primary" href="{{ route('login') }}" style="background-color:#0d2345;border-radius:50px;border:0;height:auto;padding:20px 35px 20px 35px"> <i class="bi-chevron-left small ms-1"></i> Go back home</a>
     </div>
     <!-- End Content -->
   </main>

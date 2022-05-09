@@ -16,17 +16,16 @@ class EmailVerify
     public function handle($request, Closure $next)
     {
         //return $next($request);
-    
-	
+        
 			if ($request->user())
  {
  if ($request->user()->email_verified_at != NULL){
         return $next($request);
 		}
-	}
+	}else{
 //return new RedirectResponse(url('/login'));
 return redirect()->route('login')->with('message','You are not authorized to view this page!');
-
+    }
 	
 	
 	}

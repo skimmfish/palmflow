@@ -48,7 +48,13 @@
 				  <td><span class="text-info">{{ $trx->transaction_type }}</span></td>
 				  <td><span class="text-info">{{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</span></td>
 				  
-				  <td> <?php if(($trx->trxn_complete_status)==1){echo ' <u class="text-success">Completed</u>'; }else{ echo '<i class="text-danger">Incomplete</i><Br/><a href="#" data-href="" id="query_txn" class="text-warning"><u>Query Txn?</u></a>'; } ?>	  </td>
+				  <td> @if($trx->trxn_complete_status) 
+					   <span class="text-success"><u>Completed</u></span> 
+				  @else 
+					' <i class="text-danger">Incomplete</i><Br/>
+					  <a href="#" data-attr="{{ route('admin.dashboard.view-transaction',['id'=>$trx->id]) }}" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>
+					 @endif
+					</td>
 				  @endforeach
 				  </tr>
 				  </tbody>
@@ -69,6 +75,26 @@
 				
               </div>
             </div>
+		
+			
+		 <!-- view user modal -->
+		 <div class="modal fade" id="transactionmodal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 		
 
 @endsection
