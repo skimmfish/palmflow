@@ -22,8 +22,20 @@
   <link rel="stylesheet" href="{{ asset('css/theme.minc619.css?v=1.0') }}">
   
   <style>
+
+<style>
+    @font-face {font-family: "GD Sherpa Regular";
+  src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot') }}"); /* IE9*/
+  src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot?#iefix') }}") format("embedded-opentype"), /* IE6-IE8 */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.woff2') }}") format("woff2"), /* chrome、firefox */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.woff') }}") format("woff"), /* chrome、firefox */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.ttf') }}") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.svg#GD Sherpa Regular') }}") format("svg"); /* iOS 4.1- */
+}
+
+
 body{
-font-family:'Spartan','Brandon Grotesque' !important;	color:#000;
+font-family:'GD Sherpa Regular','Spartan','Brandon Grotesque' !important;	color:#000;font-weight:400;
 }
 
 .shrink_form_control{

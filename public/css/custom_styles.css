@@ -4,7 +4,7 @@
 */
 
 .table_rws th, .table_rws td{
-	font-size:9px;font-weight:600;font-family:'Spartan','Work Sans','Brandon Grotesque';
+	font-size:10px;font-weight:600;font-family:'GD Sherpa Regular','Spartan','Brandon Grotesque';
 }
 .table_rws{
 	overflow-x:auto;
@@ -15,7 +15,7 @@
 .nav-link::active{
 color:#0099cc;	
 }
-.btn-round{border-radius:40px;height:auto;border:0;width:auto;padding:12px 30px 27px 30px;margin-top:5px;}
+.btn-round{border-radius:40px;height:auto;border:0;width:auto;padding:8px 30px 24px 30px;margin-top:5px;}
 .btn-orderless{border:0;background:#fff;}
 .img-round{width:40px;height:40px;border-radius:50%;}
 .bump-20{
@@ -24,7 +24,7 @@ color:#0099cc;
 .work-sans{font-family:Work Sans;}
 .brandon{font-family:Brandon Grotesque;}
 .text-underline{text-decoration:underline;}
-.alert-note-style{font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:11px;}
+.alert-note-style{font-family:'Spartan','GD Sherpa Regular','Brandon Grotesque';font-size:11px;}
 .btn-circle{border-radius:50%;font-size:10px;width:50px;height:50px;line-height:40px;text-align:center;position:relative;font-size:8px;}
 .form-control{
 	height:37px !important;font-size:12px;
@@ -32,11 +32,11 @@ color:#0099cc;
 .btn{height:37px !important;}
 .round_ball{
 	width:auto;padding-left:30px;padding-right:30px;padding-top:2px;height:50px;border-radius:60px;border:0;background:#0d2453;color:#fff;text-align:center;font-size:17px;line-height:45px;font-weight:400;font-family:Work Sans;}
-.round_ball a{font-size:13px;font-family:'Spartan','Brandon Grotesque';}
+.round_ball a{font-size:13px;font-family:'GD Sherpa Regular','Spartan','Brandon Grotesque';}
 .r small{font-size:9px;}
 .withdraw_btn:hover{text-decoration:none;}
 .alert-info, .alert-success, .alert-warning{
-font-family: 'Spartan','Brandon Grotesque','Work Sans';font-size:14px;
+font-family:'GD Sherpa Regular', 'Spartan','Brandon Grotesque','Work Sans';font-size:14px;
 }
 @media(max-width:425px){
 

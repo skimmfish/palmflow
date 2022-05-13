@@ -20,6 +20,8 @@
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
 
+  <link href="//db.onlinewebfonts.com/c/0aee6008b82cde991ec28387169bb13e?family=GD+Sherpa" rel="stylesheet" type="text/css"/>
+
   <!-- CSS Implementing Plugins -->
 
   <!-- CSS Implementing Plugins -->
@@ -35,9 +37,19 @@
 	
 	
 <style>
-body{
-font-family:'Spartan','Brandon Grotesque' !important;font-size:14px;COLOR:#000;	
+@font-face {font-family: "GD Sherpa Regular";
+  src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot') }}"); /* IE9*/
+  src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot?#iefix') }}") format("embedded-opentype"), /* IE6-IE8 */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.woff2') }}") format("woff2"), /* chrome、firefox */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.woff') }}") format("woff"), /* chrome、firefox */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.ttf') }}") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.svg#GD Sherpa Regular') }}") format("svg"); /* iOS 4.1- */
 }
+
+body{
+font-family:'Spartan','GD Sherpa Regular','Work Sans','Brandon Grotesque' !important;font-size:14px;COLOR:#000;	
+}
+
 p{font-size:15px;line-height:34px;font-weight:600;}
 ul>li{line-height:35px;}
 .img_circle{
@@ -187,9 +199,9 @@ ul>li{line-height:35px;}
 				
 				@if(Auth::check())
 						@if(Auth::user()->is_admin==true)
-					<a href="{{ route('admin.dashboard.core-admin.index') }}"><img src="{{asset('img/'.App\Profile::find(1)->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
+					<a href="{{ route('admin.dashboard.core-admin.index') }}"><img src="@if(App\Profile::get_profile_data(auth()->id(),'profile_img')) {{asset('img/160x160/'.App\Profile::get_profile_data(auth()->id(),'profile_img')) }} @else {{ asset('img/160x160/img1.jpg') }} @endif" alt="{{Auth::user()->username}}" class="img_circle"/></a>
 				@else
-					<a href="{{ route('admin.dashboard.index') }}"><img src="{{asset('img/'.App\Profile::find(1)->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
+					<a href="{{ route('admin.dashboard.index') }}"><img src="@if(App\Profile::get_profile_data(auth()->id(),'profile_img')) {{asset('img/160x160/'.App\Profile::get_profile_data(auth()->id(),'profile_img')) }} @else {{ asset('img/160x160/img1.jpg') }} @endif" alt="{{Auth::user()->username}}" class="img_circle"/></a>
 								@endif
 								@else
 					<a class="btn btn-light btn-transition" href="{{route('login') }}" style="border-radius:7px;font-weight:700;">Get Started <i class="bi-chevron-right small ms-1" style="color:#000000;"></i></a>

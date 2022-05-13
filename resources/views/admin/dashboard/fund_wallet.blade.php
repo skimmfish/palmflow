@@ -17,18 +17,21 @@
 			  
                 <div class="card-header position-relative min-vh-25 mb-8">
                   <h6>Funding Your Wallet</h6>
-				<p><ul>
-				<li><small style="font-size:10px">To stake more of your coins, kindly send your tokens to the wallet ID below.</small></li>
+				
+				  <p><ul>
+				  <li><small class="text text-danger" style="font-size:11px;font-family:'GD Sherpa Regular';">Ensure that you send only BTC into the wallet below, anything different than this would result in losses!</small></li>
+				  <li><small style="font-size:10px">To stake more of your coins, kindly send your tokens to the wallet ID below.</small></li>
 				<li><small style="font-size:10px">It could take between one minute  to 24hrs before your payment reflects on our portal, kindly be patient.</small></li>
 				<li><small style="font-size:10px">Your rebates for new stakings would be effected at exactly 24hrs + 22:00 UTC+1 after your payment reflects on our end. </small></li>
 				<li><small style="font-size:10px;color:#ff0000;"><b>Be assured of the fact that you are helping humanity through this contributions and in we aren't taking your generousity for granted. Thank you. </b></small></li>
 				</ul>
 				
 				<!--3d bar code for the crypto payment-->
-				<div><span><small style="font-size:10px">Use the 2D bar code below to complete your transaction or use the wallet ID string below</small></span></div>
-				<img src="{{asset('img/J6tFc.png')}}" alt="3d-bar code for our wallet" class="img-responsive"/>
-				<div><b style="font-size:10px">Wallet ID: <u class="text-info">{{ App\CryptoAPIManager::find(1)->huobi_usdt_wallet_id }}</u></b></div>
-				</p>
+				<div><span><small style="font-size:10px">Use the 2D bar code below to complete your transaction or use the wallet ID string below, and afterwards fill the form below to notify us of your payment.</small></span></div>
+				<img src="{{ $instantWallet['data']['qr_code'] }}" alt="3d-bar code for our wallet" class="img-responsive" lazyload loading="lazy"/>
+				<div><b style="font-size:10px">Wallet ID: <u class="text-primary">{{ $instantWallet['data']['address'] }}</u></b></div><Br/>
+				<div class="row text text-danger"><small>Kindly fill the form below soon as your transaction goes through. Thank you.</small></div>
+			</p>
 					
 					{!! Form::open(['route' => 'transactions.store', 'method'=>'POST'], ['class' => 'form']) !!}
 					@csrf
@@ -45,6 +48,17 @@
 					@if ($errors->has('originating_wallet_id'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('originating_wallet_id') }}</strong>
+                                    </span>
+                                @endif
+					
+
+								{!! Form::label('destination_wallet_id', 'Destination Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+
+					<input type="text" name="destination_wallet_id" class="form-control @error('destination_wallet_id') is-invalid @enderror" Placeholder="Destination Wallet ID you sent funds to" value="{{ $instantWallet['data']['address'] }}" style="font-size:10px" required />
+					
+					@if ($errors->has('destination_wallet_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('destination_wallet_id') }}</strong>
                                     </span>
                                 @endif
 					
@@ -84,7 +98,7 @@
 				<td>{{ $id++ }}</td>
 				  <td>{{ $trx->trx_amount }}</td>
 				  
-				  <td><span class="text-info">{{ Illuminate\Support\Str::limit($trx->transaction_hash,25) }}</span> <br/><br/> {{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</td>
+				  <td><span class="text-info"><a href="{{ $trx->explorer_url }}"><u>{{ Illuminate\Support\Str::limit($trx->transaction_hash,25) }}</u></a></span> <br/><br/> {{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</td>
 				  
 				  <td> <?php if(($trx->trxn_complete_status)==1){echo ' <u class="text-success">Completed</u>'; }else{ echo '<u class="text-danger">Incomplete</u>'; } ?>	  </td>
 				  @endforeach

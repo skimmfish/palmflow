@@ -21,8 +21,10 @@
 
     <meta name="msapplication-TileImage" content="">
     <meta name="theme-color" content="#ffffff">
+    <link href="//db.onlinewebfonts.com/c/0aee6008b82cde991ec28387169bb13e?family=GD+Sherpa" rel="stylesheet" type="text/css"/>
     <script src="{{ asset('css/admin/js/config.js') }}"></script>
     <script src="{{ asset('css/admin/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
+
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
@@ -149,14 +151,24 @@
 	
 	
 	<style>
+    @font-face {font-family: "GD Sherpa Regular";
+  src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot') }}"); /* IE9*/
+  src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot?#iefix') }}") format("embedded-opentype"), /* IE6-IE8 */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.woff2') }}") format("woff2"), /* chrome、firefox */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.woff') }}") format("woff"), /* chrome、firefox */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.ttf') }}") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.svg#GD Sherpa Regular') }}") format("svg"); /* iOS 4.1- */
+}
+
+
 	body{
-		font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:16px;color:#000;font-weight:500;color:#000;line-height:38px;
+		font-family:'GD Sherpa Regular','Work Sans','Brandon Grotesque';font-size:16px;color:#000;font-weight:500;color:#000;line-height:auto;
 	}
-	h1,h2,h3,h4,h5,h6{font-family:'Spartan','Work Sans','Brandon Grotesque';
+	h1,h2,h3,h4,h5,h6{font-family:'GD Sherpa','Work Sans','Brandon Grotesque';
 	font-weight:700;line-height:36px !important;
 	}
 	
-	.nav-link, .nav-link-text, .dropdown-item, .mb-1,.mb-0, .form-control, label, .btn{font-family:'Spartan','Work Sans','Brandon Grotesque';font-size:12px !important;
+	.nav-link, .nav-link-text, .dropdown-item, .mb-1,.mb-0, .form-control, label, .btn{font-family:'GD Sherpa','Work Sans','Brandon Grotesque';font-size:12px !important;
 	}
 	.mb-1, .cust-link{font-weight:400;font-size:12px;}
 	.form-control{
@@ -219,10 +231,14 @@
                       </a><!-- more inner pages-->
                     </li>
                     <li class="nav-item"><a href="{{ route('admin.dashboard.stakings') }}" class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-credit-card"></span></span><span class="nav-link-text ps-1">Stakings & Withdrawals</span></div>
+                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-credit-card"></span></span><span class="nav-link-text ps-1">Stakes</span></div>
                       </a><!-- more inner pages-->
                     </li>
 					
+                    <li class="nav-item"><a href="{{ route('admin.dashboard.withdrawals') }}" class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-wallet"></span></span><span class="nav-link-text ps-1">Withdrawals</span></div>
+                      </a><!-- more inner pages-->
+                    </li>
 					
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.fund_wallet') }}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-left">
@@ -254,7 +270,7 @@
 					<!--the navigation links here are for managing trades by the admin and authorized personnel-->
 					
                   <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
-                    <div class="col-auto navbar-vertical-label cust-link" style="font-family:'Spartan','Brandon Grotesque';font-weight:600;font-size:14px;color:#000;">Admin & Diagnostics</div>
+                    <div class="col-auto navbar-vertical-label cust-link" style="font-family:'GD Sherpa Regular','Brandon Grotesque';font-weight:600;font-size:14px;color:#000;">Admin & Diagnostics</div>
                     <div class="col ps-0">
                       <hr class="mb-0 navbar-vertical-divider" />
                     </div>

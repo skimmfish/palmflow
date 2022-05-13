@@ -37,9 +37,5 @@ Route::apiResource('my-users','UserController');
 //for creating new user
 Route::post('new-user', 'UserController@store');
 
-//return User::create($request->all());
-//{"email":"shola.fosud@gmail.com","username":"igwe.king","active":"0","is_admin":"1","updated_at":"2022-05-08T18:04:57.000000Z","created_at":"2022-05-08T18:04:57.000000Z","id":29}
-
-
 //for login out the user
 Route::get('logout','UserController@logout');

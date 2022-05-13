@@ -17,7 +17,7 @@ class Transactions extends Model
 
 public function Users(){
 	
-	return $this->hasMany('App\Users');
+	return $this->hasOne('App\Users');
 	
 }
 

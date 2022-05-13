@@ -27,7 +27,7 @@ Route::get('/', function () {    return view('index'); })->name('index');
 Route::get('blog','ArticleController@index')->name('blog.index');
 
 Route::get('blog/categories/{cat}',function($cat){
-	
+
 	return DB::table('articles')->where(['pub_status'=>1,'category'=>$cat])->get(); 
 	
 })->name('blog.cat');
@@ -196,18 +196,24 @@ return view('admin.dashboard.index')->with(['title'=>'Dashboard - BalmFlow Proje
 
 //this route is for viewing transaction details across the blockchain
 Route::get('view-transaction/{id}',function($id){
+
+	$coinremitterTransactionLog = null;
 	$singleTransaction = DB::table('transactions')->where(['id'=>$id])->get();
-	return view('admin.dashboard.view-transaction',['singleTransaction'=>$singleTransaction]);
+	//$coinremitterTransactionLog = \App\Http\Controllers\TransactionController::get_transaction($id);
+
+	//this adds the coinremitter transaction log to the array of variables to be transferred to the frontend
+	return view('admin.dashboard.view-transaction',['singleTransaction'=>$singleTransaction,'coinremitterModel'=>$coinremitterTransactionLog]);
 	})->name('admin.dashboard.view-transaction');
 	
 
 //for fund-wallet route
 Route::get('/fund_wallet', function(User $user){
+$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
 
-	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
-		
-	return view('admin.dashboard.fund_wallet')->with(['dashboardNotification'=>$dashboardNotification,'title'=>'Fund My Wallet - PalmFlow Project']);
-	
+//calling the coinremitter API to get the wallet to pay into
+$instantWalletHandler = \App\Http\Controllers\TransactionController::getNewWallet();
+return view('admin.dashboard.fund_wallet')->with(['dashboardNotification'=>$dashboardNotification,'title'=>'Fund My Wallet - BalmFlow Project','instantWallet'=>$instantWalletHandler]);
+
 })->name('admin.dashboard.fund_wallet');
 
 //for fund-wallet route
@@ -245,6 +251,9 @@ Route::put('users/update/{id}/{user_id}', 'ProfileController@update')->name('use
 
 //all stakings
 Route::get('stakings', 'StakingsController@index')->name('admin.dashboard.stakings');
+
+//all withdrawals
+Route::get('withdrawals', 'StakingsController@withdrawals')->name('admin.dashboard.withdrawals');
 
 //this is for staking_snapshot
 Route::get('stakings_snapshot/{id}','StakingsController@show')->name('admin.dashboard.staking_snapshot');
@@ -409,7 +418,30 @@ Route::get('arb',function(){
 
 $jsonResponse = \App\Http\Controllers\StakingsController::getArbitrage();
 print_r($jsonResponse);
-return view('arbitragetester')->with(['title'=>'Arbitrage Tester']);
+//return view('arbitragetester')->with(['title'=>'Arbitrage Tester']);
 })->name('arbitragetester');
 
+	//getwallet test
+	Route::get('getwallet',function(){
+		$response = \App\Http\Controllers\TransactionController::getNewWallet();
+	
+	$res = json_encode($response);
+	
+	echo $response['data']['qr_code'];
+	echo $response['data']['address'];
+	
+	})->name('getwallet');
+	
+	Route::get('getparam',function(){
+		echo $param = \App\CryptoAPIManager::get_value('coinremitter_api_key');
+		
+	})->name('getparam');
+
+	//this route is for validating a wallet
+	Route::get('validatewallet/{wallet}',function($wallet){
+		$tx = new \App\Http\Controllers\TransactionController;
+		$msg = $tx->validateWallet($wallet);
+		//print_r($msg);
+		echo $msg;
+	})->name('validatewallet');
 /* End of routes definition*/

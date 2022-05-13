@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'PalmFlow'),
+    'name' => env('APP_NAME', 'BalmFlow'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'development'),
 
     /*
     |--------------------------------------------------------------------------
@@ -166,8 +166,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 		Laracasts\Flash\FlashServiceProvider::class,
-		
-
+		Coinremitter\CoinremiterServiceProvider::class,
+         
 
         /*
          * Package Service Providers...

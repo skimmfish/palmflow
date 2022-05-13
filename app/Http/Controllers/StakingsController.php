@@ -18,14 +18,19 @@ class StakingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	 
+
+public $note;
+
+public function __construction(){
+$this->note = new NotificationModel;
+}
+
     public function index(){
 
 //store the amount withdrawable here
 		$amountWithdrawable = 0;
 		$staked_amount=0;
 		$stakingID = null;
-		$note = new NotificationModel;
 		$stakings = \App\Stakings::where('user_id',auth()->id())->paginate(10);
 		
 		//calculating total withdrawable earnings in a seperate instance
@@ -36,11 +41,25 @@ class StakingsController extends Controller
 		}
 		
 		
-		return view('admin.dashboard.stakings')->with(['title'=>'User Stakings','id'=>1,'stakings'=>$stakings,'dashboardNotification'=>$note->getNotifications(),
+		return view('admin.dashboard.stakings')->with(['title'=>'User Stakings','id'=>1,'stakings'=>$stakings,'dashboardNotification'=>$this->note->getNotifications(),
 		'amtWithdrawable'=>$amountWithdrawable,'stakedTotal'=>$staked_amount,'stakeIDs'=>$stakingID,'minimumWithdrawal'=>6]);
 		
 	}
 	
+
+	/*
+	*withdrawals function for displaying withdrawal history of all stakers and stake-holders
+	*
+	*
+	*/
+public function withdrawals(){
+$withdrawals = \App\Withdrawals::paginate(30);
+$note = new NotificationModel;
+
+return view('admin.dashboard.withdrawals')->with(['title'=>'User Withdrawals','id'=>1,'withdrawals'=>$withdrawals,'dashboardNotification'=>$note->getNotifications()]);
+}
+
+
 	  /**
      * Display the specified resource.
      *@param  int  $id
@@ -114,10 +133,18 @@ return $resv;
 
 /*
 *@param - user_id, and $amount
+*@return Wallet object 
 */
+
 public function withdrawToWallet($uid,$amount){
 //fetch the user's wallet first before continuining
-
+$walletToUse = null;
+$wallet = \App\WalletModel::where(['user_id'=>$uid, 'use_for_withdrawal'=>1])->get();
+foreach($wallet as $r){
+$walletToUse = $r['wallet_id'];
+}
+//returning the wallet to use
+return $walletToUse;
 }
 
 public static function getArbitrage(){
@@ -125,7 +152,7 @@ public static function getArbitrage(){
 
 $curl = curl_init();
 curl_setopt_array($curl, [
-	CURLOPT_URL => "https://crypto-arbitrage.p.rapidapi.com/crypto-arb?pair=XRP%2FUSD&consider_fees=True&selected_exchanges=exmo%20cex%20bitstamp%20hitbtc",
+	CURLOPT_URL => "https://crypto-arbitrage.p.rapidapi.com/crypto-arb?pair=BTC%2FUSD&consider_fees=True&selected_exchanges=exmo%20cex%20bitstamp%20hitbtc",
 	CURLOPT_RETURNTRANSFER => true,
 	CURLOPT_FOLLOWLOCATION => true,
 	CURLOPT_ENCODING => "",
@@ -149,33 +176,6 @@ if ($err) {
 } else {
 return $response;
 }
-
-
-/*
-$request = new Request;
-$request->setUrl('https://crypto-arbitrage.p.rapidapi.com/crypto-arb');
-$request->setMethod(HTTP_METH_GET);
-
-$request->setQueryData([
-	'pair' => 'BTC/USD',
-	'consider_fees' => 'False',
-	'selected_exchanges' => 'exmo cex bitstamp hitbtc'
-]);
-
-$request->setHeaders([
-	'X-RapidAPI-Host' => 'crypto-arbitrage.p.rapidapi.com',
-	'X-RapidAPI-Key' => 'd9ddb80eddmshbf40b6f49014c0cp118c49jsne8852cfc7825'
-]);
-
-try {
-	$response = $request->send();
-
-	echo $response->getBody();
-} catch (HttpException $ex) {
-	echo $ex;
-}*/
-
-
 }
 
 }

@@ -7,12 +7,34 @@ use App\Transactions;
 use App\NotificationModel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use App\AssetManager;
+use App\CryptoAPIManager;
+use Coinremitter\Coinremitter;
+
 
 //use Illuminate\Contracts\Validation\Validator;
 
 
 class TransactionController extends Controller
 {
+
+    //initializing key variables
+    private $apiKey;
+    private $apiPassword;
+    private $withdrawalWallet;
+    private $balmflowUsdterc20ReceivingWallet;
+    private $balmflowBtcReceivingWallet;
+    private $balmflowBnbReceivingWallet;
+    private $curl;
+    private $params;
+    public $btc_wallet;
+
+	 public function __construction(){
+ //default funding currency
+ $walletCurrency = CryptoAPIManager::get_value('funding_currency');
+ $this->btc_wallet = new Coinremitter($walletCurrency);    
+
+     }
     /**
      * Display a listing of the resource.
      *
@@ -173,4 +195,112 @@ class TransactionController extends Controller
     {
         //
     }
+
+    /*
+    *Extra function needed to conduct wallet-to-wallet transactions via the coinremitter API
+    */
+    public function fundWallet(){
+
+    }
+    
+
+/*This function creates a new wallet for customers to fund their wallet
+*@param none
+*@return String $WalletID
+*/
+    public static function getNewWallet(){
+        //walletCurrency
+
+        $newWallet = null;
+
+try{        //default funding currency
+        $walletCurrency = CryptoAPIManager::get_value('funding_currency');
+        $btc_wallet = new Coinremitter($walletCurrency);
+        $userid = auth()->id();
+        
+        //fetch the new address
+        $newWallet = $btc_wallet->get_new_address();
+        
+}catch(Exception $e){
+//printing error message
+    echo $e->getMessage();
+return;
+}
+
+return $newWallet;
+}
+
+
+    /*get_transaction() fetches the transaction details from coinremitter
+    *@param int $id - transaction id
+    *@return Array transaction-details
+    */
+    public function get_transaction($id){
+        
+        $param = ['id'=>$id];
+        return $transaction = $this->btc_wallet->get_transaction($param);
+    }
+
+    /*
+*ValidateWallet function
+*@param String $walletID
+@return Json response
+*/
+    public function validateWallet($walletID){
+        $walletCurrency = CryptoAPIManager::get_value('funding_currency');
+        $btc_wallet = new Coinremitter($walletCurrency);
+
+        $param = [
+            'address'=>$walletID
+        ];
+        
+      return $validate = $btc_wallet->validate_address($param)['data']['valid'];
+    }
+    
+    /*Withdrawing to wallet based on the funding currency
+    *withdraw to wallet
+    *@param string wallet_id
+    *@param string withdrawal currency
+    *param Request
+    */
+    public function withdrawToWallet($walletID, $witdrawalCurrency,$amount){
+       //validating the wallet 
+       $walletState = $this->validateWallet($walletID);
+        $withdrawResponse = null;
+       if($walletState){
+        $param = [
+            'to_address'=>$walletID,
+            'amount'=>$amount
+        ];
+
+        $withdrawResponse = $btc_wallet->withdraw($param);
+
+        //we log the transaction information in the transactions table for more preview
+if($withdrawResponse['flag']){
+		$faker = \Faker\Factory::create();		
+        $transaction = new Transaction;
+
+		//auto-generate transaction id for this request
+		$transaction->transaction_id = $faker->numerify("####-##-####");
+		$transaction->transaction_hash = $withdrawResponse['data']['txid'];
+		$transaction->trx_amount = $amount;
+		$transaction->originating_wallet_id = null;
+		$transaction->transaction_type='outflow';
+		$transaction->destination_wallet_id = $walletID;
+		$transaction->user_id = auth()->id();
+		$transaction->block_no_of_confirmations = 3;
+        $transaction->explorer_url = $withdrawResponse['data']['explorer_url'];
+		$transaction->save();
+		$message = 'Transaction was successfully, kindly wait for confirmation!';
+		//flashing the succes info
+		flash($message)->success();
+    }
+		return redirect()->route('admin.dashboard.fund_wallet')->with('message',$message);
+    }else{
+        return 'Your wallet is invalid, or amount below withdrawable value';
+    }
+return $withdrawResponse;
+}
+
+    
 }

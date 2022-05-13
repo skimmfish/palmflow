@@ -23,8 +23,8 @@
 				  <tr><th>S/n</th>
 				  <th>Transaction ID</th>
 				  <th>Amount (USDT)</th>
-				  <th>Txn Hash</th>
-				  <th>Originating <br/> Wallet</th>
+				  <th>Check Transaction</th>
+				  <th>Origin/Receiving Wallet</th>
 				  <th>Transaction <br/> Type</th>
 				  <th>Date</th>
 				  <th>Txn Status</th>
@@ -40,7 +40,7 @@
 				  <td>{{ $trx->transaction_id }}</td>
 				  <td>{{ $trx->trx_amount }}</td>
 				  
-				  <td><span class="text-black">{{ Illuminate\Support\Str::limit($trx->transaction_hash,20) }}</span></td>
+				  <td><span class="text-black"><a href="{{ $trx->explorer_url) }}">Check Transaction</a></span></td>
 				  <td><span class="text-warning">{{ Illuminate\Support\Str::limit($trx->originating_wallet_id,15) }}</span></td>
 				  <td><span class="text-info">{{ $trx->transaction_type }}</span></td>
 				  <td><span class="text-info">{{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</span></td>
@@ -55,7 +55,7 @@
 				  <th>Transaction ID</th>
 				  <th>Amount (USDT)</th>
 				  <th>Txn Hash</th>
-				  <th>Originating <br/> Wallet</th>
+				  <th>Origin/Receiving Wallet</th>
 				  <th>Transaction Type</th>
 				  <th>Date</th>
 				 <th>Txn Status</th>

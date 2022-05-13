@@ -50,7 +50,37 @@
 					
 					{!! Form::hidden('update_initiator', Auth::user()->id, [ 'class' => 'form-control input-md', 'placeholder' => 'Admin updating'])  !!}
 					
-                    @if(count(\App\AssetManager::all())<=0)
+                    <hr/>
+                    <h6>Coinremitter API Settings</h6>
+                    <hr/>
+
+                    {!! Form::label('status', 'Production Status', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+          				<select name="production_status" class="form-control">
+                  <option value="sandbox">Select an option</option>
+                  <option value="sandbox">Sandbox</option>
+                    <option value="live">Production</option>
+                  </select>
+
+                  {!! Form::label('api_key', 'API Key', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+      					{!! Form::text('api_key', null, [ 'class' => 'form-control input-md', 'placeholder' => 'API Key','style'=>'font-size:10px;' ])  !!}
+
+                {!! Form::label('api_password', 'API Password', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+      					{!! Form::text('api_password', null, [ 'class' => 'form-control input-md', 'placeholder' => 'API Password','style'=>'font-size:10px;' ])  !!}
+
+                {!! Form::label('usdterc20_withdrawal_wallet', 'USDT ERC20 Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+      					{!! Form::text('usdterc20_withdrawal_wallet', null, [ 'class' => 'form-control input-md', 'placeholder' => 'USDT ERC20 Wallet ID','style'=>'font-size:10px;' ])  !!}
+
+                {!! Form::label('usdttrc20_withdrawal_wallet', 'USDT TRC20 Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+      					{!! Form::text('usdttrc20_withdrawal_wallet', null, [ 'class' => 'form-control input-md', 'placeholder' => 'USDT TRC20 Wallet ID','style'=>'font-size:10px;' ])  !!}
+
+                {!! Form::label('bnb_withdrawal_wallet', 'BNB Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+      					{!! Form::text('bnb_withdrawal_wallet', null, [ 'class' => 'form-control input-md', 'placeholder' => 'BNB ERC20 Wallet ID','style'=>'font-size:10px;' ])  !!}
+
+                {!! Form::label('btc_withdrawal_wallet', 'BTC Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+      					{!! Form::text('btc_withdrawal_wallet', null, [ 'class' => 'form-control input-md', 'placeholder' => 'BTC ERC20 Wallet ID','style'=>'font-size:10px;' ])  !!}
+
+
+          @if(count(\App\AssetManager::all())<=0)
 					{!! Form::hidden('assets_id', 1, [ 'class' => 'form-control input-md'])  !!}
                     {!! Form::submit('Submit (first save)', [ 'class' => 'btn btn-danger btn-lg', 'style' => 'width: 100%;margin-top:15px;']) !!}
                     @else

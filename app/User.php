@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
 
 use App\Profile;
+use App\Withdrawals;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -65,7 +66,20 @@ public function profile(){
 	return $this->hasOne('Profile');
 }
 
+/*
+@param null
+*@return Withdrawal relationship hook
+*entity relationship linkages
+*/
 
+public function withdrawals(){
+
+    //$user = User::find(1)->profile->telephone; this line retrieves the users' phone number via the profile model if the telephone number is within the Profile scope
+    
+    return $this->hasMany('\App\Withdrawals');
+    }
+
+    
 /*
 *@param $id - user_id and the name of the column to return through the return statement
 */
@@ -95,5 +109,8 @@ public static function get_profile_data($user_id,$field_to_return){
 return $res;
 }
 
+public function Transactions(){
+return $this->hasMany('\App\Transactions');
+}
 
 }
