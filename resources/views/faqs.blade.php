@@ -32,7 +32,7 @@
                 </div>
                 <div id="collapseBasicsOne" class="accordion-collapse collapse show" aria-labelledby="headingBasicsOne" data-bs-parent="#accordionFAQBasics">
                   <div class="accordion-body">
-                   You can use any of these three (3) crypto coins to create your staking - Bitcoin, USDT and Etherium, but you must also  ensure that you have an appropriate wallet on the right blockchain to avoid loss of asset during and after withdrawals.
+                   You can use any of these three (3) crypto coins to fund your trading gas fee - Bitcoin, USDT and Etherium, but you must also  ensure that you have an appropriate wallet on the right blockchain to avoid loss of asset for withdrawals as the case may be.
 				   </div>
                 </div>
               </div>
@@ -47,8 +47,7 @@
                 </div>
                 <div id="collapseBasicsTwo" class="accordion-collapse collapse" aria-labelledby="headingBasicsTwo" data-bs-parent="#accordionFAQBasics">
                   <div class="accordion-body">
-                  Our staking program doesn't include outright cancellation at anytime because we expected all our partners to understand that every time you stake you are contributing to the good of humanity while at the same time, you earn some rebates on your
-				  stakes weekly, withdrawals are only permitted on weekends of every week, and as such, we strongly believe it is for a good cause but in case you feel like withdrawing your support, you may only do so after 6 months of staking your crypto coins.
+                  Yes you may cancel your trading contract with us at any point time, however, in case there are running trades on your MT4 accounts, we advise that they be closed before you pull out.
 				  </div>
                 </div>
               </div>
@@ -63,7 +62,7 @@
                 </div>
                 <div id="collapseBasicsThree" class="accordion-collapse collapse" aria-labelledby="headingBasicsThree" data-bs-parent="#accordionFAQBasics">
                   <div class="accordion-body">
-                    For every stakings we receive, we issue a 'Thank You' invoice as well as how you can make the best use of our offering.
+                    For every transaction gas fee funding we receive, we issue a 'Thank You' invoice.
                   </div>
                 </div>
               </div>
@@ -78,8 +77,7 @@
                 </div>
                 <div id="collapseBasicsFour" class="accordion-collapse collapse" aria-labelledby="headingBasicsFour" data-bs-parent="#accordionFAQBasics">
                   <div class="accordion-body">
-                  Yes definitely you can refer others, and everytime you refer others you stand the chance of earning referral bonuses at the end of every month, however, we only have a 2-step matrix for our referrals program as we believe that this program is strictly for the 
-				  benefit of humanity and as such should be devoid of every distractions. Also, in addition, referring others is not compulsory, you may do so at your discretion if you wish.
+                  Yes definitely you can refer others, and everytime you refer others you stand the chance of earning a one-time referral bonuses, however, we only have a 1-step matrix for our referrals program. Also, in addition, referring others is not compulsory, you may do so at your discretion if you so wish.
                   </div>
                 </div>
               </div>
@@ -94,9 +92,8 @@
                 </div>
                 <div id="collapseBasicsFive" class="accordion-collapse collapse" aria-labelledby="headingBasicsFive" data-bs-parent="#accordionFAQBasics">
                   <div class="accordion-body">
-				We do not have a fixed daily returns rate reason been that, the markets we invest the staked funds in are very liquid, risk management is very paramount as well as it is the sole of 
-				every business, but we can assure you that at the end of every week you could have between 3.5-5% weekly and could be more.
-                  </div>
+                We do not go by a particular daily ROI, reason is because, we operate on a compounding basis, say for instance, if your daily starting equity is $100 for instance, we target 20 price interest profit for every equity at a fraction of standard lot size of 0.01 per every $100, so as such, we recalculate the lot size factor on a daily basis and we go with the best maximum suited for your account and properly aligns with our Risk Management model and Money Management.
+                </div>
                 </div>
               </div>
               <!-- End Accordion Item -->
@@ -105,12 +102,12 @@
               <div class="accordion-item">
                 <div class="accordion-header" id="headingBasicsSix">
                   <a class="accordion-button collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#collapseBasicsSix" aria-expanded="false" aria-controls="collapseBasicsSix">
-                    Can I compound my stakes to increase my profit potential?
+                    Can I compound my profits on wallet reserve staking?
                   </a>
                 </div>
                 <div id="collapseBasicsSix" class="accordion-collapse collapse" aria-labelledby="headingBasicsSix" data-bs-parent="#accordionFAQBasics">
                   <div class="accordion-body">
-					Yes we support compounding but you can only do so after 3 months of your last staking. We do this to discourage abuse of the system which could cause system failure in the nearest future.
+					Yes we support compounding but you can only do so after 3 months of your last alloted wallet reserve staking. We do this to discourage abuse of the system which could cause system failure in the nearest future.
 						
 				  </div>
                 </div>
@@ -121,12 +118,12 @@
               <div class="accordion-item">
                 <div class="accordion-header" id="headingBasicsSeven">
                   <a class="accordion-button collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#collapseBasicsSeven" aria-expanded="false" aria-controls="collapseBasicsSeven">
-                    What is the minimum & maximum value I can stake?
+                    What is the min. & max. value for wallet reserve staking & what is my likely daily ROI on the wallet reserve staking?
                   </a>
                 </div>
                 <div id="collapseBasicsSeven" class="accordion-collapse collapse" aria-labelledby="headingBasicsSeven" data-bs-parent="#accordionFAQBasics">
                   <div class="accordion-body">
-				  We allow a minimum of 20USDT and its BTC/ETH equivalent and a maximum of 1,000 USDT or its equivalent in BTC or ETH, this is  however subject to future reviews.
+				  We allow a minimum of 100USDT and its BTC/ETH equivalent and a maximum of 1,000 USDT or its equivalent in BTC or ETH for funding transaction gas fees, and you stand to get between 0.8-1.0% on the wallet reserve staked fund.
 				  </div>
                 </div>
               </div>
@@ -142,14 +139,32 @@
                 <div id="collapseBasicsEight" class="accordion-collapse collapse" aria-labelledby="headingBasicsEight" data-bs-parent="#accordionFAQBasics">
                   <div class="accordion-body">
 
-				You may only withdraw your earnings on a <b>weekly basis</b> to your respective wallet, however, it requires that you bind your wallet with our portal to enjoy a seamless withdrawal experience.
+				You may only withdraw your earnings on a <b>weekly basis</b> to your respective wallet, however, but in case you decide to withdraw ealier than the 6-day withdrawal window, your withdrawal shall be subjected to a 10% withdrawal charges and also it also requires that you bind the right wallet on the right blockchain with our portal to enjoy a seamless withdrawal experience.
 				
 				  </div>
                 </div>
               </div>
               <!-- End Accordion Item -->
 			  
+
+              			 <!-- Accordion Item -->
+                     <div class="accordion-item">
+                <div class="accordion-header" id="headingBasicsNine">
+                  <a class="accordion-button collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#collapseBasicsNine" aria-expanded="false" aria-controls="collapseBasicsNine">
+					What is the transaction gas fees for?
+                  </a>
+                </div>
+                <div id="collapseBasicsNine" class="accordion-collapse collapse" aria-labelledby="headingBasicsNine" data-bs-parent="#accordionFAQBasics">
+                  <div class="accordion-body">
+              For every trade we initiate on your MT4 trading account, we deduct a 20% platform cost so that you may keep all your profits generated by the system. This we do to ensure that customers and clients do not defraud the system. Charges are necessary for smooth running of the platform such as Virtual Private Servers (VPS), monthly fees on trade copiers and other subscriptions. Another issue to consider is the fact that, you may reserve a certain portion of your wallet gas fee as your staking reserve which could generate profit you by the side as well if you so wish but the minimum transaction gas fee funding is staked at 20USDT, and at everytime when it is exhausted, the system will stop trading on your account until this is settled, but if you chose to do wallet reserve staking, this may keep replenishing your transaction gas fees. 
+				  </div>
+                </div>
+              </div>
+              <!-- End Accordion Item -->
 			  
+
+
+
             </div>
             <!-- End Accordion -->
           </div>

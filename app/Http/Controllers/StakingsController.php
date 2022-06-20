@@ -20,9 +20,11 @@ class StakingsController extends Controller
      */
 
 public $note;
+private $funding_currency;
 
 public function __construction(){
 $this->note = new NotificationModel;
+
 }
 
     public function index(){
@@ -32,7 +34,7 @@ $this->note = new NotificationModel;
 		$staked_amount=0;
 		$stakingID = null;
 		$stakings = \App\Stakings::where('user_id',auth()->id())->paginate(10);
-		
+		$this->currency = \App\CryptoAPIManager::get_value('funding_currency');
 		//calculating total withdrawable earnings in a seperate instance
 		$withdrawableEarnings = \App\Stakings::select('id','staked_amount','balance_withdrawable')->where(['user_id'=>auth()->id()])->get();
 		foreach($withdrawableEarnings as $x){
@@ -40,9 +42,10 @@ $this->note = new NotificationModel;
 		$stakingID = array($x->id);
 		}
 		
-		
+		$this->note = new NotificationModel;
+
 		return view('admin.dashboard.stakings')->with(['title'=>'User Stakings','id'=>1,'stakings'=>$stakings,'dashboardNotification'=>$this->note->getNotifications(),
-		'amtWithdrawable'=>$amountWithdrawable,'stakedTotal'=>$staked_amount,'stakeIDs'=>$stakingID,'minimumWithdrawal'=>6]);
+		'amtWithdrawable'=>$amountWithdrawable,'stakedTotal'=>$staked_amount,'stakeIDs'=>$stakingID,'minimumWithdrawal'=>6,'currency'=>$this->currency]);
 		
 	}
 	
@@ -53,12 +56,24 @@ $this->note = new NotificationModel;
 	*
 	*/
 public function withdrawals(){
-$withdrawals = \App\Withdrawals::paginate(30);
+$withdrawals = \App\Withdrawals::where(['user_id'=>auth()->id()])->paginate(30);
 $note = new NotificationModel;
+//fetching the funding currency and withdrawal currency
+$this->funding_currency = \App\CryptoAPIManager::get_value('funding_currency');
 
-return view('admin.dashboard.withdrawals')->with(['title'=>'User Withdrawals','id'=>1,'withdrawals'=>$withdrawals,'dashboardNotification'=>$note->getNotifications()]);
+return view('admin.dashboard.withdrawals')->with(['title'=>'User Withdrawals','id'=>1,'withdrawals'=>$withdrawals,'currency'=>$this->funding_currency,'dashboardNotification'=>$note->getNotifications()]);
 }
 
+/*
+*@param Datetime $date
+*@param int $user_id
+*@return Response object holding withdrawals for the time selected
+*/
+public function filterbydate($date, $user_id){
+
+echo $date;
+
+}
 
 	  /**
      * Display the specified resource.

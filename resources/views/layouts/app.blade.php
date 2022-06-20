@@ -46,15 +46,18 @@
   url("{{asset('font/0aee6008b82cde991ec28387169bb13e.svg#GD Sherpa Regular') }}") format("svg"); /* iOS 4.1- */
 }
 
-body{
-font-family:'Spartan','GD Sherpa Regular','Work Sans','Brandon Grotesque' !important;font-size:14px;COLOR:#000;	
+body,*{
+font-family:'Spartan','GD Sherpa','Brandon Grotesque' !important;	
 }
 
-p{font-size:15px;line-height:34px;font-weight:600;}
+p{font-size:14px;line-height:34px;font-weight:400;font-family:'Spartan','GD Sherpa Regular'}
+.lead{font-family:'Spartan','Work Sans';}
 ul>li{line-height:35px;}
 .img_circle{
 	width:40px;height:40px;border-radius:50%;
 }
+.worksans{font-family:Work Sans;}
+.spartan{font-family:'Spartan','GD Sherpa';color:#000 !important;font-weight:500;font-size:14.5px;}
 </style>
 </head>
 <body>

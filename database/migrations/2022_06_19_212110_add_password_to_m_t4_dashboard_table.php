@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBlockNoConfirmationToTransactionsTable extends Migration
+class AddPasswordToMT4DashboardTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddBlockNoConfirmationToTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-        $table->biginteger('block_no_of_confirmations')->after('destination_wallet_id')->nullable()->index();
+        Schema::table('m_t4_dashboards', function (Blueprint $table) {
+            $table->string('_password',50)->index()->nullable()->after('account_number');
         });
     }
 
@@ -25,8 +25,8 @@ class AddBlockNoConfirmationToTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn('block_no_of_confirmations');
+        Schema::table('m_t4_dashboards', function (Blueprint $table) {
+            $table->dropColumn('_password');
         });
     }
 }

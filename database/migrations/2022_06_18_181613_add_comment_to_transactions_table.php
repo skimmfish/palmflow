@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddEmailVerifiedAtToUsersTable extends Migration
+class AddCommentToTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddEmailVerifiedAtToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-			$table->timestamp('email_verified_at')->nullable();
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->string('comments')->nullable()->after('user_id');
         });
     }
 
@@ -26,8 +25,8 @@ class AddEmailVerifiedAtToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_verified_at');
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->dropColumn('comments');
         });
     }
 }

@@ -6,7 +6,7 @@
   <!-- ========== MAIN CONTENT ========== -->
   <main id="content" role="main">
     <!-- Hero -->
-    <div class="position-relative bg-dark overflow-hidden" style="background-image: url(assets/svg/components/wave-pattern-light.svg);">
+    <div class="position-relative bg-dark overflow-hidden" style="background-image: url( {{ asset('svg/components/wave-pattern-light.svg')}});">
       <div class="container position-relative zi-2 content-space-t-3 content-space-t-lg-4 content-space-b-2 content-space-b-md-3">
         <div class="row align-items-lg-center">
           <div class="col-lg-5 mb-7 mb-lg-0">
@@ -17,7 +17,7 @@
                 <span class="text-warning">
                   <span class="js-typedjs"
                         data-hs-typed-options='{
-                          "strings": ["Staking", "Give", "Earn Cashback On"],
+                          "strings": ["Add Gas Fees", "We Trade It If You Want", "Earn Cashback On Gas Fees","Connect MT4 Accounts & Relax While We Trade For You"],
                           "typeSpeed": 60,
                           "loop": true,
                           "backSpeed": 25,
@@ -25,10 +25,10 @@
                         }'></span>
                 </span>
                 <br>
-                Your Cryptos While Helping Humanity
+    <!--            Your Trad While Helping Humanity -->
               </h1>
 
-              <p class="lead text-white-70">Building A Crypto Project to Help Humanity <br/> Nothing to Lose, So Much to Gain</p>
+              <p class="lead text-white-70" style="font-weight:300;font-size:25px">Building A Financial Intelligence Project to Help Humanity <br/> Nothing to Lose, So Much to Gain</p>
             </div>
             <!-- End Title & Description -->
 
@@ -63,7 +63,7 @@
                 <div class="card bg-warning" style="background-image: url({{ asset('svg/components/wave-pattern-light.svg') }} );">
                   <div class="card-body">
                     <h4 class="card-title">Intelligent Staking</h4>
-                    <p class="card-text text-dark"><b>PalmFlow</b> Lets you stake your cryptocoins in all transparency, to help humanity and at the same time earning a recurrent stream of income</p>
+                    <p class="card-text text-dark"><b>OliveFlowFx</b> Lets you stake your cryptocoins in all transparency, to help humanity and at the same time earning a recurrent stream of income</p>
 
                     <!-- Avatar -->
                     <div class="d-flex align-items-center">
@@ -352,9 +352,9 @@
           </div>
 
           <div class="flex-grow-1 ms-4">
-            <h4>Grow your crypto-base with PalmFlow</h4>
+            <h4>Grow your crypto-base with OliveFlowFx</h4>
             <p class="mb-0">From 20USDT and above, you can explore the joy of making weekly returns as well as contributing to alleviation of human suffering around the world,
-			explore how millions use PalmFlow to boost their crypto returns without sweat <a class="link" href="#" alt="Telegram link to telegram group">Check in to see some of our donators <i class="bi-chevron-right small"></i></a></p>
+			explore how millions use OliveFlowFx to boost their crypto returns without sweat <a class="link" href="#" alt="Telegram link to telegram group">Check in to see some of our donators <i class="bi-chevron-right small"></i></a></p>
           </div>
         </div>
       </div>
@@ -387,7 +387,7 @@
                 <!-- End Rating -->
 
                 <div class="mb-auto">
-                  <p class="card-text">With PalmFlow, you get to earn while at the same time helping humanity. It is not a fluff</p>
+                  <p class="card-text">With OliveFlowFx, you get to earn while at the same time helping humanity. It is not a fluff</p>
                 </div>
               </div>
 
@@ -436,7 +436,7 @@
                   </div>
                   <div class="flex-grow-1 ms-3">
                     <h5 class="card-title text-white mb-0">Emmanuel Olabiyi</h5>
-                    <p class="card-text small text-white-70">CEO at PalmFlow</p>
+                    <p class="card-text small text-white-70">CEO at OliveFlowFx</p>
                   </div>
                 </div>
                 <!-- End Media -->
@@ -461,7 +461,7 @@
                 <!-- End Rating -->
 
                 <div class="mb-auto">
-                  <p class="card-text">The joy to give back to my community drove me towards PalmFlow, They handle everything they stand for with utmost transparency!</p>
+                  <p class="card-text">The joy to give back to my community drove me towards OliveFlowFx, They handle everything they stand for with utmost transparency!</p>
                 </div>
               </div>
 
@@ -473,7 +473,7 @@
                   </div>
                   <div class="flex-grow-1 ms-3">
                     <h5 class="card-title mb-0">Danielle Olabs</h5>
-                    <p class="card-text small">PalmFlow Contributor</p>
+                    <p class="card-text small">OliveFlowFx Contributor</p>
                   </div>
                 </div>
                 <!-- End Media -->

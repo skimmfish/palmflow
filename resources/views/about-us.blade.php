@@ -7,7 +7,7 @@
     <div class="container content-space-t-3 content-space-t-lg-4 content-space-b-2">
       <div class="w-lg-65 mx-lg-auto">
         <div class="mb-4">
-         <!-- <h1 class="h2 center">About PalmFlow</h1>-->
+         <!-- <h1 class="h2 center">About OliveFlowFx</h1>-->
         </div>
 
         <div class="row align-items-sm-center mb-5">
@@ -15,7 +15,7 @@
             <!-- Media -->
             <div class="d-flex align-items-center">
               <div class="flex-shrink-0">
-          <h1 class="h2 center">About BalmFlow</h1>
+          <h2 class="h2 center">About OliveFlowFx</h2>
                
 			   <!--<img class="avatar avatar-circle" src="{{ asset('img/160x160/img9.jpg') }}" alt="Image Description">-->
               </div>
@@ -33,7 +33,7 @@
 
           <div class="col-sm-5">
             <div class="d-flex justify-content-sm-end align-items-center">
-              <span class="text-cap mb-0 me-2">Follow Us</span>
+              <span class="text-cap mb-0 me-2 text-xs small-xs" style="font-size:12.5px">Follow Us</></span>
 
               <div class="d-flex gap-2">
                 <a class="btn btn-soft-secondary btn-sm btn-icon rounded-circle" href="#">
@@ -55,42 +55,38 @@
         </div>
         <!-- End Row -->
 
-        <p style="line-height:40px;">At PalmFlow, our mission has always been focused on bring joy and gladness to the heart of humanity as much as God has helped us, and this we do in all openess and transparency. 
-		Our modus Operandi is such 
-		that, we make the most effective use of our contributors' funds to ensure that we keep to the task. We are on both sides of the coin that is in the business world as well as on the humanitarian front.
-		<br/>The summary of our vision is to feed at least one man per hour, people who have been subjected to hardship by reasons known and unknown; 
-		To eradicate ignorance amoung the most indigent set of individuals we can identify within our circle of influence;
-		and to give back rebates on the divested funds contributed by our partners world-wide in a most transparent manner.			
-		
-		</div>
+  <p class="olive">At OliveFlowFx, our mission has always been focused on bringing joy and gladness to the heart of humanity as much as God has helped us, and this we make our utmost priority and it is the reason why we are in business in all openess and transparency. 
+	
+	Our business model is one where, we manage our clients' currencies account through a central funds management system which incorporates some of the best price delivery algorithm in the world.
+
+  We have built sound risk management, money management and business management into our system such that on every given day, our clients would always have some results to smile about while they sleep we keep this going.
+
+</div>
 
       <div class="my-4 my-sm-8">
         <img class="img-fluid rounded-lg" src="{{ asset('img/1920x800/img5.jpg') }}" alt="Image Description">
       </div>
 
       <div class="w-lg-65 mx-lg-auto">
-        <p style="line-height:40px;">
+        <p class="olive">
 		
 				<Br/>
-		For this reason, we believe that each and everyone who give to this course are indirectly investing their hard-earned sweat and they get back rebates which accrues on a daily basis, withdrawable every weekend of every week.
-			We do not specify how much the rebate is because we diversify these funds into investment vehicles that could yield enough to keep our mission going without any setback, but we have our great assurances that each week would close out at at least 5% of the stakings
-			committed by every contributors to this humanitarian project.
+		You can always reach out to us via our contact us page, in case you have any enquiries/suggestions on how we can the best of our services we'd always be glad to respond.
 			
 			<br/>
 			
 			Our modus operandi goes in 3 ways as follow:
-			<ul style="line-height:37px;">
-			<li>Contributors stake crypto currencies from their preferred crypto wallets (USDT/BTC/ETH) </li>
-			<li>We trade the stakes using our proprietary softwares on the currencies and stocks market where we could track the micro-statistics on a daily basis</li>
-			<li>Contribute to community outreach and the "<b>Save The World</b>" project</li>
-			<li>Give back to our contributors - Every Contributors/Stakers have access to their dashboard where they can track the growth of their assets and how well they are contributing to the welfare of mankind at the same time.</li>
+			<ul class="olive">
+			<li>Clients connect their currencies account(s) hosted with any broker of their choice to our backend via their dashboard. </li>
+			<li>We trade on this accounts remotely and charge only a little rebates of your profit to serve our running cost. This is taken from the gas fees you saved on your wallet at the time you connected your trading accounts</li>
+			<li>For those who wish to do more with us, may fund their account and declare the amount they would like to put in system reserve for internal staking, this we do to give extra interests to our clients internally aside from the daily profits on their accounts.</li>
+      <li>We are committed to our community outreach (<b>Save The World</b>) project that caters for hospitalized patients with terminal ailments who couldn't afford exhorbitant clinical fees, we do solicit for Non-profit donations from our foreign organizations to help us assist those we have identified to be in this group</li>
 			</ul>
 </p>
-		
-        
+		  
         <!-- Blockquote -->
         <figure class="bg-light text-center p-7 my-7">
-          <blockquote class="blockquote blockquote-lg">" We support humanity, we give back to our contributors in the most transparent manners, this we hope to keep the fire burning"</blockquote>
+          <blockquote class="blockquote blockquote-lg" style="font-family:Spartan !important">" We support humanity, we give back to the society, help the hopeless, this we hope to keep the fire burning"</blockquote>
           <!--
           <figcaption class="blockquote-footer">
             Emmanuel
@@ -99,9 +95,8 @@
         </figure>
         <!-- End Blockquote -->
 
-        <h3>Bringing back the culture of supporting the weak and the less-priviledged</h3>
 
-        <p style="line-height:40px;">Central to our mission is to see every girl-child adequately educated, this we do on a continual basis as the need arise. </p>
+        <p class="text-center" style="line-height:40px;color:#000;">Bringing back the culture of supporting the weak and the less-priviledged</p>
 
         </div>
 
@@ -109,14 +104,9 @@
         <img class="img-fluid rounded-lg" src="{{ asset('img/1920x800/img6.jpg') }}" alt="Image Description">
       </div>
 
-      <div class="w-lg-65 mx-lg-auto" style="line-height:40px;">
-        <p>At the heart of what we stand for is the propensity to address issues that has bedeviled our society in the name of scams. Many promising projects that could have benefited humanity has been rusted by the unquenchable 'dust' of
-		scams in the name of cloud mining. <br/>We do not own a mining rig but a team of professionals wanting to make a difference in our world. We trade with the funds, give to our contributors and also contribute immensely to the society which is the major
-		of what BalmFlow stands No Bitcoin mining rig, but transacting values on financial exchanges with time-tested model of trade execution and risk management.
-		<br/>
-		All you need do is to give us a chance to prove what we stand for. The more we give, the more we are confident that the our good deeds will keep us in the picture for long while we contribute to the sustenance of humanity in different dimensions.
-		
-		</p>
+      <div class="w-lg-65 mx-lg-auto olive">
+        <p>At the heart of what we stand for is the propensity to address issues that has bedeviled our society in the name of scams. Many promising projects that could have benefited humanity has been rusted by the unquenchable 'dust' of scams in the name of cloud mining. <br/>We do not own a mining rig but a team of professionals wanting to make a difference in our world. We trade your accounts with strict risk management, no robots, no trading algorithm except Institutional price delivery algorithms (IPDA), No Bitcoin mining rig, but transacting values on financial exchanges with time-tested models of Trade Execution, Money Management and Risk Management.
+		  </p>
 
         <!-- Card -->
         <div class="card bg-dark text-center my-4" style="background-image: url(assets/svg/components/wave-pattern-light.svg);">

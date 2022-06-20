@@ -3,14 +3,14 @@
 **
 */
 
-.table_rws th, .table_rws td{
+.table_rws th, .table_rws td, .text-400{
 	font-size:10px;font-weight:600;font-family:'GD Sherpa Regular','Spartan','Brandon Grotesque';
 }
 .table_rws{
 	overflow-x:auto;
 }
 .table_rws th{font-weight:700;}
-.text-xs{font-size:11px;}
+.text-xs{font-size:11px !important;}
 
 .nav-link::active{
 color:#0099cc;	
@@ -38,6 +38,32 @@ color:#0099cc;
 .alert-info, .alert-success, .alert-warning{
 font-family:'GD Sherpa Regular', 'Spartan','Brandon Grotesque','Work Sans';font-size:14px;
 }
+
+.input-md{
+	width:80%;
+	margin-top:5px;
+}
+
+.text-tiny{font-size:9px;font-weight:600;color:blue;}
+.weight-400{font-weight:400;}
+.red{color:#ff0000;}
+.row-fx{display:grid;grid-template-columns: 45% 55%;}
+.tos_tick{
+	display:grid;grid-template-columns: 10% 90%;grid-gap:1px;margin:auto;
+}
+
+.small-xs{font-size:9px;font-weight:500;}
+
+label{
+	margin:15px auto 4px auto !important;font-weight:500;
+}
+
+
+
+
+/**
+*Mobile and Ipad/tablets size
+***/
 @media(max-width:425px){
 
 

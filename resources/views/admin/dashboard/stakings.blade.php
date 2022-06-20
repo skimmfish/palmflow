@@ -11,7 +11,9 @@
 			</div>@endif</div>
 
                   <div class="row">
-				  <div class="col-6"><h5 style="margin:20px 0 20px 0">Stakings' History</h5></div>
+				  <div class="col-6"><h5 style="margin:20px 0 20px 0">Wallet Funding History</h5></div>
+
+				  
 				  <div class="col-6 pull-right round_ball" style="margin-top:4px"><!--<span class="nav-link-icon">
 				<span class="fas fa-thin fa-2x fa-wallet"></span></span>-->
 				 <div class="r"><span style='font-family:Work Sans !important;'>{{ number_format($amtWithdrawable,2) }}</span><small class='work-sans' style='font-size:11px !important;'>USDT</small>
@@ -23,16 +25,34 @@
 				  <br/><Br/>
 @if(count($stakings)>0)
 		 <div class="col-12">
+
               <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-12">
-				  <small style="font-size:10.5px;color:#0d2453;font-weight:600;">Here is a list of stakings & transactions paginated in record of 10s</small><br/><br/>
-				  
+					<div class="row">
+				  <div class="col-6"><small style="font-size:10.5px;color:#0d2453;font-weight:600;">Here is a list of stakings & transactions paginated in record of 10s</small></div><br/><br/>
+				  <div class="col-6">
+				  <form>
+                        {{ csrf_field() }}
+                    <div class="row padding_bottom_20">
+                     <div class="col-md-3"><input type="date" name="created_at" class="form-control input-sm'" value="" placeholder="Start Date"/></div>
+                     <div class="col-md-3"><input type="date" name="created_at" class="form-control input-sm'" value="" placeholder="End Date"/></div>
+                     <div class="col-md-3">
+                         <select name="date_filter'" onChange="filterByPeriod({{Auth::user()->id}})" class="form-control input-md filterbyperiod">
+                        <option value="today">Select an option</option>
+                         <option value="today">Today</option>
+                             <option value="last_7">Last Week (Last 7 Days)</option>
+                             <option value="last_30">Last Month (Last 30 days)</option>
+                    </select></div>
+                     <div class="col-md-3"><button type="submit" class="btn btn-primary" name="fetch" style="background:#0d2453 !important;width:45px !important;height:45px !important;border-radius:50%;border:0;"><i class="fa fa-search"></i></button></div>
+                    </div>
+                    </form>
+				  </div></div>
 				  <table class="table table-responsive table-bordered table_rws">
 				  <thead>
 				  <tr><th>S/N</th>
 				  <th>Transaction ID</th>
-				  <th>Amount (USDT)</th>
-				  <th>Total Gains</th>
+				  <th>Amount ({{ $currency }})</th>
+				  <th>Total Gains on Staking</th>
 				  <th>Total Withdrawn</th>
 				  <th>Balance to Withdraw</th>
 				  <th>Date Created <hr/> Last Updated</th>
@@ -65,7 +85,7 @@
 				  <tr>
 				  <th>S/N</th>
 				  <th>Transaction ID</th>
-				  <th>Amount (USDT)</th>
+				  <th>Amount ({{$currency}})</th>
 				  <th>Total Gains</th>
 				  <th>Total Withdrawn</th>
 				  <th>Balance to Withdraw</th>

@@ -14,11 +14,13 @@ use App\Http\Controllers\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+/*
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+*/
 
+/*
 Route::get('user/profile/{id}', function($id){
 	
 	$aUsers = DB::table('users')->where('id',$id)->get();
@@ -26,14 +28,15 @@ Route::get('user/profile/{id}', function($id){
 	return $aUsers->toJson();
 	
 });
-
+*/
 
 //fetching all the users in the system who are active with an active and verified email address
 Route::get('alluser', 'UserController@index');
-
+/*
 Route::namespace('Api')->group(function(){
 Route::apiResource('my-users','UserController');
 });
+*/
 //for creating new user
 Route::post('new-user', 'UserController@store');
 

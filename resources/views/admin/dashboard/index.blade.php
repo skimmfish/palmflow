@@ -10,7 +10,9 @@
             <div class="col-md-6 col-xxl-3">
               <div class="card h-md-100 ecommerce-card-min-width">
                 <div class="card-header pb-0">
-                  <h6 class="mb-0 mt-2 d-flex align-items-center">Daily Sales<span class="ms-1 text-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Calculated according to last week's sales"><span class="far fa-question-circle" data-fa-transform="shrink-1"></span></span></h6>
+                  <h6 class="mb-0 mt-2 d-flex align-items-center">Daily ROI
+                  <span class="ms-1 text-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Calculated according to last week's sales">
+                    <span class="far fa-question-circle" data-fa-transform="shrink-1"></span></span></h6>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-end">
                   <div class="row">
@@ -27,7 +29,7 @@
             <div class="col-md-6 col-xxl-3">
               <div class="card h-md-100">
                 <div class="card-header pb-0">
-                  <h6 class="mb-0 mt-2">Total Order</h6>
+                  <h6 class="mb-0 mt-2">Total Asset Worth</h6>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-end">
                   <div class="row justify-content-between">
@@ -46,18 +48,18 @@
                 <div class="card-body">
                   <div class="row h-100 justify-content-between g-0">
                     <div class="col-5 col-sm-6 col-xxl pe-2">
-                      <h6 class="mt-1">Market Share</h6>
+                      <h6 class="mt-1">Revenue Split</h6>
                       <div class="fs--2 mt-3">
                         <div class="d-flex flex-between-center mb-1">
-                          <div class="d-flex align-items-center"><span class="dot bg-primary"></span><span class="fw-semi-bold">Samsung</span></div>
+                          <div class="d-flex align-items-center"><span class="dot bg-primary"></span><span class="fw-semi-bold">Investors</span></div>
                           <div class="d-xxl-none">33%</div>
                         </div>
                         <div class="d-flex flex-between-center mb-1">
-                          <div class="d-flex align-items-center"><span class="dot bg-info"></span><span class="fw-semi-bold">Huawei</span></div>
+                          <div class="d-flex align-items-center"><span class="dot bg-info"></span><span class="fw-semi-bold">Board & </span></div>
                           <div class="d-xxl-none">29%</div>
                         </div>
                         <div class="d-flex flex-between-center mb-1">
-                          <div class="d-flex align-items-center"><span class="dot bg-300"></span><span class="fw-semi-bold">Apple</span></div>
+                          <div class="d-flex align-items-center"><span class="dot bg-300"></span><span class="fw-semi-bold">Charity</span></div>
                           <div class="d-xxl-none">20%</div>
                         </div>
                       </div>

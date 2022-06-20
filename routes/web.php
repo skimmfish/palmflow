@@ -53,7 +53,7 @@ Route::get('privacy-policy', function(){
 
 //About us page
 Route::get('about-us', function(){
-	return view('about-us')->with('title','About BalmFlow');
+	return view('about-us')->with('title','About OliveFlowFX');
 })->name('about-us');
 
 //Terms and conditions
@@ -163,6 +163,9 @@ return redirect()->route('admin.dashboard.my_wallets')->with(['message'=>'Wallet
 //=============My wallets route=================
 Route::get('dashboard/my_wallets', 'WalletController@myWallets')->middleware(['auth','verified'])->name('admin.dashboard.my_wallets');
 
+//for creating new mt4 account binding
+Route::post('dashboard/new-mt4setup','\App\Http\Controllers\MT4DashboardController@store')->middleware(['auth','verified'])->name('admin.dashboard.mt4setup.store');
+
 
 //dashboard/user/profile
 Route::get('dashboard/user/profile', function(){
@@ -189,9 +192,8 @@ Route::get('dashboard/user/profile', function(){
 Route::middleware(['auth','verified'])->prefix('dashboard')->group(function(){
 
 Route::get('/', function(User $user){ 
-
 $dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get(); 
-return view('admin.dashboard.index')->with(['title'=>'Dashboard - BalmFlow Project','dashboardNotification'=>$dashboardNotification,'user'=>$user]); 
+return view('admin.dashboard.index')->with(['title'=>'Dashboard - OliveFlowFX Project','dashboardNotification'=>$dashboardNotification,'user'=>$user]); 
 })->name('admin.dashboard.index');
 
 //this route is for viewing transaction details across the blockchain
@@ -212,11 +214,14 @@ $dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status
 
 //calling the coinremitter API to get the wallet to pay into
 $instantWalletHandler = \App\Http\Controllers\TransactionController::getNewWallet();
-return view('admin.dashboard.fund_wallet')->with(['dashboardNotification'=>$dashboardNotification,'title'=>'Fund My Wallet - BalmFlow Project','instantWallet'=>$instantWalletHandler]);
+$txfees = \App\Http\Controllers\GasFeeController::getTotalTxFees(auth()->id());
+
+return view('admin.dashboard.fund_wallet')->with([
+	'dashboardNotification'=>$dashboardNotification,'totalTxFees'=>$txfees['totalFees'],'stakedValue'=>$txfees['stakedValue'],'title'=>'Fund My Wallet - OliveFlowFX Project','instantWallet'=>$instantWalletHandler]);
 
 })->name('admin.dashboard.fund_wallet');
 
-//for fund-wallet route
+//for vouchers route
 Route::get('/my-vouchers', function(User $user){
 
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
@@ -254,6 +259,9 @@ Route::get('stakings', 'StakingsController@index')->name('admin.dashboard.stakin
 
 //all withdrawals
 Route::get('withdrawals', 'StakingsController@withdrawals')->name('admin.dashboard.withdrawals');
+
+//this filters withdrawals by date
+Route::get('filterbyperiod','StakingsController@filterbydate')->name('filterbyperiod');
 
 //this is for staking_snapshot
 Route::get('stakings_snapshot/{id}','StakingsController@show')->name('admin.dashboard.staking_snapshot');
@@ -312,10 +320,66 @@ return view('admin.dashboard.withdraw-rebate')->with('title','Withdraw rebates v
 All the routes below for users who has is-admin authorization and email_verified priviledge
 =============================================
 ***/
+Route::middleware(['auth','verified'])->prefix('dashboard/admin')->namespace('admin')->group(function(){
+
+	Route::get('mt4-setup',function(){
+		$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
+		$user = new User;
+		$brokers = array(
+			1=>'Exness',
+			2=>'Octafx',
+			3=>'LiteFinance',
+			4=>'Hotforex',
+			5=>'Tickmill',
+			6=>'Fxopen',
+			7=>'fxtm',
+			8=>'VantageFx',
+			9=>'Instatrader',
+			10=>'FTMO'
+		);
+
+
+		$mt4Accounts = \App\Mt4Dashboard::where(['user_id'=>auth()->id()])->orderBy('created_at','DESC')->get();
+
+	return view('admin.dashboard.mt4setup',['id'=>1,'brokers'=>$brokers,'title'=>'MT4 Account Setup','dashboardNotification'=>$dashboardNotification,
+'mt4_accounts'=>$mt4Accounts]);
+	})->name('admin.dashboard.mt4setup');
+
+
+	//for fetching all the broker_s server list
+	Route::get('server_list',function(){
+
+	\App\Http\Controllers\MT4DashboardController::fetchServerLists(htmlspecialchars($_GET['broker_name']));
+
+	})->name('admin.dashboard.get_server_list');
+
+	//for fetching the modal where you add funds to your stake pool
+	Route::get('stakev2/{uid}',function($uid){
+
+		$walletFunds = \App\Http\Controllers\GasFeeController::getTotalTxFees($uid);
+		return view('admin.dashboard.stakeforprofit')->with(['uid'=>$uid,'total'=>$walletFunds['totalFees'],
+		'alreadyStaked'=>$walletFunds['stakedValue']]);
+
+	})->name('admin.dashboard.stakevalue');
+
+	//for adding to the stakes
+	Route::put('add_stakes','\App\Http\Controllers\GasFeeController@update')->name('admin.dashboard.addextrastake');
+
+
+});
 
 //grouping all routes under the dashboard/admin namespace for super-admin users
-Route::middleware(['auth','admin','verified'])->prefix('dashboard/admin')->namespace('admin')->group(function(){
+Route::middleware(['auth','admin'])->prefix('dashboard/admin')->namespace('admin')->group(function(){
 
+//for logs
+Route::get('logs',function(){
+	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
+	$user = new User;
+	
+	return view('admin.dashboard.core-admin.logs',['id'=>1,'title'=>'System Log','dashboardNotification'=>$dashboardNotification]);
+})->name('admin.dashboard.core-admin.logs');
+
+//for logs
 
 //assets and investment data capture
 Route::get('assets/store','AssetManagerController@store')->name('assetmanager.store');
@@ -334,18 +398,19 @@ $dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status
 return view('admin.dashboard.core-admin.settings',['title'=>'Settings and Configurations','dashboardNotification'=>$dashboardNotification,'Assets'=>$Assets]);
 
 })->name('admin.dashboard.core-admin.settings');
+
 //route to all user transactions (personal transactions ) page for a single logged in user
 Route::get('alltransactions','\App\Http\Controllers\TransactionController@index')->name('admin.dashboard.core-admin.alltransactions');
-
 
 //this route goes to the main super-admin's dashboard
 Route::get('/', function(){
 	
 	$user = new User;
-	$reportModel = \App\Http\Controllers\DailyReportController::getReports();
+	$reportModel = \App\Http\Controllers\DailyReportController::getReports(\Carbon\Carbon::today(), null);
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
 	
-	return view('admin.dashboard.core-admin.index')->with(['title'=>'Dashboard','dashboardNotification'=>$dashboardNotification,'user'=>$user,'reports'=>$reportModel]);
+return view('admin.dashboard.core-admin.index')->with(['title'=>'Dashboard','dashboardNotification'=>$dashboardNotification,'user'=>$user,
+'reports'=>$reportModel['report'],'total_startup_asset'=>$reportModel['total_startup_asset']]);
 	
 })->name('admin.dashboard.core-admin.index');
 
@@ -405,10 +470,8 @@ Route::put('update_picture/{id}', 'ProfileController@update_avatar')->name('admi
 //Route::get()->name('admin.dashboard.core-admin.deleted');
 
 //route to all user transactions (personal transactions ) page for a single logged in user
-//Route::get('alltransactions','TransactionController@allTransactions')->name('admin.dashboard.core-admin.alltransactions');
 
-//Route::get('viewuser/{id}', 'ProfileController@show')->name('viewuser');
-
+Route::get('viewuser/{id}', 'ProfileController@show')->name('viewuser');
 //end of the grouping
 });
 
@@ -444,4 +507,17 @@ print_r($jsonResponse);
 		//print_r($msg);
 		echo $msg;
 	})->name('validatewallet');
+	
+	/*
+	*===================================================
+	*This routes is for traders to work with, see their daily statistics, all these will come on board after they have been thoroughly tested to be efficient
+	*====================================================
+	*/
+
+Route::middleware(['auth','traders'])->prefix('dashboard/traders/')->namespace('tradehub')->group(function(){
+
+
+
+
+	});
 /* End of routes definition*/

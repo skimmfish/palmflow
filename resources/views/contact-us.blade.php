@@ -18,38 +18,23 @@
 
           <!-- Leaflet -->
           <div class="overflow-hidden">
-            <div id="map" class="leaflet mb-5"
-                 data-hs-leaflet-options='{
-                 "map": {
-                   "scrollWheelZoom": false,
-                   "coords": [37.4040344, -122.0289704]
-                 },
-                 "marker": [
-                   {
-                     "coords": [37.4040344, -122.0289704],
-                     "icon": {
-                       "iconUrl": "{{ asset("svg/components/map-pin.svg") }}",
-                       "iconSize": [50, 45]
-                     },
-                     "popup": {
-                       "text": "25, Olorombo Street, Aladesanmi, Asero, Abeokuta, Ogun State, Nigeria"
-                     }
-                   }
-                 ]
-                }'></div>
+            <div id="map" style="background:url({{asset('img/1920x1080/img5.jpg')}}); background-size:cover;background-position:center;width:100%;height:500px;border-radius:10px;margin-bottom:30px;line-height:450px;text-align:center;">
+            <i class="bi-phone" style="font-size:65px;"></i>
+            <i class="bi-map" style="font-size:55px;"></i>
+        </div>
           </div>
           <!-- End Leaflet -->
 
           <div class="row">
             <div class="col-sm-6">
               <h5 class="mb-1">Call us:</h5>
-              <p><a href="tel:+2349076191416">0800 - BALMFLOW</a></p>
+              <p><a href="tel:+2349076191416">0800 - OliveFlowFx</a></p>
             </div>
             <!-- End Col -->
 
             <div class="col-sm-6">
               <h5 class="mb-1">Email us:</h5>
-              <p><a href="mailto:hello@balmflow.com">hello@balmflow.com</a></p>
+              <p><a href="mailto:hello@balmflow.com">hello@oliveflowfx.com</a></p>
             </div>
             <!-- End Col -->
 
@@ -65,7 +50,7 @@
 
         <div class="col-lg-6">
           <div class="ps-lg-5">
-		  
+
 		  <div class="container"> @if (session('message'))   <div class="alert alert-success">  {{ session('message') }}</div>@endif</div>
             <!-- Card -->
             <div class="card">
@@ -83,8 +68,8 @@
                       <!-- Form -->
                       <div class="mb-3">
                         <label class="form-label" for="hireUsFormFirstName">First name</label>
-                        <input type="text" class="form-control form-control-lg" name="first_name" id="hireUsFormFirstName" value="{{old('first_name') }}" placeholder="First name" aria-label="First name" required autofocus />
-                      
+                        <input type="text" class="form-control form-control-lg" name="first_name" id="hireUsFormFirstName" value="{{old('first_name') }}" placeholder="First name" aria-label="First name" required/>
+
 					  @if ($errors->has('first_name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('first_name') }}</strong>
@@ -100,7 +85,7 @@
                       <div class="mb-3">
                         <label class="form-label" for="hireUsFormLasttName">Last name</label>
                         <input type="text" class="form-control form-control-lg" name="last_name" id="hireUsFormLasttName"  value="{{old('last_name') }}"placeholder="Last name" aria-label="Last name" required />
-                      
+
 					    @if ($errors->has('last_name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('last_name') }}</strong>
@@ -149,35 +134,34 @@
                   <!-- Form -->
                   <div class="mb-3">
 				     <label class="form-label" for="issues_category" id="issues_category">Select a acategory</label>
-                     
+
                   <select name="issues_category" class="form-control">
 				  <option selected value="">Select an option</option>
 				  <option selected value="general">General Enquiries</option>
-				  <option selected value="deposits_withdrawals">Deposits & Withdrawals</option>
 				  <option selected value="registration">Registration</option>
 				  <option selected value="wallet">Wallet Issues</option>
 				  <option selected value="technical">Technical Issues</option>
 				  </select>
-				  
+
 				    @if ($errors->has('issues_category'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('issues_category') }}</strong>
                                     </span>
                                 @endif
-					
+
 				  </div>
-				  
+
 				  <!--details-->
 				  <div class="mb-3">
                     <label class="form-label" for="hireUsFormDetails">Details</label>
                     <textarea class="form-control form-control-lg" name="message" id="hireUsFormDetails" placeholder="Your comments/suggestions/enquiries" aria-label="Tell us about your issues and concerns..." rows="4">{{ old('message') }}</textarea>
-					
+
 					  @if ($errors->has('message'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('message') }}</strong>
                                     </span>
                                 @endif
-					
+
 				  </div>
                   <!-- End Form -->
 				  <div class="mb-3">

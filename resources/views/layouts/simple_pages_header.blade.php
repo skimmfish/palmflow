@@ -11,21 +11,16 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title> @if(isset($title)) {{ $title }} @else {{ 'Home' }}	@endif - BalmFlow	</title>
-
+    <title> @if(isset($title)) {{ $title }} @else {{ 'Home' }}	@endif - OliveFlowFX	</title>
     <!-- Styles -->
-    
-	
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-
-  <!-- CSS Implementing Plugins -->
 
   <!-- CSS Implementing Plugins -->
   <link rel="stylesheet" href="{{ asset('css/vendor.min.css') }}">
   <link rel="stylesheet" href="{{ asset('vendor/bootstrap-icons/font/bootstrap-icons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendor/aos/dist/aos.css') }}">
+  <link href="//db.onlinewebfonts.com/c/0aee6008b82cde991ec28387169bb13e?family=GD+Sherpa" rel="stylesheet" type="text/css"/>
 
   <!-- CSS Front Template -->
   <link rel="stylesheet" href="{{ asset('css/theme.minc619.css?v=1.0') }}">
@@ -35,23 +30,34 @@
 	
 	
 <style>
-
-
-body{
-font-family:'Spartan','Brandon Grotesque' !important;font-size:14px;COLOR:#000;	
+@font-face {font-family: "GD Sherpa Regular";
+  src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot') }}"); /* IE9*/
+  src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot?#iefix') }}") format("embedded-opentype"), /* IE6-IE8 */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.woff2') }}") format("woff2"), /* chrome、firefox */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.woff') }}") format("woff"), /* chrome、firefox */
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.ttf') }}") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url("{{asset('font/0aee6008b82cde991ec28387169bb13e.svg#GD Sherpa Regular') }}") format("svg"); /* iOS 4.1- */
 }
+
+
+body,p{
+font-family:'GD Sherpa','Brandon Grotesque','Spartan' !important;font-weight:400;color:#000;line-height:40px;
+}
+body{font-size:14px;}
+.olive{line-height:40px;color:#222 !important;font-size:14px !important;font-weight:400 !important;}
 .form-label, .accordion-body, p{font-size:15px;line-height:34px;font-weight:600;}
 ul>li{line-height:35px;}
 .img_circle{
 	width:40px;height:40px;border-radius:50%;
 }
 .form-control{font-size:13px;}
-h6{font-size:19px;font-weight:700;font-family:'Spartan','Brandon Grotesque';}
+h6{font-size:22px;font-weight:500;font-family:'Spartan','Brandon Grotesque';line-height:40px}
+.h5{font-size:17px;font-weight:400;line-height:40px}
 .mb-0{
-	
-	font-family:'Spartan','Brandon Grotesque';font-size:20px;line-height:40px;
-	
+	font-family:'Spartan','GD Sherpa Regular','Brandon Grotesque' !important;font-size:18px;line-height:40px;font-weight:400;	
 }
+
+
 </style>
 </head>
 <body>
@@ -191,9 +197,9 @@ h6{font-size:19px;font-weight:700;font-family:'Spartan','Brandon Grotesque';}
 				
 				@if(Auth::check())
 						@if(Auth::user()->is_admin==true)
-					<a href="{{ route('admin.dashboard.core-admin.index') }}"><img src="{{asset('img/'.App\Profile::find(1)->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
+					<a href="{{ route('admin.dashboard.core-admin.index') }}"><img src="{{asset('img/160x160/'.App\Profile::get_profile_data(Auth::user()->id,'profile_img')) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
 				@else
-					<a href="{{ route('admin.dashboard.index') }}"><img src="{{asset('img/'.App\Profile::find(1)->profile_img) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
+					<a href="{{ route('admin.dashboard.index') }}"><img src="{{asset('img/160x160/'.App\Profile::get_profile_data(Auth::user()->id,'profile_img')) }}" alt="{{Auth::user()->username}}" class="img_circle"/></a>
 								@endif
 								@else
 					<a class="btn btn-light btn-transition" href="{{route('login') }}" style="border-radius:7px;font-weight:700;">Get Started <i class="bi-chevron-right small ms-1" style="color:#000000;"></i></a>

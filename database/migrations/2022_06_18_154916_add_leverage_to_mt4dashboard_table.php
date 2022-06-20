@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSoftdeletesToDailyReportModels extends Migration
+class AddLeverageToMt4dashboardTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSoftdeletesToDailyReportModels extends Migration
      */
     public function up()
     {
-        Schema::table('daily_report_models', function (Blueprint $table) {
-            $table->softDeletes();
+        Schema::table('m_t4_dashboards', function (Blueprint $table) {
+            $table->string('leverage')->nullable()->index();
         });
     }
 
@@ -25,9 +25,8 @@ class AddSoftdeletesToDailyReportModels extends Migration
      */
     public function down()
     {
-        Schema::table('daily_report_models', function (Blueprint $table) {
-            //
-			$table->dropColumn('deleted_at');
+        Schema::table('m_t4_dashboards', function (Blueprint $table) {
+            $table->dropColumn('leverage');
         });
     }
 }

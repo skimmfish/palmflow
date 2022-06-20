@@ -8,7 +8,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>@if($title) {{ $title }} @else {{ 'Users Dashboard ' }} - BalmFlow Project @endif</title>
+    <title>@if($title) {{ $title }} @else {{ 'Users Dashboard ' }} @endif - OliveFlowFX Project</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -41,8 +41,12 @@
 	<link href="{{asset('css/custom_styles.css') }}" rel="stylesheet">
 	
 				<!-- Script -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
+<!--for local/dev testing-->
+<script src="{{asset('js/jquery-2.2.0.min.js')}}"></script>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
  <script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
@@ -87,6 +91,34 @@
                 timeout: 8000
             })
         });
+
+//<!--for stakevalue modal-->
+
+ $(document).on('click', '#stakeButton', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(result) {
+                    $('#stakeModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+                error: function(jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+
 </script>
 
 
@@ -148,8 +180,58 @@
         });
 </script>
 	
+<!--filterbyperiod ajax call-->
+<script type="text/javascript">
+
+$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+   
+    $(".btn").click(function(e){
+  
+        e.preventDefault();
+   
+        var period = $("input[name=date_filter]").val();
+        
+        $.ajax({
+           type:'GET',
+           url:"{{ route('filterbyperiod') }}",
+           data:{timePeriod:period},
+           success:function(data){
+              alert(data.success);
+           }
+        });
+  
+	});
+</script>
+
+	<!--fetchServersList()-->
+  
+  <script type="text/javascript">
+
+    function fetchServersList(brokerName){
+  if(brokerName){
+  $.ajax({
+  type: 'GET',
+  url: "{{ route('admin.dashboard.get_server_list') }}",
+  data: {
+  broker_name: brokerName,
+  },
+  success: function (response) {
+   // We get the element having id of display_info and put the response inside it
+   $( '#server_list' ).html(response);
+  }
+  });
+ }else
+ {
+  $( '#server_list' ).html("<small class='text-danger'>Please check your selection</small>");
+ }
+}
+</script>
 	
-	
+<!--extra styles-->
 	<style>
     @font-face {font-family: "GD Sherpa Regular";
   src: url("{{asset('font/0aee6008b82cde991ec28387169bb13e.eot') }}"); /* IE9*/
@@ -218,7 +300,7 @@
               <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
                 <li class="nav-item">
                   <!-- parent pages--><a class="nav-link dropdown-indicator" href="#dashboard" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="dashboard">
-                    <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1" style="font-family:'Spartan','Brandon Grotesque';font-weight:600;font-size:14px;color:#000;">Dashboard</span></div>
+                    <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1" style="font-weight:600;font-size:14px;color:#000;">Dashboard</span></div>
                   </a>
                   <ul class="nav collapse show" id="dashboard" style="line-height:26px;">
                     
@@ -231,7 +313,7 @@
                       </a><!-- more inner pages-->
                     </li>
                     <li class="nav-item"><a href="{{ route('admin.dashboard.stakings') }}" class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-credit-card"></span></span><span class="nav-link-text ps-1">Stakes</span></div>
+                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-solid fa-credit-card"></span></span><span class="nav-link-text ps-1">Wallet Reserve Stakes</span></div>
                       </a><!-- more inner pages-->
                     </li>
 					
@@ -249,18 +331,24 @@
                     
 					
 					{{-- @if( App\Profile::where('user_id',Auth::user()->id)->get()->country=='Nigeria') --}}
-					<li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.my_voucher') }}" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-left"><span class="nav-link-icon"><span class="fas fa-barcode"></span></span><span class="nav-link-text ps-1">My Vouchers</span></div>
+				
+					{{-- @endif --}}
+				
+                  <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.mt4setup')}}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+						<span class="nav-link-icon"><span class="fas fa-cog"></span></span>
+						<span class="nav-link-text ps-1">MT4 Subscription</span></div>
                       </a><!-- more inner pages-->
                     </li>
-					{{-- @endif --}}
-					
-					<li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
+
+                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
 						<span class="nav-link-icon"><span class="fas fa-phone"></span></span>
 						<span class="nav-link-text ps-1">Customer Care</span></div>
                       </a><!-- more inner pages-->
                     </li>
+                   
+
                     
                   </ul>
                 </li>
@@ -277,7 +365,7 @@
                   </div><!-- parent pages-->
 				  
 				  <a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-line"></span></span><span class="nav-link-text ps-1">Trade Central</span></div>
+                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users"></span></span><span class="nav-link-text ps-1">MT4 Subscribers</span></div>
                   </a>
 				  
 				  <a class="nav-link" href="{{route('admin.dashboard.core-admin.alltransactions') }}" role="button" data-bs-toggle="" aria-expanded="false">
@@ -285,7 +373,7 @@
                   </a>
 				  
 				  <!-- parent pages-->
-				  <a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
+				  <a class="nav-link" href="{{route('admin.dashboard.core-admin.logs')}}" target="_blank" role="button" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-book"></span></span><span class="nav-link-text ps-1">Logs</span></div>
                   </a><!-- parent pages--><a class="nav-link dropdown-indicator" href="#email" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="email">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-envelope-open"></span></span><span class="nav-link-text ps-1">Admin Notifications</span></div>
@@ -373,7 +461,7 @@
                     <div class="btn-close-falcon" aria-label="Close" data-bs-dismiss="alert"></div>
                   </div>
                   <div class="card-body text-center"><img src="{{ asset('img/icons/spot-illustrations/navbar-vertical.png') }}" alt="" width="80" />
-                    <p class="fs--2 mt-2">Loving how we roll here?<br />Give us a shout out <a href="{{route('admin.dashboard.core-admin.index') }}">BalmFlow</a></p>
+                    <p class="fs--2 mt-2">Loving how we roll here?<br />Give us a shout out <a href="{{route('admin.dashboard.core-admin.index') }}">OliveFlowFX</a></p>
                     <div class="d-grid"><a class="btn btn-sm btn-primary" href="" alt="facebook page" target="_blank">Facebook</a></div>
                   </div>
                 </div>
@@ -385,7 +473,7 @@
         <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand-xl" style="display: none;">
           <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
           <a class="navbar-brand me-1 me-sm-3" href="{{ route('index') }}">
-            <div class="d-flex align-items-center"><img class="me-2" src="{{ asset('img/floxpool.png') }}" alt="" width="40" /><span class="font-sans-serif">BalmFlow</span></div>
+            <div class="d-flex align-items-center"><img class="me-2" src="{{ asset('img/floxpool.png') }}" alt="" width="40" /><span class="font-sans-serif">OliveFlowFX</span></div>
           </a>
           <div class="collapse navbar-collapse scrollbar" id="navbarStandard">
            
@@ -419,12 +507,10 @@
 
 
 		@include('layouts.admin_copyright_footer')
-		
-       
-      </div>
-    </main><!-- ===============================================-->
-    <!--    End of Main Content-->
-    <!-- ===============================================-->
+</div>
+</main><!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
 
 
         <!-- ===============================================-->
@@ -444,14 +530,12 @@
 
 <!--generic function to close all bootstrap modals-->
 <script type="text/javascript">
-
 function closeModal(modalToClose){
 $('#closeModal').click( function (){
 $(modalToClose).modal('hide');     
 }); 
 }
 </script>	
-
 
 </body>
 </html>

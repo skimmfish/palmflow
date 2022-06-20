@@ -33,24 +33,21 @@
         </div>
         <!-- End Row -->
 
-        <p style="line-height:40px;">
+        <p style="line-height:40px;" class="olive">
 		
-		Welcome to PalmFlow, here at PalmFlow, we are strongly committed to our course	and we need to carry all our contributors and stakeholders along as we move up the scale on our <a href="{{ route('road-map')}}">strategic road-map</a>.
+		Welcome to <b>OliveFlowFx</b>, here at OliveFlowFx, we are strongly committed to our course	and we need to carry all our contributors and stakeholders along as we move up the scale on our <a href="{{ route('road-map')}}">strategic road-map</a>.
 		On this page you will learn about our mission and vision statement which goes:
 		<br/>
 		<br/>
-		<b>Here is a summary of our mission statement at PalmFlow</b><br/>
+		<b>Here is a summary of our mission statement at OliveFlowFx</b><br/>
 	
 	<ul style="line-height:40px;font-weight:500;color:#000">
-			<li>To build a sustainable online staking platform that could yield with good and calculated trading algorithm that has been thoroughly tested over the years</li>
+			<li>To build a sustainable online trading platform that yield with good and expert-oriented price delivery algorithm that has been thoroughly tested over the years</li>
 			<li>To stand-out among many other online systems that has emanated several years with the intention to scam people, and to prove to the online community that it is still possible to build wealth through online systems without compromise and risk of huge loss</li>
-			<li>To give back to the society through our charity foundation that is built solely for the purpose of feeding the hungry and educating the minority especially the female gender belonging to
-			the minority group of people that has been looked down and neglected.</li>
-			<li>To build a dual system of giving to community outreaches as well giving back to our stakers and contributors who has contributed to the success of the platform via their stakings</li>
-			<li>To build a community of smart traders and speculators both for the cryptocurrency, currencies and the stock market, people who have been tested and tried.</li>
+			<li>To give back to the society through our charity foundation that is built solely for the purpose of feeding the nation, help the hospitalized (those who are on terminal cases with no hope on payment of hospital bills)and promoting education amoung the minority especially the female gender</li>
+			<li>To build a dual system of giving to community outreaches as well giving back to those who contributes to the success of the platform via their wallet reserve staking</li>
+			<li>To build a community of smart traders and speculators both for the Cryptocurrency, Currencies and the Stock market</li>
 			<li>To build a self-sustaining system that can make others wealthy without the fear of loss or scam</li>
-			<li>To build an online crypto-staking community of people that shares the same ideology about giving to humanity</li>
-
 			</ul>
 			
 			</div>
@@ -59,13 +56,13 @@
         
         <!-- Blockquote -->
         <figure class="bg-light text-center p-7 my-7">
-          <blockquote class="blockquote blockquote-lg text-primary">" A self-sustaining system by the help of God that creates wealth built on transparency and equity, created to help the hopeless and bring the lost
+          <blockquote class="blockquote blockquote-lg text-primary mb-0">" A self-sustaining system by the help of God that creates wealth built on transparency and equity, created to help the hopeless and bring the lost
 		  back to their truest identity"</blockquote>
         </figure>
         <!-- End Blockquote -->
 
-        <h3>Bringing back the culture of supporting the weak and the hungry</h3>
-        <p style="line-height:40px;">Central to our mission is to see every girl-child adequately educated, this we do on a continual basis as the need arise. To build a self-sustaining system based on best predictive models that has been in existence for decades, and to create a wealth-generating system for our contributors (stakers),
+        <h3 class="text-center">Bringing back the culture of supporting the weak and the hungry</h3><Br/>
+        <p style="line-height:40px;" class="olive">Central to our mission is to see every girl-child adequately educated, this we do on a continual basis as the need arise. To build a self-sustaining system based on best predictive models that has been in existence for decades, and to create a wealth-generating system for our contributors (stakers),
 		As the system keep sustaining itself, our mission gets fulfilled.
 		</p>
         </div>

@@ -17,14 +17,28 @@ class DailyReportController extends Controller
     }
 
 
-public static function getReports(){
-	
-return $report = \App\DailyReportModel::select('total_daily_roi','stakers_split','directors_split','charity_split')->whereDate("created_at", \Carbon\Carbon::today())->get();
-//return view('admin.dashboard.core-admin.index')->with('report'=>$report);
-	
+public static function getReports($date_i,$date_ii){
+
+$responseBody = array();
+$total_start_asset = \App\CryptoAPIManager::get_value('total_startup_asset_as_at_today');
+
+
+$report = \App\DailyReportModel::select('total_daily_roi','stakers_split','directors_split','charity_split')->where(["last_updated"=>$date_i])->get();
+return $responseBody = array('total_startup_asset'=>$total_start_asset, 'report'=>$report);
 }
 
-
+/*
+*Static function to exhume details from an array in a foreach loop
+*@return any<dailyreportsobject>
+*
+*/
+public static function iterateLoop($arrayObj, $f){
+$value = null;
+foreach($arrayObj as $e){
+$value = $e[$f];
+}
+return $value;
+}
 
     /**
      * Show the form for creating a new resource.

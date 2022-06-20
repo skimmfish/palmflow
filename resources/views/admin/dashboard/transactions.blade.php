@@ -26,6 +26,7 @@
 				  <th>Check Transaction</th>
 				  <th>Origin/Receiving Wallet</th>
 				  <th>Transaction <br/> Type</th>
+				  <th>Comments</th>
 				  <th>Date</th>
 				  <th>Txn Status</th>
 				  </tr>
@@ -40,9 +41,10 @@
 				  <td>{{ $trx->transaction_id }}</td>
 				  <td>{{ $trx->trx_amount }}</td>
 				  
-				  <td><span class="text-black"><a href="{{ $trx->explorer_url) }}">Check Transaction</a></span></td>
+				  <td><span class="text-black"><a href="{{ $trx->explorer_url }}">Check Transaction</a></span></td>
 				  <td><span class="text-warning">{{ Illuminate\Support\Str::limit($trx->originating_wallet_id,15) }}</span></td>
 				  <td><span class="text-info">{{ $trx->transaction_type }}</span></td>
+					<td>{{ $trx->comments }}</td>
 				  <td><span class="text-info">{{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</span></td>
 				  
 				  <td> <?php if(($trx->trxn_complete_status)==1){echo ' <u class="text-success">Completed</u>'; }else{ echo '<i class="text-danger">Incomplete</i><Br/><a href="#" data-href="" id="query_txn" class="text-warning"><u>Query Txn?</u></a>'; } ?>	  </td>
@@ -57,6 +59,7 @@
 				  <th>Txn Hash</th>
 				  <th>Origin/Receiving Wallet</th>
 				  <th>Transaction Type</th>
+				  <th>Comments</th>
 				  <th>Date</th>
 				 <th>Txn Status</th>
 				  </tfoot>

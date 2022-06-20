@@ -14,7 +14,7 @@
             <!-- Media -->
             <div class="d-flex align-items-center">
               <div class="flex-shrink-0">
-          <h1 class="h2 center">Privacy Policy</h1><small>Last updated on 04/04/2022</small></div>
+          <h1 class="h2 center">Privacy Policy</h1><small>Last updated on 15/06/2022</small></div>
               <div class="flex-grow-1 ms-3">
               </div>
             </div>
@@ -46,7 +46,7 @@
         </div>
         <!-- End Row -->
 
-        <p style="line-height:40px;">
+        <p style="line-height:40px;" class="olive">
 		This Privacy Policy describes Our policies and procedures on the collection,
 use and disclosure of Your information when You use the Service and tells You
 about Your privacy rights and how the law protects You.
@@ -60,13 +60,11 @@ this Privacy Policy.
 
       <div class="w-lg-65 mx-lg-auto">
         <p style="line-height:40px;">
-		
-			<h5 class="mb-0">Interpretation and Definitions  </h5>
-
-<br/><br/>
+		<h5 class="mb-0">Interpretation and Definitions  </h5>
+<br/>
 			<b>Interpretation  </b>
-<br/><br/>
-<p>The words of which the initial letter is capitalized have meanings defined
+<br/>
+<p class="olive">The words of which the initial letter is capitalized have meanings defined
 under the following conditions. The following definitions shall have the same
 meaning regardless of whether they appear in singular or in plural.
 </p>
@@ -80,7 +78,7 @@ meaning regardless of whether they appear in singular or in plural.
     parts of our Service.
 </li>
   <li>Company (referred to as either "the Company", "We", "Us" or "Our" in this
-    Agreement) refers to BalmFlow LLC, No 5 Olorombo street, Aladesanmi asero
+    Agreement) refers to OliveFlow LLC, No 5 Olorombo street, Aladesanmi asero
     way abeokuta.
 </li>
   <li> Cookies are small files that are placed on Your computer, mobile device or
@@ -114,7 +112,7 @@ meaning regardless of whether they appear in singular or in plural.
     use of the Service or from the Service infrastructure itself (for example,
     the duration of a page visit).</li>
 
-  <li> Website refers to BalmFlow, accessible from <a href="https://balmflow.com">https://balmflow.com</a></li>
+  <li> Website refers to OliveFlow, accessible from <a href="https://OliveFlow.com">https://OliveFlow.com</a></li>
 
   <li>You means the individual accessing or using the Service, or the company,
     or other legal entity on behalf of which such individual is accessing or
@@ -124,7 +122,7 @@ meaning regardless of whether they appear in singular or in plural.
 		
         <!-- Blockquote -->
         <figure class="bg-light text-center p-7 my-7">
-          <blockquote class="blockquote blockquote-lg">" We support humanity, we give back to our contributors in the most transparent manners, this we hope to keep the fire burning"</blockquote>
+          <blockquote class="blockquote blockquote-lg mb-0">" We support humanity, we give back to the community, this we hope to keep the fire burning"</blockquote>
           <!--
           <figcaption class="blockquote-footer">
             Emmanuel
@@ -134,12 +132,13 @@ meaning regardless of whether they appear in singular or in plural.
         <!-- End Blockquote -->
 
        
-<p style="line-height:40px;"><h5 class="mb-0">Collecting and Using Your Personal Data  </h5><br/><b>Types of Data Collected  </b><br/><br/>
+ <h5 class="mb-0">Collecting and Using Your Personal Data  </h5>
+<p style="line-height:40px;">
+<br/><b>Types of Data Collected  </b><br/>
 
 <b>Personal Data  </b>
 <br/>
-<br/>
-<p>While using Our Service, We may ask You to provide Us with certain personally
+<p class="olive">While using Our Service, We may ask You to provide Us with certain personally
 identifiable information that can be used to contact or identify You.
 Personally identifiable information may include, but is not limited to:
 
@@ -155,8 +154,8 @@ Personally identifiable information may include, but is not limited to:
 </ul>
 
 <br/>
-<b>Usage Data  </b><br/><br/>
-<p>Usage Data is collected automatically when using the Service.
+<b>Usage Data  </b><br/>
+<p class="olive">Usage Data is collected automatically when using the Service.
 
 Usage Data may include information such as Your Device's Internet Protocol
 address (e.g. IP address), browser type, browser version, the pages of our
@@ -174,7 +173,7 @@ Service or when You access the Service by or through a mobile device.
 </p>
 
 <h6>Information from Third-Party Social Media Services  </h6>
-<p>
+<p class="olive">
 The Company allows You to create an account and log in to use the Service
 through the following Third-party Social Media Services:
 <ul>
@@ -182,7 +181,7 @@ through the following Third-party Social Media Services:
   <li> Facebook</li>
 <li> Twitter</li>
 </ul>
-<p>
+<p class="olive">
 If You decide to register through or otherwise grant us access to a Third-
 Party Social Media Service, We may collect Personal data that is already
 associated with Your Third-Party Social Media Service's account, such as Your
@@ -204,7 +203,7 @@ Service and store certain information. Tracking technologies used are beacons,
 tags, and scripts to collect and track information and to improve and analyze
 Our Service. The technologies We use may include:
 
-<ul>
+<ul class="olive">
   <li> Cookies or Browser Cookies. A cookie is a small file placed on Your
     Device. You can instruct Your browser to refuse all Cookies or to indicate
     when a Cookie is being sent. However, if You do not accept Cookies, You
@@ -230,7 +229,7 @@ Our Service. The technologies We use may include:
 
 </ul>
 </p>
-<p>
+<p class="olive">
 Cookies can be "Persistent" or "Session" Cookies. Persistent Cookies remain on
 Your personal computer or mobile device when You go offline, while Session
 Cookies are deleted as soon as You close Your web browser. Learn more about
@@ -256,8 +255,8 @@ We use both Session and Persistent Cookies for the purposes set out below:
 
 
 <br/>
-<p>
-  <b> Cookies Policy / Notice Acceptance Cookies</b>
+<p class="olive">
+  <h6> Cookies Policy / Notice Acceptance Cookies</h6>
   <br/>
    Type: Persistent Cookies
    <br/>
@@ -290,10 +289,9 @@ Policy.
 <br/><br/>
 <h6>Use of Your Personal Data  </h6>
 <br/>
-<br/>
 <b>The Company may use Personal Data for the following purposes:</b>
 
-  <ul>
+  <ul class="olive">
 <li>  To provide and maintain our Service , including to monitor the usage of
     our Service.
 </li>
@@ -364,7 +362,7 @@ Policy.
 
 <h6 class="mb-0">Retention of Your Personal Data  </h6>
 
-<p>The Company will retain Your Personal Data only for as long as is necessary
+<p class="olive">The Company will retain Your Personal Data only for as long as is necessary
 for the purposes set out in this Privacy Policy. We will retain and use Your
 Personal Data to the extent necessary to comply with our legal obligations
 (for example, if we are required to retain your data to comply with applicable
@@ -378,7 +376,7 @@ periods.
 </p>
 
 <h6 class="mb-0">Transfer of Your Personal Data  </h6>
-<p>
+<p class="olive">
 Your information, including Personal Data, is processed at the Company's
 operating offices and in any other places where the parties involved in the
 processing are located. It means that this information may be transferred to —
@@ -400,14 +398,14 @@ other personal information.
 
 <br/>
 <b>Business Transactions  </b>
-<p>
+<p class="olive">
 If the Company is involved in a merger, acquisition or asset sale, Your
 Personal Data may be transferred. We will provide notice before Your Personal
 Data is transferred and becomes subject to a different Privacy Policy.
 </p>
 <br/>
 <b>Law enforcement  </b>
-<p>
+<p class="olive">
 
 Under certain circumstances, the Company may be required to disclose Your
 Personal Data if required to do so by law or in response to valid requests by
@@ -415,7 +413,7 @@ public authorities (e.g. a court or a government agency).
 </p>
 <br/>
 <b>Other legal requirements  </b>
-<p>
+<p class="olive">
 The Company may disclose Your Personal Data in the good faith belief that such
 action is necessary to:
 
@@ -428,7 +426,7 @@ action is necessary to:
 </ul>
 <br/>
 <h6 class="mb-0">Security of Your Personal Data  </h6>
-<p>
+<p class="olive">
 The security of Your Personal Data is important to Us, but remember that no
 method of transmission over the Internet, or method of electronic storage is
 100% secure. While We strive to use commercially acceptable means to protect
@@ -436,7 +434,7 @@ Your Personal Data, We cannot guarantee its absolute security.
 </p>
 <br/>
 <h6>Children's Privacy  </h6>
-<p>
+<p class="olive">
 Our Service does not address anyone under the age of 13. We do not knowingly
 collect personally identifiable information from anyone under the age of 13.
 If You are a parent or guardian and You are aware that Your child has provided
@@ -450,7 +448,7 @@ and Your country requires consent from a parent, We may require Your parent's
 consent before We collect and use that information.
 </p>
 <h6 class="mb-0">Links to Other Websites  </h6>
-<p>
+<p class="olive">
 Our Service may contain links to other websites that are not operated by Us.
 If You click on a third party link, You will be directed to that third party's
 site. We strongly advise You to review the Privacy Policy of every site You
@@ -460,7 +458,7 @@ We have no control over and assume no responsibility for the content, privacy
 policies or practices of any third party sites or services.
 </p>
 <h6 class="mb-0">Changes to this Privacy Policy  </h6>
-<p>
+<p class="olive">
 We may update Our Privacy Policy from time to time. We will notify You of any
 changes by posting the new Privacy Policy on this page.
 
@@ -473,12 +471,12 @@ Changes to this Privacy Policy are effective when they are posted on this
 page.
 </p>
 <h6 class="mb-0">Contact Us  </h6>
-<p>
+<p class="olive">
 If you have any questions about this Privacy Policy, You can contact us:
 
   <ul>
-  <li>By email: <a href="mailto:hello@balmflow.com">hello@balmflow.com</a></li>
-	<li>By visiting this page on our website: <a href="{{route('contact-us')}}" target="_blank">https://balmflow.com/contact-us</a></li>
+  <li>By email: <a href="mailto:hello@OliveFlow.com">hello@OliveFlow.com</a></li>
+	<li>By visiting this page on our website: <a href="{{route('contact-us')}}" target="_blank">https://OliveFlow.com/contact-us</a></li>
 </p>
 
         </div>

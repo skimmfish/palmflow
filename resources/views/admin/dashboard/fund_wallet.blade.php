@@ -4,30 +4,31 @@
 @include('layouts.admin_topbar')
 
 
-<div class="row">
-			
+<div class="row">			
 			<!--navigation row-->
-			
 		 <div class="col-5">
               <div class="card mb-3 btn-reveal-trigger">
-
-
-  <div class="container"> @if (session('message'))   <div class="alert alert-success">  {{ session('message') }}</div>@endif</div>
-         
-			  
+  <div class="container"> @if (session('message'))   <div class="alert alert-success">  {{ session('message') }}</div>@endif</div>	  
                 <div class="card-header position-relative min-vh-25 mb-8">
-                  <h6>Funding Your Wallet</h6>
+                  <h6>Transact Fees Funding</h6><div class="text-right" 
+				  style="float:right;position:relative;top:-45px;left:-10px;">
+					<small class="text-tiny">Total in Wallet</small><br/>	
+				  ${{$totalTxFees-$stakedValue}}<small class="text-xs" style="font-size:8px !important;"> USDT</small></div>
 				
-				  <p><ul>
-				  <li><small class="text text-danger" style="font-size:11px;font-family:'GD Sherpa Regular';">Ensure that you send only BTC into the wallet below, anything different than this would result in losses!</small></li>
-				  <li><small style="font-size:10px">To stake more of your coins, kindly send your tokens to the wallet ID below.</small></li>
-				<li><small style="font-size:10px">It could take between one minute  to 24hrs before your payment reflects on our portal, kindly be patient.</small></li>
-				<li><small style="font-size:10px">Your rebates for new stakings would be effected at exactly 24hrs + 22:00 UTC+1 after your payment reflects on our end. </small></li>
-				<li><small style="font-size:10px;color:#ff0000;"><b>Be assured of the fact that you are helping humanity through this contributions and in we aren't taking your generousity for granted. Thank you. </b></small></li>
+				  <p style="margin-top:25px">
+				  <ul>
+				  <li><small class="text text-danger" style="font-size:11px;font-family:'GD Sherpa Regular';"><b>Ensure that you send only BTC into the wallet below, anything different than this would result in losses!</b></small></li>
+				  <li><small style="font-size:11px">To stake part of your transact funds to earn passive profit, kindly <a href="#" data-attr="{{ route('admin.dashboard.stakevalue',['uid'=>Auth::user()->id]) }}" data-toggle="modal" data-target="#stakeModal" id="stakeButton"><u>use this link</u></a> to do that</small></li>
+				<li><small style="font-size:11px"><b>It could take between one minute  to 24hrs before your payment reflects on our portal, kindly be patient.</b></small></li>
+				<li><small style="font-size:11px"><b>Your rebates (if you opt for wallet reserve stakings) would be effected at exactly 24hrs (22:00 UTC + 1) after your payment reflects on our end. 
+</b></small></li>
+				<li><small style="font-size:11px;"><b>The minimum funding for transactions gas fee is <u>20USDT</u> and no maximum, however, if you plan to do wallet reserve staking, kindly add it as an extra to the minimum or more you are funding your wallet with</b></small></li>
 				</ul>
 				
 				<!--3d bar code for the crypto payment-->
-				<div><span><small style="font-size:10px">Use the 2D bar code below to complete your transaction or use the wallet ID string below, and afterwards fill the form below to notify us of your payment.</small></span></div>
+				<div>
+					<span><small style="font-size:10px">Use the 2D bar code below to complete your transaction or use the wallet ID string below, and afterwards fill the form below to notify us of your payment.</small></span>
+				</div>
 				<img src="{{ $instantWallet['data']['qr_code'] }}" alt="3d-bar code for our wallet" class="img-responsive" lazyload loading="lazy"/>
 				<div><b style="font-size:10px">Wallet ID: <u class="text-primary">{{ $instantWallet['data']['address'] }}</u></b></div><Br/>
 				<div class="row text text-danger"><small>Kindly fill the form below soon as your transaction goes through. Thank you.</small></div>
@@ -121,5 +122,25 @@
 			
           </div>
 
+
+		  
+		 <!-- view user modal -->
+		 <div class="modal fade" id="stakeModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

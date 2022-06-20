@@ -23,7 +23,7 @@
                 </div>
 
                 Emmanuel Olabiyi
-                <span class="blockquote-footer-source">CEO | BalmFlow</span>
+                <span class="blockquote-footer-source">CEO | OliveFlowFX</span>
               </figcaption>        
             </figure>
             <!-- End Blockquote -->

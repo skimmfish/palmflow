@@ -26,10 +26,10 @@
         <!-- List -->
         <ul class="list-unstyled list-py-1">
 		<li><b>Home</b></li>
-          <li><a class="text-body" href="{{ route('index') }}">PalmFlow Home</a></li>
-          <li><a class="text-body" href="{{ route('about-us') }}">About PalmFlow</a></li>
-          <li><a class="text-body" href="{{ route('road-map') }}">Strategic Road Map</a></li>
-          <li><a class="text-body" href="{{route('terms-and-conditions') }}">Terms & Conditions</a></li>
+          <li><a class="text-body spartan" href="{{ route('index') }}">PalmFlow Home</a></li>
+          <li><a class="text-body spartan" href="{{ route('about-us') }}">About PalmFlow</a></li>
+          <li><a class="text-body spartan" href="{{ route('road-map') }}">Strategic Road Map</a></li>
+          <li><a class="text-body spartan" href="{{route('terms-and-conditions') }}">Terms & Conditions</a></li>
         </ul>
         <!-- End List -->
       </div>
@@ -38,9 +38,9 @@
         <!-- List -->
         <ul class="list-unstyled list-py-1">
           <li><b>Investors</b></li>
-          <li><a class="text-body" href="{{ route('investor-relations') }}">Investor Relations</a></li>
-          <li><a class="text-body" href="{{ route('subscriptions') }}">Subscriptions</a></li>
-          <li><a class="text-body" href="{{ route('nfts') }}">NFTs Market</a></li>
+          <li><a class="text-body spartan" href="{{ route('investor-relations') }}">Investor Relations</a></li>
+          <li><a class="text-body spartan" href="{{ route('subscriptions') }}">Subscriptions</a></li>
+          <li><a class="text-body spartan" href="{{ route('nfts') }}">NFTs Market</a></li>
         </ul>
         <!-- End List -->
       </div>
@@ -57,25 +57,25 @@
             </a>
           </li>-->
           <li>
-            <a class="text-body" href="/help-topics" target="_blank">
+            <a class="text-body spartan" href="/help-topics" target="_blank">
               Help
               <i class="bi-box-arrow-up-right small ms-1"></i>
             </a>
           </li>
           <li>
-            <a class="text-body" href="{{ route('terms-and-conditions') }}" target="_blank">
+            <a class="text-body spartan" href="{{ route('terms-and-conditions') }}" target="_blank">
               Terms &amp; Conditions
               <i class="bi-box-arrow-up-right small ms-1"></i>
             </a>
           </li>
           <li>
-            <a class="text-body" href="{{ route('privacy-policy') }}" target="_blank">
+            <a class="text-body spartan" href="{{ route('privacy-policy') }}" target="_blank">
               Privacy &amp; Policy
               <i class="bi-box-arrow-up-right small ms-1"></i>
             </a>
           </li>
         <li>
-            <a class="text-body" href="{{ route('contact-us') }}" target="_blank">
+            <a class="text-body spartan" href="{{ route('contact-us') }}" target="_blank">
               Contact Us
               <i class="bi-box-arrow-up-right small ms-1"></i>
             </a>
@@ -89,7 +89,7 @@
 
     <div class="row align-items-sm-center">
       <div class="col-sm mb-4 mb-sm-0">
-        <p class="small">&copy; BalmFlow . {{date('Y')}} . All rights reserved.</p>
+        <p class="small">&copy; OliveFlowFx . {{date('Y')}} . All Rights Reserved.</p>
       </div>
       <!-- End Col -->
 
