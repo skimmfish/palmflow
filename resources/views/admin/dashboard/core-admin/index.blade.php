@@ -2,11 +2,9 @@
 @section('content')
 @include('layouts.admin_topbar')
 	
-		<!-- ===END of SIDEBAR NAVIGATION ===-->
-		
-        
-		  
-          <div class="row g-3 mb-3">
+<!-- ===END of SIDEBAR NAVIGATION ===-->
+				  
+<div class="row g-3 mb-3">
             <div class="col-md-6 col-xxl-3">
               <div class="card h-md-100 ecommerce-card-min-width">
                 <div class="card-header pb-0">
@@ -100,83 +98,27 @@
                   </div>
                 </div>
                 <div class="card-body py-2">
-                  <div class="d-flex align-items-center position-relative mb-3">
+                  
+                <div class="d-flex align-items-center position-relative mb-3">  
                     <div class="avatar avatar-2xl status-online">
                       <img class="rounded-circle" src="assets/img/team/1.jpg" alt="" />
                     </div>
+                    
                     <div class="flex-1 ms-3">
                       <h6 class="mb-0 fw-semi-bold"><a class="stretched-link text-900" href="pages/user/profile.html">Emma Watson</a></h6>
                       <p class="text-500 fs--2 mb-0">Admin</p>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center position-relative mb-3">
-                    <div class="avatar avatar-2xl status-online">
-                      <img class="rounded-circle" src="assets/img/team/2.jpg" alt="" />
-                    </div>
-                    <div class="flex-1 ms-3">
-                      <h6 class="mb-0 fw-semi-bold"><a class="stretched-link text-900" href="pages/user/profile.html">Antony Hopkins</a></h6>
-                      <p class="text-500 fs--2 mb-0">Moderator</p>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center position-relative mb-3">
-                    <div class="avatar avatar-2xl status-away">
-                      <img class="rounded-circle" src="assets/img/team/3.jpg" alt="" />
-                    </div>
-                    <div class="flex-1 ms-3">
-                      <h6 class="mb-0 fw-semi-bold"><a class="stretched-link text-900" href="pages/user/profile.html">Anna Karinina</a></h6>
-                      <p class="text-500 fs--2 mb-0">Editor</p>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center position-relative mb-3">
-                    <div class="avatar avatar-2xl status-offline">
-                      <img class="rounded-circle" src="assets/img/team/4.jpg" alt="" />
-                    </div>
-                    <div class="flex-1 ms-3">
-                      <h6 class="mb-0 fw-semi-bold"><a class="stretched-link text-900" href="pages/user/profile.html">John Lee</a></h6>
-                      <p class="text-500 fs--2 mb-0">Admin</p>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center position-relative false">
-                    <div class="avatar avatar-2xl status-offline">
-                      <img class="rounded-circle" src="assets/img/team/5.jpg" alt="" />
-                    </div>
-                    <div class="flex-1 ms-3">
-                      <h6 class="mb-0 fw-semi-bold"><a class="stretched-link text-900" href="pages/user/profile.html">Rowen Atkinson</a></h6>
-                      <p class="text-500 fs--2 mb-0">Editor</p>
-                    </div>
-                  </div>
+                    </div>            
                 </div>
+                  
+
+
+                
+                    </div>
                 <div class="card-footer bg-light p-0"><a class="btn btn-sm btn-link d-block w-100 py-2" href="app/social/followers.html">All active users<span class="fas fa-chevron-right ms-1 fs--2"></span></a></div>
               </div>
             </div>
             </div>
-            <div class="col-xxl-6 px-xxl-2">
-              <div class="card h-100">
-                <div class="card-header bg-light py-2">
-                  <div class="row flex-between-center">
-                    <div class="col-auto">
-                      <h6 class="mb-0">Top Performers</h6>
-                    </div>
-                    <div class="col-auto d-flex"><a class="btn btn-link btn-sm me-2" href="#!">View Details</a>
-                      <div class="dropdown font-sans-serif btn-reveal-trigger"><button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal" type="button" id="dropdown-top-products" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--2"></span></button>
-                        <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown-top-products"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Export</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item text-danger" href="#!">Remove</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body h-100">
-                  <!-- Find the JS file for the following chart at: src/js/charts/echarts/top-products.js-->
-                  <!-- If you are not using gulp based workflow, you can find the transpiled code at: public/assets/js/theme.js-->
-                  <div class="echart-bar-top-products h-100" data-echart-responsive="true"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-		  
-
-
+            
+      
 
 @endsection

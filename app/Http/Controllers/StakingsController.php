@@ -29,11 +29,11 @@ $this->note = new NotificationModel;
 
     public function index(){
 
-//store the amount withdrawable here
+		//store the amount withdrawable here
 		$amountWithdrawable = 0;
 		$staked_amount=0;
 		$stakingID = null;
-		$stakings = \App\Stakings::where('user_id',auth()->id())->paginate(10);
+		$stakings = \App\Stakings::where('user_id',auth()->id())->orderBy('created_at','DESC')->paginate(10);
 		$this->currency = \App\CryptoAPIManager::get_value('funding_currency');
 		//calculating total withdrawable earnings in a seperate instance
 		$withdrawableEarnings = \App\Stakings::select('id','staked_amount','balance_withdrawable')->where(['user_id'=>auth()->id()])->get();

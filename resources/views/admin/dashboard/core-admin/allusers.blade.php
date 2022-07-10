@@ -184,7 +184,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

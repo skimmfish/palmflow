@@ -11,6 +11,7 @@ use App\AssetManager;
 use App\CryptoAPIManager;
 use Coinremitter\Coinremitter;
 
+use DB;
 
 //use Illuminate\Contracts\Validation\Validator;
 
@@ -31,6 +32,7 @@ class TransactionController extends Controller
 
 	 public function __construction(){
  //default funding currency
+ $coinProcessor = CryptoAPIManager::get_value('processing_api');
  $walletCurrency = CryptoAPIManager::get_value('funding_currency');
  $this->btc_wallet = new Coinremitter($walletCurrency);    
 
@@ -42,9 +44,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transactions::paginate(40);
-		$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>1])->get();
-		return view('admin.dashboard.core-admin.alltransactions')->with(['transactions'=>$transactions,'id'=>1,'dashboardNotification'=>$dashboardNotification,'title'=>'All Transactions Record']);
+        $transactions = Transactions::orderBy('id','desc')->paginate(40);
+		$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>auth()->id()])->get();
+		return view('admin.dashboard.core-admin.alltransactions')->with(['transactions'=>$transactions,'id'=>1,'user'=>new \App\User,'title'=>'All Transactions Record']);
     }
 
     /**
@@ -100,7 +102,9 @@ class TransactionController extends Controller
 		$transaction->transaction_type='inflow';
 		$transaction->destination_wallet_id = $request->destination_wallet_id;
 		$transaction->user_id = $request->user_id;
-		
+		$transaction->txn_date = date("Y-m-d");
+        $transaction->txn_last_updated=date("Y-m-d");
+
 		$transaction->save();
 		$message = 'Transaction registered successfully, kindly wait for confirmation!';
 		
@@ -134,9 +138,9 @@ class TransactionController extends Controller
 	$uid = auth()->id();
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>$uid])->get();
 
-	$transactions = Transactions::select('transaction_id','transaction_hash','trx_amount','created_at','trxn_complete_status','originating_wallet_id','transaction_type')->where('user_id', $uid)->paginate(20);	
+	$transactions = Transactions::select('transaction_id','transaction_hash','trx_amount','created_at','trxn_complete_status','originating_wallet_id','transaction_type','comments')->where(['user_id'=>$uid])->orderBy('id','DESC')->paginate(20);	
 	
-	return view('admin.dashboard.transactions')->with(['Transactions'=>$transactions,'id'=>1,'title'=>'Transactions History', 'dashboardNotification'=>$dashboardNotification,'active'=>'active']);
+	return view('admin.dashboard.transactions')->with(['Transactions'=>$transactions,'id'=>1,'title'=>'Transactions History','active'=>'active','user'=>new \App\User,]);
 	
 	}
 
@@ -148,7 +152,7 @@ class TransactionController extends Controller
 			
 		}
 		
-		public function hashRandom($str){
+		public static function hashRandom($str){
 			
 			return bcrypt($str);
 			
@@ -156,7 +160,7 @@ class TransactionController extends Controller
 		
 	public static function showTransactions($id){
 	
-		return $transactions = Transactions::where(['user_id'=>$id])->orderBy('created_at','ASC')->take(6)->get();
+		return $transactions = Transactions::where(['user_id'=>$id])->orderBy('created_at','DESC')->take(6)->get();
 		//return view('admin.dashboard.fund_wallet')->with('Transactions',$transactions);
 		
 	}
@@ -307,4 +311,177 @@ if($withdrawResponse['flag']){
     }
 return $withdrawResponse;
 }
+
+
+/*
+*@param Date <$s> for startDate
+*@param Date <$e> for endDate
+*/
+public static function find_records($s,$e,$u){
+
+$response=array();
+
+$filterType = explode("_",$u)[1];
+$id = explode("_",$u)[0];
+
+
+if($id=='NULL'){
+$response = DB::select("SELECT * FROM $filterType WHERE txn_date BETWEEN ? AND ? ORDER BY created_at DESC",[$s,$e]);
+}else{
+$response = DB::select("SELECT * FROM $filterType WHERE user_id=? AND txn_date BETWEEN ? AND ? ORDER BY created_at DESC",[$id,$s,$e]);    
+}
+
+return $response;
+}
+
+
+/*
+*@param DateTime Range <$p>
+*@param User <$uid>
+*@return Response <$data>
+*/
+public static function fetchByPeriod($p, $uid){
+$data = null;
+$date = date("Y-m-d");
+
+//getting days counter for each selections
+$counter = 0;
+if($p=='last_7'){
+    $counter=7;
+}else if($p=='last_30'){
+    $counter=30;
+}else if($p=='last_90_days'){
+    $counter=90;
+}
+
+
+if($uid=='NULL'){
+
+//for admin filtering purposes
+if($p=='today'){
+$data = DB::select("SELECT *FROM transactions WHERE txn_date=? AND",[$date]);
+}else{
+    $data = DB::select("SELECT *FROM transactions WHERE txn_date>current_date - interval ? day ",[$counter]);
+}
+
+}else{
+
+//for logged users transactions
+if($p=='today'){
+//fetching today's date
+$data = DB::select("SELECT *FROM transactions WHERE txn_date=? AND user_id=?",[$date,$uid]);
+
+}else{
+$data = DB::select("SELECT *FROM transactions WHERE txn_date>current_date - interval ? day AND user_id=?",[$counter,$uid])->orderBy('created_at');
+}
+
+}//closing the else{} block
+
+return $data;
+}
+
+
+/*
+*@param Response <$response>
+*/
+public static function show_record($res,$s,$e,$type){
+$walletCurrency = \App\CryptoAPIManager::get_value('funding_currency');
+
+    $id=1;
+if(count($res)<=0){
+    echo "<b style='font-size:13.5px;'>No record found!</b>";
+}else{
+
+echo '<div><small class="text-md">Search result of transactions between <b>'.$s.'</b> and <b>'.$e.'</b></small></div>';
+
+if($type=='transactions'){
+
+echo '
+<table class="table table-responsive table-bordered table_rws">
+<thead>
+<tr><th>S/n</th><th>Transaction ID</th><th>Amount (USDT)</th><th>Check Transaction</th><th>Origin/Receiving Wallet</th><th>Transaction <br/> Type</th><th>Comments</th>
+<th>Date</th><th>Txn Status</th></tr></thead><tbody>';
+
+foreach($res as $trx){
+   echo '<tr>
+   <td>'. $id++ .'</td>
+   <td>'.$trx->transaction_id.'</td>
+   <td>'.$trx->trx_amount.'</td>
+   <td><span class="text-black"><a href="'.$trx->explorer_url.'" target="_blank">Explore Transaction</a></span></td>
+   <td><span class="text-warning">'.\Illuminate\Support\Str::limit($trx->originating_wallet_id,20).'</span></td>
+   <td><span class="text-info">'.ucfirst($trx->transaction_type).'</span></td>
+   <td>'. $trx->comments .'</td>
+   <td><span class="text-info">'. date('d F Y, H:i:s a', strtotime($trx->created_at)).'</span></td>
+   <td>'; 
+   if($trx->trxn_complete_status) 
+       echo '<span class="text-success"><u>Completed</u></span>';
+   else 
+     echo '<i class="text-danger">Incomplete</i><Br/>
+       <a href="#" data-attr="'.'http://localhost:8000/dashboard/view-transaction/'.$trx->id.'" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>';
+     echo '</td>
+
+   </tr>';
+
+}
+
+echo '</tbody><tfoot><th>S/n</th><th>Transaction ID</th>
+<th>Amount (USDT)</th><th>Txn Hash</th>
+<th>Origin/Receiving Wallet</th><th>Transaction Type</th>
+<th>Comments</th><th>Date</th>
+<th>Txn Status</th></tfoot>
+</table>';
+
+}else if($type=='stakings'){
+
+echo '<table class="table table-responsive table-bordered table_rws">
+    <thead>
+    <tr><th>S/N</th>
+    <th>Transaction ID</th>
+    <th>Amount ('.$walletCurrency.')</th>
+    <th>Total Gains on Staking</th>
+    <th>Total Withdrawn</th>
+    <th>Balance to Withdraw</th>
+    <th>Date Created <hr/> Last Updated</th>
+    <th>Probable Closure Date</th>
+    <th>Actions</th>
+    </tr>
+    </thead>
+     
+    <tbody>';
+  
+   
+   foreach($res as $s){
+   echo 
+   '<tr>
+    <td>'. $id++ .'</td>
+    <td>'. $s->trx_id .'</td>
+    <td>'. $s->staked_amount .'</td>
+    <td>'. $s->total_percent_returns .'%</td>
+    <td>'.$s->percent_withdrawn_sofar .'%</td>
+    <td>'. 200 - $s->total_percent_returns.'%</td>
+    <td><span class="text-info">'. date('d F Y, H:i:s a', strtotime($s->created_at)).' </span> <hr/>
+    <span class="text-success">'. date('d F Y, H:i:s a', strtotime($s->updated_at)).' </span>
+    </td>
+    <td>'. date('d F Y, H:i:s a', strtotime($s->closure_date)) .'</td>
+    <td> <a href="#" data-attr="" data-toggle="modal" id="walletButton" data-target="#walletModal" class="text-success text-xs"><u>Load Snapshot</u></a>	  
+    </td>';
+   }
+    
+   echo '</tr>  </tbody>  <tfoot>  <tr>
+    <th>S/N</th>
+    <th>Transaction ID</th>
+    <th>Amount ('.$walletCurrency.')</th>
+    <th>Total Gains</th>
+    <th>Total Withdrawn</th>
+    <th>Balance to Withdraw</th>
+    <th>Date Created <hr/> Last Updated</th>
+    <th>Probable Closure Date</th>
+    <th>Actions</th>
+  </tr>
+  </tfoot>
+    </table>';
+    //   {!! $stakings->links('vendor.pagination.bootstrap-4') !!}
+            }
+        }
+    }
 }

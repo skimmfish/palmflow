@@ -82,7 +82,7 @@
               <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-8">
                   <h6>Transactions Snapshot</h6>
-				  <small style="font-size:10.5px;color:#0d2453;font-weight:600;">Your last 6 stakings highlighted</small><br/><br/>
+				  <small style="font-size:10.5px;color:#0d2453;font-weight:600;">Your last 6 transactions displayed here</small><br/><br/>
 				  <table class="table table-responsive table-bordered table_rws">
 				  <thead>
 				  <tr><th>S/n</th>
@@ -124,7 +124,7 @@
 
 
 		  
-		 <!-- view user modal -->
+		 <!-- view stake modal -->
 		 <div class="modal fade" id="stakeModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

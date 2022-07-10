@@ -109,8 +109,19 @@ public static function get_profile_data($user_id,$field_to_return){
 return $res;
 }
 
+
+/*
+*Binding several mt4 transactions with a single user in an entity relationship
+*/
 public function Transactions(){
 return $this->hasMany('\App\Transactions');
 }
 
+/*
+*Binding several mt4 accounts with a single user in an entity relationship
+*/
+public function MT4Dashboard(){
+    return $this->hasMany('\App\MT4Dashboard');
+    }
+    
 }

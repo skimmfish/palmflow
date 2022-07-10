@@ -11,7 +11,7 @@
 
                   <h5 style="margin:20px 0 20px 0">MT4 Account Setup</h5><br/><Br/>
 
-		 <div class="col-6">
+		 <div class="col-5">
               <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-12">
 				  <small style="font-size:10.5px;color:#0d2453;font-weight:600;">Please bind your MT4 account(s) to our trading servers here <br/> <b class="text-danger">All fields with '**' are required fields</b></small><Br/><Br/>
@@ -30,8 +30,9 @@
                                     </span>
                                 @endif  
               </div>
-
-                <div class="form-group">
+                                
+              
+              <div class="form-group">
                 <label>MT4 Account Number **</label>
                 <input type="text" name="account_number" placeholder="MT4 Account Number" value="{{old('account_number')}}" class="form-control input-md" required />
                 @if ($errors->has('account_number'))
@@ -39,16 +40,27 @@
                                         <strong class="text-tiny weight-400 red">{{ $errors->first('account_number') }}</strong>
                                     </span>
                                 @endif    
-              
               </div>
                 
-                <div class="form-group">
+              <div class="form-group">
                 <label>MT4 Trading Password ** <br/><small><b>(Note: This should be your trading password and not your investor's password)</b></small></label>
                 <input type="password" name="_password" placeholder="MT4 Trading Password" value="{{old('_password')}}" class="form-control input-md" required />
               
                 @if ($errors->has('_password'))
                                     <span class="help-block">
                                         <strong class="text-tiny weight-400 red">{{ $errors->first('_password') }}</strong>
+                                    </span>
+                                @endif    
+                
+              </div>
+
+                <div class="form-group">
+                <label>MT4 Investor Password ** <br/><small><b>(Note: This should be your MT4 investor password and not your trading password)</b></small></label>
+                <input type="password" name="investor_password" placeholder="MT4 Investor Password" value="{{old('investor_password')}}" class="form-control input-md" required />
+              
+                @if ($errors->has('investor_password'))
+                                    <span class="help-block">
+                                        <strong class="text-tiny weight-400 red">{{ $errors->first('investor_password') }}</strong>
                                     </span>
                                 @endif    
                 
@@ -125,11 +137,11 @@
                     
               </div>
 
-            <div class="col-6">
+            <div class="col-7">
 
             <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-12">
-              <b><small>Here are all your MT4 Accounts</small></b><Br/>
+              <b><small>Here are all your MT4 Accounts </small></b><Br/>
               <table class="table table-responsive table-bordered table_rws">
                 <thead>
                     <tr>
@@ -147,11 +159,11 @@
                         <td>{{$id++}}</td>
                         <td>{{$s->account_name}}</td>
                         <td>{{$s->account_number}}</td>
-                        <td>//account balance</td>
+                        <td><!-- account balance --></td>
                         <td>
-                          <a href="{{route('admin.dashboard.stoptr')}}">Stop Trading</a>
-                          <form action="" method="POST">@csrf @method('DELETE')
-                            <button>Delete Account</button></form>
+                          <a href="#" data-attr="{{route('admin.dashboard.view_history',['id'=>$s->id])}}" data-toggle="modal" data-target="#deleteAcctModal" id="view_history" class="text-primary">View Account</a> | 
+                          <a href="{{route('admin.dashboard.stoptr',['id'=>$s->id])}}" class="text-warning">Stop Trading</a> | 
+                          <a href="#" data-attr="{{route('load_delete_modal',['id'=>$s->id])}}" data-toggle="modal" class="text-danger" data-target="#deleteAcctModal" id="deleteMt4"><i>Delete Account</i></a>
                         </td>
 
                       </tr>
@@ -163,5 +175,44 @@
             </div>
             </div>
 	
-	
+			 <!-- delete mt4 account stake modal -->
+       <div class="modal fade" id="deleteAcctModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     <!-- for viewing trading history -->
+     <div class="modal fade" id="deleteAcctModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 @endsection

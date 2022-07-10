@@ -3,8 +3,6 @@
 
 @include('layouts.admin_topbar')
 
-
-
 <div class="row">
 			
 			<!--navigation row-->
@@ -16,11 +14,39 @@
 
                   <h5 style="margin:20px 0 20px 0">Transaction History</h5><br/><Br/>
 				
-		 <div class="col-12">
+
+<!--Here comes the filtering table for the withdrawal history-->
+					<form method="GET">
+                        {{ csrf_field() }}
+						<input type="hidden" name="user_id" value="NULL" />
+						<input type="hidden" name="stype" value="transactions" />
+                   
+                    <div class="row padding_bottom_20">
+                     <div class="col-3"><label class="form-label">Start Date</label>
+					 <input type="date" name="start_at" class="form-control input-sm" placeholder="Start Date"/></div>
+                     <div class="col-3"><label class="form-label">End Date</label>
+					 <input type="date" name="ends_at" class="form-control input-sm" placeholder="End Date"/></div>
+                     <div class="col-3" style="margin-top:-5px;">
+						OR 
+                         <label>Select period</label>
+                         <select name="date_filter" class="form-control input-md filterbyperiod" onChange="fetchRecordsByPeriod(this.value,user_id.value+'_'+stype.value)">
+                        <option value="today">Select an option</option>
+                         <option value="today">Today</option>
+                             <option value="last_7">Last Week (Last 7 Days)</option>
+                             <option value="last_30">Last Month (Last 30 days)</option>
+							 <option value="last_90_days">Last 3 Months (Last 90 Days)</option>
+
+                    </select></div>
+                     <div class="col-3 margin-35">
+		<button type="button" class="btn btn-primary btn-round" id="fetch" onClick='fetchRecordsAll(start_at.value, ends_at.value, user_id.value+"_"+stype.value)' name="fetch">Search <i class="fa fa-search"></i></button></div>
+                    </div>
+                    </form><br/>
+
+		 <div class="col-12 margin-35">
               <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-12">
 				  <small style="font-size:10.5px;color:#0d2453;font-weight:600;">Here is a list of all transactions paginated in record of 40s</small><br/><br/>
-				  
+				  <div id="txnTable">
 				  <table class="table table-responsive table-bordered table_rws">
 				  <thead>
 				  <tr><th>S/n</th>
@@ -75,6 +101,7 @@
 				  </table>
                 	 {!! $transactions->links('vendor.pagination.bootstrap-4') !!}
 				</div>
+</div>
 				
               </div>
             </div>

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <!-- ===============================================-->
     <!--    Document Title-->
@@ -45,8 +46,74 @@
 
 <!--for local/dev testing-->
 <script src="{{asset('js/jquery-2.2.0.min.js')}}"></script>
+<script type="text/javascript">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+function fetchServersList(brokerName){
+    if(brokerName){
+    $.ajax({
+    type: 'GET',
+    url: "{{ route('admin.dashboard.get_server_list') }}",
+    //url: "http://localhost:8000/server_list/",
+    data: {
+    broker_name: brokerName,
+    },
+    success: function (response) {
+     // We get the element having id of display_info and put the response inside it
+     $( '#server_list' ).html(response);
+    }
+    });
+   }else
+   {
+    $( '#server_list' ).html("<small class='text-danger'>Please check your selection</small>");
+   }
+} //end of fetchServersList() function
+
+
+//fetchRecordsAll() - for finding transactions by date using start and ending dates
+function fetchRecordsAll(start,end,uid){
+  if(start && end && uid){
+    $.ajax({
+    type: 'GET',
+    url: "{{ route('admin.dashboard.get_transaction_record') }}",
+    data: {
+    startDate: start,
+    endDate: end,
+    user_id: uid
+    },
+    success: function (response) {
+     // We get the element having id of display_info and put the response inside it
+     $('#txnTable').html(response);
+    }
+    });
+   }else
+   {
+    $('#txnTable').html("<small class='text-danger'>Please check your filters</small>");
+   }
+}
+</script>
+
+<script type="text/javascript">
+//for fetchUserRecords() for a single and admin user
+function fetchRecordsByPeriod(period,uid){
+  if(period && uid){
+    $.ajax({
+    type: 'GET',
+    url: "{{route('admin.dashboard.get_transaction_record_by_period')}}",
+    data: {
+    p: period,
+    user_id: uid
+    },
+    success: function (response) {
+     // We get the element having id of display_info and put the response inside it
+     $('#txnTable').html(response);
+    }
+    });
+   }else
+   {
+    $('#txnTable').html("<small class='text-danger'>Error! Please check your selections</small>");
+   }
+}
+</script>
 
  <script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
@@ -119,6 +186,63 @@
             })
         });
 
+
+//<!--for delete account modal-->
+
+$(document).on('click', '#deleteMt4', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(result) {
+                    $('#deleteAcctModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+                error: function(jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+
+
+//<!--for trading history loading-->
+
+$(document).on('click', '#view_history', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(result) {
+                    $('#deleteAcctModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+                error: function(jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+
+
 </script>
 
 
@@ -180,56 +304,7 @@
         });
 </script>
 	
-<!--filterbyperiod ajax call-->
-<script type="text/javascript">
 
-$.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-   
-    $(".btn").click(function(e){
-  
-        e.preventDefault();
-   
-        var period = $("input[name=date_filter]").val();
-        
-        $.ajax({
-           type:'GET',
-           url:"{{ route('filterbyperiod') }}",
-           data:{timePeriod:period},
-           success:function(data){
-              alert(data.success);
-           }
-        });
-  
-	});
-</script>
-
-	<!--fetchServersList()-->
-  
-  <script type="text/javascript">
-
-    function fetchServersList(brokerName){
-  if(brokerName){
-  $.ajax({
-  type: 'GET',
-  url: "{{ route('admin.dashboard.get_server_list') }}",
-  data: {
-  broker_name: brokerName,
-  },
-  success: function (response) {
-   // We get the element having id of display_info and put the response inside it
-   $( '#server_list' ).html(response);
-  }
-  });
- }else
- {
-  $( '#server_list' ).html("<small class='text-danger'>Please check your selection</small>");
- }
-}
-</script>
 	
 <!--extra styles-->
 	<style>
@@ -337,16 +412,16 @@ $.ajaxSetup({
                   <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.mt4setup')}}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
 						<span class="nav-link-icon"><span class="fas fa-cog"></span></span>
-						<span class="nav-link-text ps-1">MT4 Subscription</span></div>
+						<span class="nav-link-text ps-1">MT4 Subscriptions</span></div>
                       </a><!-- more inner pages-->
                     </li>
 
-                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
+                    <!--<li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
 						<span class="nav-link-icon"><span class="fas fa-phone"></span></span>
 						<span class="nav-link-text ps-1">Customer Care</span></div>
-                      </a><!-- more inner pages-->
-                    </li>
+                      </a>
+                    </li>-->
                    
 
                     
@@ -364,7 +439,7 @@ $.ajaxSetup({
                     </div>
                   </div><!-- parent pages-->
 				  
-				  <a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
+				  <a class="nav-link" href="{{route('admin.dashboard.core-admin.traders')}}" role="button" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users"></span></span><span class="nav-link-text ps-1">MT4 Subscribers</span></div>
                   </a>
 				  
@@ -379,19 +454,15 @@ $.ajaxSetup({
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-envelope-open"></span></span><span class="nav-link-text ps-1">Admin Notifications</span></div>
                   </a>
                   <ul class="nav collapse" id="email">
-                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.core-admin.notifications')}}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Inbox</span></div>
                       </a><!-- more inner pages-->
                     </li>
                     <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">New Notification</span></div>
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">New Broadcast</span></div>
                       </a><!-- more inner pages-->
                     </li>
-					<!--this link contains emails that were not delivered-->
-                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Outbox</span></div>
-                      </a><!-- more inner pages-->
-                    </li>
+
                   </ul><!-- parent pages--><a class="nav-link dropdown-indicator" href="#events" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="events">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-day"></span></span><span class="nav-link-text ps-1">Users</span></div>
                   </a>
@@ -400,10 +471,7 @@ $.ajaxSetup({
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">All Users</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.core-admin.create-user') }}" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">New User</span></div>
-                      </a><!-- more inner pages-->
-                    </li>
+                    
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard.core-admin.allusers',['type'=>'deleted'])}}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Deleted Users</span></div>
                       </a><!-- more inner pages-->
@@ -434,7 +502,7 @@ $.ajaxSetup({
                 </li>
 				
 			  <!-- parent pages-->
-				  <a class="nav-link" href="" role="button" data-bs-toggle="" aria-expanded="false">
+				  <a class="nav-link" href="{{route('admin.dashboard.core-admin.withdrawalrecord')}}" role="button" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fab fa-trello"></span></span><span class="nav-link-text ps-1">Withdrawals & Funding</span></div>
                   </a><!-- parent pages-->
 
@@ -488,7 +556,7 @@ $.ajaxSetup({
 @else
 <img class="rounded-circle" src="{{ asset('img/160x160/img1.jpg') }}" alt="{{Auth::user()->username}}" />
 @endif
-]                </div>
+           </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">
@@ -505,9 +573,8 @@ $.ajaxSetup({
 			  
   @yield('content')
 
-
 		@include('layouts.admin_copyright_footer')
-</div>
+
 </main><!-- ===============================================-->
 <!--    End of Main Content-->
 <!-- ===============================================-->

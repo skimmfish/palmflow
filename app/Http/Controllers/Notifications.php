@@ -45,7 +45,14 @@ class Notifications extends Controller
      */
     public function show($id)
     {
-        //
+    
+        $singleNotification = \App\NotificationModel::find($id);
+ 
+        return view('admin.dashboard.core-admin.view-note')->with(
+            ['singleNotification'=>$singleNotification,
+            'allNotificationCount'=>\App\NotificationModel::where('notification_type','system_wide'),
+            'title'=>$singleNotification->subject]);    
+
     }
 
     /**
@@ -81,4 +88,17 @@ class Notifications extends Controller
     {
         //
     }
+
+    /*
+    *@param <NULL>
+    *@return View <$notifications>
+    */
+    public function notifyboard(){
+        $dashboardNotification = \App\NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>auth()->id()])->get();
+
+        $notifications = \App\NotificationModel::paginate(20);
+        return view('admin.dashboard.core-admin.notifications')->with(['notifications'=>$notifications,'title'=>'Notifications and Incoming E-mails',
+        'dashboardNotification'=>$dashboardNotification]);    
+    }
+
 }

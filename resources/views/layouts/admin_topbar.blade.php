@@ -116,56 +116,41 @@
               </li>-->
               <li class="nav-item dropdown">
                 <a class="nav-link notification-indicator notification-indicator-primary px-0 fa-icon-wait" id="navbarDropdownNotification" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hide-on-body-scroll="data-hide-on-body-scroll"><span class="fas fa-bell" data-fa-transform="shrink-6" style="font-size: 33px;"></span></a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-card dropdown-menu-notification dropdown-caret-bg" aria-labelledby="navbarDropdownNotification">
-                  <div class="card card-notification shadow-none">
-                    <div class="card-header">
-                      <div class="row justify-content-between align-items-center">
-                    
-					@if(count($dashboardNotification)<=0)
-					 <h6 class="card-header-title mb-0" style="font-size:11px">No unread notifications</h6>
-						@else
+                  <div class="dropdown-menu dropdown-menu-end dropdown-menu-card dropdown-menu-notification dropdown-caret-bg" aria-labelledby="navbarDropdownNotification">
+                    <div class="card card-notification shadow-none">
+                      <div class="card-header">
+                        <div class="row justify-content-between align-items-center">
+                        @if(count($dashboardNotification)<=0)
+                      <h6 class="card-header-title mb-0" style="font-size:11px">No unread notifications</h6>
+                    @else
 
-					@foreach($dashboardNotification as $notes)
-											
-						<div class="col-auto">
-                          <h6 class="card-header-title mb-0" style="font-size:12px;">Notifications</h6>
-                        </div>
-                        <div class="col-auto ps-0 ps-sm-3"><a class="card-link fw-normal" style="font-family:'Spartan','Brandon Grotesque';font-size:11px;" href="{{route('notification_mark_all_read') }}">Mark all as read</a></div>
-                      </div>
-                    </div>
+                    @foreach($dashboardNotification as $notes)
+                    <div class="notification_bar">
+                      <div class="avatar avatar-2xl me-3">
+                         <img class="rounded-circle" src="{{ asset('img/160x160/'.\App\Profile::get_profile_data($notes->sender_id,'profile_img')) }}" alt="{{\App\Profile::get_profile_data($notes->sender_id,'username')}}" />
+                           </div>
+ 
+                    <div class="subject">
+                      <a class="text-black subj mb-1" href="{{route('admin.dashboard.notifications',['id'=>$notes->id]) }}"><b>{{$notes->subject}}</b></a>
+                      
+                      <div class="notification-body">
+                            <span class="notification-time text-tiny" style="font-size:10px;color:#afafaf"><span class="me-2" role="img" aria-label="Emoji"><i class="fa fa-clock"></i></span>{{ date('d, F Y h:i:s A' , strtotime($notes->created_at)) }}</span>
+                          </div>
                     
-					<div class="scrollbar-overlay" style="max-height:19rem">
-                      <div class="list-group list-group-flush fw-normal fs--1">
-                        <div class="list-group-title border-bottom"></div>
-                       
-							<div class="list-group-item">
-                          <a class="notification notification-flush notification-unread" href="{{route('admin.dashboard.notifications',['id'=>$notes->id]) }}">
-                            <div class="notification-avatar">
-                              <div class="avatar avatar-2xl me-3">
-							    <img class="rounded-circle" src="{{ asset('img/'.$user::find($notes->sender_id)->profile_img) }}" alt="{{ $user::find($notes->sender_id)->username }}" />
-									</div>
-                            </div>
-							
-							
-                            <div class="notification-body">
-                              <p class="mb-1"><strong></strong> {{ $notes->subject }} </p>
-                              <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji"></span>{{ date('d, F Y h:i:s A' , strtotime($notes->created_at)) }}</span>
-                            </div>
-                          </a>
                         </div>
-					  </div>
+                      </div>
+                      <hr/>
+                      @endforeach
+                      @endif
+
+
                     </div>
-                    <div class="card-footer text-center border-top"><a class="card-link d-block" href="{{ route('admin.dashboard.notifications') }}">View all</a></div>
-								@endforeach
-									@endif
-		</div>
-                </div>
               </li>
               
               <li class="nav-item dropdown"><a class="nav-link pe-0 ps-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="avatar avatar-xl">
                   @if(App\Profile::get_profile_data(auth()->id(),'profile_img')!=NULL)
-                    <img class="rounded-circle" src="{{ asset('img/160x160/'.App\Profile::get_profile_data(auth()->id(),'profile_img')) }}" alt="{{ Auth::user()->username }}" />
+                    <img class="rounded-circle" src="{{ asset('img/160x160/'.\App\Profile::get_profile_data(auth()->id(),'profile_img')) }}" alt="{{ Auth::user()->username }}" />
                   @else
                     <img class="rounded-circle" src="{{ asset('img/160x160/img1.jpg') }}" alt="{{Auth::user()->username}}" />
                       @endif
