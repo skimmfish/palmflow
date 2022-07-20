@@ -128,7 +128,7 @@ echo $date;
 *@param $id - user_id who is withdrawing from the website
 *@param $stakeids - a simple arrow containing all the stake ids 
 */
-public function withdrawAll($id){
+public function withdrawAll($uid){
 
 $res = \App\Stakings::where('user_id',$id)->get();
 $accumulativeBalanceWithdrawable = 0;
@@ -137,13 +137,12 @@ $accumulativeBalanceWithdrawable = 0;
 foreach($res as $x){
 //print_r($x);
 $accumulativeBalanceWithdrawable += $x['staked_amount'] * ($x['balance_withdrawable']/100);
-$response = DB::table('stakings')->where(['user_id'=>$id, 'trx_id'=>$x['trx_id']])->update(['percent_withdrawn_sofar'=>($x['percent_withdrawn_sofar']+$x['balance_withdrawable']), 
+$response = DB::table('stakings')->where(['user_id'=>$uid, 'trx_id'=>$x['trx_id']])->update(['percent_withdrawn_sofar'=>($x['percent_withdrawn_sofar']+$x['balance_withdrawable']), 
 'balance_withdrawable'=>0]);
 }
 
 //sending the same value to the crypto payment endpoint
-$resv = $this->withdrawToWallet($id, $accumulativeBalanceWithdrawable);
-return $resv;
+return $resv = $this->withdrawToWallet($id, $accumulativeBalanceWithdrawable);
 }
 
 /*
@@ -162,8 +161,13 @@ $walletToUse = $r['wallet_id'];
 return $walletToUse;
 }
 
-public static function getArbitrage(){
 
+/*
+*@param NULL
+*@return Response <$response>
+*/
+
+public static function getArbitrage(){
 
 $curl = curl_init();
 curl_setopt_array($curl, [

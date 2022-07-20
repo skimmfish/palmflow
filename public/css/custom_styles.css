@@ -74,7 +74,7 @@ label{
     border: 0 !important;
 }
 
-
+.sub_group{display:grid;grid-template-columns:85% 15%;grid-gap:4px;}
 
 
 

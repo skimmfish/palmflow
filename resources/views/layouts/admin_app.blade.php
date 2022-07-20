@@ -24,6 +24,7 @@
     <meta name="theme-color" content="#ffffff">
     <link href="//db.onlinewebfonts.com/c/0aee6008b82cde991ec28387169bb13e?family=GD+Sherpa" rel="stylesheet" type="text/css"/>
     <script src="{{ asset('css/admin/js/config.js') }}"></script>
+
     <script src="{{ asset('css/admin/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
 
 
@@ -46,6 +47,11 @@
 
 <!--for local/dev testing-->
 <script src="{{asset('js/jquery-2.2.0.min.js')}}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+
+
 <script type="text/javascript">
 
 function fetchServersList(brokerName){
@@ -458,7 +464,7 @@ $(document).on('click', '#view_history', function(event) {
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Inbox</span></div>
                       </a><!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.core-admin.general_broadcast')}}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">New Broadcast</span></div>
                       </a><!-- more inner pages-->
                     </li>
@@ -594,6 +600,8 @@ $(document).on('click', '#view_history', function(event) {
     <script src="{{ asset('css/admin/vendors/is/is.min.js') }}"></script>
     <script src="{{ asset('css/admin/js/theme.js') }}"></script>
 		
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> 
 
 <!--generic function to close all bootstrap modals-->
 <script type="text/javascript">
@@ -603,6 +611,8 @@ $(modalToClose).modal('hide');
 }); 
 }
 </script>	
+
+
 
 </body>
 </html>

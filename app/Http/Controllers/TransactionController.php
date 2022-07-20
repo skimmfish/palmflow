@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\AssetManager;
 use App\CryptoAPIManager;
 use Coinremitter\Coinremitter;
+use Illuminate\Support\Facades\Http;
 
 use DB;
 
@@ -241,6 +242,59 @@ return $newWallet;
 }
 
 
+/*
+*@param NULL
+*@return Response <$response>
+*/
+
+public static function createPayment(){
+/*
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "https://api.nowpayments.io/v1/payment",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => [
+        "x-api-key: ".\App\CryptoAPIManager::get_value('nowapi_key'),
+        "Content-Type:application/json"
+        ],
+    ]);
+    
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+    
+    curl_close($curl);
+    
+    if ($err) {
+        echo "cURL Error #:" . $err;
+    } else {
+    return $response;
+    }
+  */  
+
+return   $response = Http::withHeaders([
+    
+        "x-api-key" => \App\CryptoAPIManager::get_value('nowapi_key'),
+        "Content-Type" =>"application/json"
+       
+        ])->post('https://api.nowpayments.io/v1/payment', [
+            'price_amount' => 20,
+            'price_currency'=> 'USD',
+            'pay_currency' => 'USDTTRC20',
+            'ipn_callback_url' => 'https://nowpayments.io',
+            'order_id' => 'OLFX-1200',
+            'order_description' => 'Wallet Reserve Funding'
+    ]);
+
+
+}
+    
+
     /*get_transaction() fetches the transaction details from coinremitter
     *@param int $id - transaction id
     *@return Array transaction-details
@@ -291,19 +345,40 @@ if($withdrawResponse['flag']){
         $transaction = new Transaction;
 
 		//auto-generate transaction id for this request
-		$transaction->transaction_id = $faker->numerify("####-##-####");
-		$transaction->transaction_hash = $withdrawResponse['data']['txid'];
+		$transaction_id = $faker->numerify("####-##-####");
+		$transaction->transaction_id = $transaction_id;
+		
+        $transaction->transaction_hash = $withdrawResponse['data']['txid'];
 		$transaction->trx_amount = $amount;
 		$transaction->originating_wallet_id = null;
-		$transaction->transaction_type='outflow';
+		$transaction->transaction_type='withdrawal';
 		$transaction->destination_wallet_id = $walletID;
 		$transaction->user_id = auth()->id();
 		$transaction->block_no_of_confirmations = 3;
         $transaction->explorer_url = $withdrawResponse['data']['explorer_url'];
 		$transaction->save();
 		$message = 'Transaction was successfully, kindly wait for confirmation!';
-		//flashing the succes info
+		
+        
+        
+        //creating a line in the withdrawals table
+        $withdrawals = \App\Withdrawals;
+        $withdrawals->user_id = auth()->id();
+        $withdrawals->transaction_id = $transaction_id;
+        $withdrawals->receiving_wallet_id = $
+        $withdrawals->confirmations = 2;
+        $withdrawals->receiving_wallet_id = $walletID;
+        $withdrawals->status=1;
+        $withdrawals->save();
+    
+        
+        //flashing the succes info
 		flash($message)->success();
+
+
+
+
+
     }
 		return redirect()->route('admin.dashboard.fund_wallet')->with('message',$message);
     }else{

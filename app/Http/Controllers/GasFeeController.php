@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail\ReserveStakingActivation;
+
 use DB;
 
 class GasFeeController extends Controller
@@ -68,7 +70,7 @@ DB::insert("INSERT into transactions (
     created_at,updated_at
 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 [NULL,$faker->numerify('####-##-####-##-###'),$txHash,$newStakedValue,'internal','outward',0,
-$userID,'Wallet reserve staking',1,'outinflow',0,"https://balmflow.com/hashexplorer/view_status/".$txHash,date('Y-m-d h:i:s',time()), 
+$userID,'Wallet reserve staking',1,'Outinflow',0,"https://balmflow.com/hashexplorer/view_status/".$txHash,date('Y-m-d h:i:s',time()), 
 date('d-m-y h:i:s',time())
 ]);
 
@@ -93,7 +95,13 @@ $rStake = DB::insert("INSERT into stakings (
     balance_withdrawable) VALUES (?,?,?,?,?,?,?,?,?,?,?)",[
         NULL,$trx_id,$uid,$newStakedValue,0,0,0,NULL,date('Y-m-d h:i:s',time()),date('Y-m-d h:i:s',time()),0]);
 
-$msg = "Transactions successful!";
+//sending mail to the user
+$user_email = \App\User::find($uid)->email;
+$f_name=\App\Profile::get_profile_data($uid,'first_name');
+
+Mail::to($user_email)->send(new ReserveStakingActivation($f_name,$newStakedValue));
+
+ $msg = "Transactions successful!";
 flash($msg)->success();
 
 //redirecting to the transactions page

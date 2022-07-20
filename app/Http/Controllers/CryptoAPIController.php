@@ -99,6 +99,20 @@ class CryptoAPIController extends Controller
 
 
     }
+  
+
+
+    /*
+    *@param fieldID int <$id>
+    *@return null
+    */
+  public static function deleteSettings($id){
+
+    $settingField = \App\CryptoAPIManager::find($id);
+    
+
+  }
+  
     /**
      * Remove the specified resource from storage.
      *

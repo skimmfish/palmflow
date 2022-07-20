@@ -488,29 +488,48 @@ Route::get('viewuser/{id}', '\App\Http\Controllers\ProfileController@show')->mid
 //settings endpoint
 Route::get('settings-and-config',function(){
 $user = new User;
-$Assets = \App\AssetManager::all();
+$Assets = \App\DailyReportModel::all();
 $cryptoConfig = \App\CryptoAPIManager::where('autoload',1)->get();
+$reportModel = \App\Http\Controllers\DailyReportController::getReports('last_updated',\Carbon\Carbon::today());
+	
 $dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
-return view('admin.dashboard.core-admin.settings',['title'=>'Settings and Configurations','dashboardNotification'=>$dashboardNotification,'Assets'=>$Assets,'config'=>$cryptoConfig]);
+return view('admin.dashboard.core-admin.settings',['assets'=>$Assets,'reports'=>$reportModel['report'],
+	'title'=>'Settings and Configurations','dashboardNotification'=>$dashboardNotification,'Assets'=>$Assets,'config'=>$cryptoConfig]);
 
 })->name('admin.dashboard.core-admin.settings');
 
+//for updating site configurations, more to be added later
 Route::put('update-settings','\App\Http\Controllers\CryptoAPIController@updateMany')->name('update_settings');
+
+
+//updating daily assets and profit on wallet reserve stakings...
+Route::put('asset-update/{id}','\App\Http\Controllers\DailyReportController@update')->name('update_asset_settings');
+
+//creating new daily assets and profit on wallet reserve stakings record...
+Route::post('new-asset-report/','\App\Http\Controllers\DailyReportController@store')->name('create_asset_settings');
 
 //route to all user transactions (personal transactions ) page for a single logged in user
 Route::get('alltransactions','\App\Http\Controllers\TransactionController@index')->name('admin.dashboard.core-admin.alltransactions');
+
+Route::delete('delete-settings/{id}','App\Http\Controllers\CryptoAPIController@deleteSettings')->name('delete_setting_field');
 
 //this route goes to the main super-admin's dashboard
 Route::get('/', function(){
 	
 	$user = new User;
-	$reportModel = \App\Http\Controllers\DailyReportController::getReports(\Carbon\Carbon::today(), null);
-	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
-	$activeUsers = DB::select('SELECT username FROM users WHERE active=? AND email_verified_at !=?',[true,NULL]);
 
+	//exploding yesterday's date using the white-space delimeter
+	$yesterday = explode(" ",\Carbon\Carbon::yesterday())[0];
+	$noDateReportModel = \App\DailyReportModel::all();
+	$reportModel = \App\Http\Controllers\DailyReportController::getReports('last_updated',\Carbon\Carbon::today());
+	$reportModelYesterday = \App\Http\Controllers\DailyReportController::getReports('last_updated',$yesterday);
+	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
+	$activeUsers = DB::select('SELECT username,id,is_admin FROM users WHERE active=?',[true]);
+
+	//$todayRoI = \App\DailyReportModel::where('last_updated',$)->get();
 return view('admin.dashboard.core-admin.index')->with(['active_user'=>$activeUsers,
-'title'=>'Admin Dashboard','dashboardNotification'=>$dashboardNotification,'user'=>$user,
-'reports'=>$reportModel['report'],'total_startup_asset'=>$reportModel['total_startup_asset']]);
+'title'=>'Admin Dashboard','dashboardNotification'=>$dashboardNotification,'user'=>$user,'chart_data'=>$noDateReportModel,
+'reports'=>$reportModel['report'],'fullReport'=>$noDateReportModel,'total_startup_asset'=>$reportModel['total_startup_asset'],'yesterdayReports'=>$reportModelYesterday['report']]);
 	
 })->name('admin.dashboard.core-admin.index');
 
@@ -521,6 +540,8 @@ return view('admin.dashboard.core-admin.maintenance')->with('title','Maintenance
 
 })->name('admin.dashboard.core-admin.maintenance');
 
+
+Route::get('new-email-broadcast','\App\Http\Controllers\Notifications@newbroadcast')->name('admin.dashboard.core-admin.general_broadcast');
 
 //this confirms if the admin  user wants to restore a user back to the fold
 Route::get('confirmrestore/{id}/{profile_id}',function($id,$profile_id){
@@ -583,6 +604,9 @@ $jsonResponse = \App\Http\Controllers\StakingsController::getArbitrage();
 print_r($jsonResponse);
 //return view('arbitragetester')->with(['title'=>'Arbitrage Tester']);
 })->name('arbitragetester');
+
+
+Route::get('nowpayment_api','\App\Http\Controllers\TransactionController@createPayment')->name('create_wallet');
 
 	//getwallet test
 	Route::get('getwallet',function(){

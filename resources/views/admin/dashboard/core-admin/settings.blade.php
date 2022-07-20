@@ -10,7 +10,7 @@
 			
 			<!--navigation row-->
 			
-		 <div class="col-11">
+		 <div class="col-7">
               <div class="card mb-3 btn-reveal-trigger">
 
 <br/>
@@ -32,15 +32,21 @@
                        
             @foreach($config as $x)
             <div class="row">     
+            <div class="col-12">
+              
             <label class="label small">{{ ucfirst($x->key_option) }}</label>
-           <div class="col-12">   
-            <input type="text" class="form-control input-md bordered" name="{{ $x->id }}" value="{{$x->key_value}}"/></div>
+              <div class="sub_group">   
+              <input type="text" class="form-control input-md bordered" name="{{ $x->id }}" value="{{$x->key_value}}"/>
+              <a href="{{route('delete_setting_field',['id'=>$x->id])}}" class="btn btn-danger btn-circle" style="margin-top:5px;width:45px !important;height:45px !important;line-height:32px;"><i class="fas fa-trash"></i></a>
+          
+            </div>
+            </div>
             </div>
 
             @endforeach
 
             <div class="form-group bump-20"><button class="btn btn-danger" name="save_btn" id="saveConfig">Save Settings</button>
-</div>
+          </div>
 
             {!! Form::close() !!}
 					
@@ -48,6 +54,89 @@
               </div>
             </div>
 
+
+            <!--col-4-- for adding daily earnings report-->
+<div class="col-5">
+ <div class="card mb-3 btn-reveal-trigger">         		
+    <div class="card-header position-relative min-vh-25 mb-8">
+        <h6>Daily Assets Updates</h6>
+		  		<p><ul>
+			    	<li><small style="font-size:10px">Daily RoI on Wallet Stakes, Hourly Reports Update Board</small></li>
+				      </ul>
+                  </p>
+					          
+          @if(sizeof($reports)>0)
+              @foreach($reports as $r)
+            
+            <form method="POST" action="{{ route('update_asset_settings',['id'=>$r->id]) }}">
+
+            @csrf
+            @method('PUT')
+            
+            <input type="hidden" name="id" class="form-control" value="{{$r->id}}" />
+
+              <div class="form-group">
+            <label class="label small">Futures ROI (USDT)</label>   
+          <input type="text" name="futures_roi" value="{{$r->futures_roi}}" class="form-control input-md bordered" placeholder="Futures ROI"/>
+          </div>
+          
+          <div class="form-group">
+            <label class="label small">Currencies ROI (USDT)</label>  
+          <input type="text" name="fx_roi" value="{{$r->fx_roi}}" class="form-control input-md bordered" placeholder="Currencies ROI"/>
+        </div>
+
+        <div class="form-group">
+            <label class="label small">Highest Daily Draw-down (%)</label> 
+          <input type="text" name="highest_daily_dd" value="{{$r->highest_daily_dd}}" class="form-control input-md bordered" placeholder="Highest Daily Drawdown"/>
+        </div>
+
+        <div class="form-group">
+            <label class="label small">Overnight Draw-down (%)</label> 
+          <input type="text" name="overnight_dd" value="{{$r->overnight_dd}}" class="form-control input-md bordered" placeholder="Overnight Drawdown"/>
+          </div>
+
+          <div class="form-group bump-20">
+            <button class="btn btn-primary" name="save_asset_btn" id="saveAssetConfig">Save RoI Updates</button>
+          </div>
+          
+          @endforeach
+
+          {!! Form::close() !!}
+
+
+          @else
+        
+          {!! Form::open(['route' => 'create_asset_settings', 'method'=>'POST'], ['class' => 'form']) !!}  
+            @csrf
+           
+           <div class="form-group">
+            <label class="label small">Futures ROI (USDT)</label>   
+          <input type="text" name="futures_roi" value="{{old('futures_roi')}}" class="form-control input-md bordered" placeholder="Futures ROI"/>
+          </div>
+          
+          <div class="form-group">
+            <label class="label small">Currencies ROI (USDT)</label>  
+          <input type="text" name="fx_roi" value="{{old('fx_roi')}}" class="form-control input-md bordered" placeholder="Currencies ROI"/>
+        </div>
+
+        <div class="form-group">
+            <label class="label small">Highest Daily Draw-down (%)</label> 
+          <input type="text" name="highest_daily_dd" value="{{old('highest_daily_dd')}}" class="form-control input-md bordered" placeholder="Highest Daily Drawdown"/>
+        </div>
+
+        <div class="form-group">
+            <label class="label small">Overnight Draw-down (%)</label> 
+          <input type="text" name="overnight_dd" value="{{old('overnight_dd')}}" class="form-control input-md bordered" placeholder="Overnight Drawdown"/>
+          </div>
+
+          <div class="form-group bump-20">
+            <button class="btn btn-primary" name="save_asset_btn" id="saveAssetConfig">Submit Assets Update</button>
+          </div>
+            {!! Form::close() !!}
+            @endif
+</div>
+</div>
+            <!--.row-->
        </div>
 
 @endsection

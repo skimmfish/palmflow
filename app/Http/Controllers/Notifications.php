@@ -101,4 +101,36 @@ class Notifications extends Controller
         'dashboardNotification'=>$dashboardNotification]);    
     }
 
+
+/*
+*@param NULL
+@return Boolean <$status>
+*
+*/
+public function newbroadcast(){
+	return view('admin.dashboard.core-admin.newbroadcast')->with(['title'=>'New General Broadcast']);
+}
+
+/*
+*@param NULL
+*This function sends a broadcast to all users in the system
+*/
+
+public function broad_to_all(Request $request){
+
+$notifications = new \App\NotificationModel;
+
+$notifications->subject = $request->message;
+$notifications->reply_email = 'no-reply@balmflow.com';
+$notifications->note = $request->message;
+$notifications->sender_id = 14;
+$notifications->receiver_id = 'all';
+$notifications->notification_type = 'system_wide';
+
+//saving a copy in the database
+$notifications->save();
+//sending a copy of the email
+Mail::to(\App\User::all()->email)->send();
+	
+	
 }

@@ -47,7 +47,7 @@
                 <div class="card-header position-relative min-vh-25 mb-12">
 				  <small style="font-size:10.5px;color:#0d2453;font-weight:600;">Here is a list of all transactions paginated in record of 40s</small><br/><br/>
 				  <div id="txnTable">
-				  <table class="table table-responsive table-bordered table_rws">
+				  <table class="table table-responsive table-border table_rws">
 				  <thead>
 				  <tr><th>S/n</th>
 				  <th>Transaction ID</th>
