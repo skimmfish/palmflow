@@ -365,7 +365,6 @@ if($withdrawResponse['flag']){
         $withdrawals = \App\Withdrawals;
         $withdrawals->user_id = auth()->id();
         $withdrawals->transaction_id = $transaction_id;
-        $withdrawals->receiving_wallet_id = $
         $withdrawals->confirmations = 2;
         $withdrawals->receiving_wallet_id = $walletID;
         $withdrawals->status=1;
