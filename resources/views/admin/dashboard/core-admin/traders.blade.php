@@ -30,7 +30,8 @@
       <th>Account Name</th>
       <th>Account Number</th>
       <th>Broker</th>
-      <th>MT4 Server</th>
+      <th>Platform Type</th>
+      <th>Server</th>
       <th>Leverage</th>
       <th>Date Created <hr/> Last Updated</th>
       <th>Actions</th>
@@ -46,6 +47,7 @@
       <td>{{ $s->account_name }}</td>
       <td>{{ $s->account_number }}</td>
       <td>{{ $s->broker_name }}</td>
+      <td>{{ $s->platform_type }}</td>
       <td>{{ $s->mt4_server }}</td>
       <td> {{ $s->leverage }} </td>
       <td><span class="text-info">{{ date('d F Y, H:i:s a', strtotime($s->created_at)) }}</span> <hr/>
@@ -64,7 +66,8 @@
       <th>Account Name</th>
       <th>Account Number</th>
       <th>Broker</th>
-      <th>MT4 Server</th>
+      <th>Platform</th>
+      <th>Server</th>
       <th>Leverage</th>
       <th>Date Created <hr/> Last Updated</th>
       <th>Actions</th>

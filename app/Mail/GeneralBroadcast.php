@@ -17,10 +17,12 @@ class GeneralBroadcast extends Mailable
      * @return void
      */
 	 public $subject;
+	 public $message;
 
-    public function __construct($subject)
+    public function __construct($subject,$message)
     {
         $this->subject = $subject;
+		$this->message = $message;
     }
 
     /**
@@ -30,6 +32,6 @@ class GeneralBroadcast extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->subject)->view('emails.generalbroadcast');
+        return $this->subject($this->subject)->view('emails.generalbroadcast')->with(['message'=>$this->message]);
     }
 }

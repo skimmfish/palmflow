@@ -17,7 +17,7 @@
                 <span class="text-warning">
                   <span class="js-typedjs"
                         data-hs-typed-options='{
-                          "strings": ["Add Gas Fees", "We Trade It If You Want", "Earn Cashback On Gas Fees","Connect MT4 Accounts & Relax While We Trade For You"],
+                          "strings": ["Add Trading Commission","Stake Some Into Reserve", "We Trade It If You Want","Connect MT4 & MT5 Accounts & Relax While We Trade For You"],
                           "typeSpeed": 60,
                           "loop": true,
                           "backSpeed": 25,
@@ -63,7 +63,7 @@
                 <div class="card bg-warning" style="background-image: url({{ asset('svg/components/wave-pattern-light.svg') }} );">
                   <div class="card-body">
                     <h4 class="card-title">Intelligent Staking</h4>
-                    <p class="card-text text-dark"><b>OliveFlowFx</b> Lets you stake your cryptocoins in all transparency, to help humanity and at the same time earning a recurrent stream of income</p>
+                    <p class="card-text text-dark"><b>OliveFlowFx</b> Lets you stake your part of your <b>Trading Fees</b> in all transparency, to help humanity and at the same time earning a recurrent stream of passing income <b>If You Wish</b></p>
 
                     <!-- Avatar -->
                     <div class="d-flex align-items-center">
@@ -105,7 +105,7 @@
             <!-- Heading -->
             <div class="mb-5">
               <h2 class="work-sans-h1">Crypto Staking Made Easy.</h2>
-              <p>When you stake your crypto coins, you earn passive income while HELPING humanity. So much to gain, Nothing to Lose</p>
+              <p>When you stake your wallet reserve Funds, you earn passive income while <b>HELPING</b> humanity. So much to gain, Nothing to Lose, So Much to Gain</p>
             </div>
             <!-- End Heading -->
 
@@ -155,8 +155,8 @@
           <div class="col-lg-5 order-lg-2 mb-9 mb-lg-0">
             <!-- Heading -->
             <div class="mb-5">
-              <h2>The Best Way to Stake Your Cryptocoins</h2>
-              <p>Use {{config('app_name')}} to stake your crypto coins in a legendary and transparent way, decentralized to serve you better irrespective of your location. </p>
+              <h2>The Best Way to Stake Your Wallet Reserve Funds</h2>
+              <p>Use {{config('app_name')}} to stake your Cryptocoins in a legendary and transparent way, decentralized Trading on your MT4 & MT5 accounts to serve you better irrespective of your location. </p>
             </div>
             <!-- End Heading -->
 
@@ -184,7 +184,7 @@
               <!-- Mobile Device -->
               <figure class="device-mobile mx-auto">
                 <div class="device-mobile-frame">
-                  <img class="device-mobile-img" src="{{ asset('img/407x867/img3.jpg') }}" alt="Image Description">
+                  <img class="device-mobile-img" src="{{ asset('img/407x867/img3.jpg') }}" alt="OliveflowFX Mobile App">
                 </div>
               </figure>
               <!-- End Mobile Device -->
@@ -211,7 +211,7 @@
             <!-- Heading -->
             <div class="mb-4">
               <h2>Get Paid to Help Humanity</h2>
-              <p>When you stake your cryptocoins, lots of benefits accrue to you, your stakings are regarded as donations given to help but in a legendary way, How?</p>
+              <p>When you stake your Cryptocoins, lots of benefits accrue to you, your stakings are regarded as donations given to help humanity but in a legendary way, How?</p>
             </div>
             <!-- End Heading -->
             
@@ -220,7 +220,7 @@
               <li class="list-checked-item">Orphans are being taken care of and a man without source of daily meal is being fed per hour increasing on a daily basis</li>
               <li class="list-checked-item">Out-of-school children are being taken care of</li>
               <li class="list-checked-item">We trade with these funds to ensure that you get best out of your stakings, and also to ensure that our community service doesn't stop</li>
-              <li class="list-checked-item">We give to live</li>
+              <li class="list-checked-item">We give to live, & We live to give</li>
             </ul>
             <!-- End List Checked -->
           </div>
@@ -265,7 +265,7 @@
           <div class="card card-lg text-center zi-2" data-aos="fade-up">
             <div class="card-header pb-0">
               <div class="mb-1">
-                <span class="display-4 text-primary">0.6-0.8%</span>
+                <span class="display-4 text-primary">0.8 - 2.5%</span>
                 <span class="badge bg-dark rounded-pill align-top ms-1">+/- 0.1%</span>
               </div>
               <p>per daily trading session</p>
@@ -299,7 +299,7 @@
               <!-- End Row -->
 
               <div class="mb-7">
-                <p class="card-text small">Every must stakings run for<br>6 months before re-staking / compounding</p>
+                <p class="card-text small">Every wallet reserve stakings run for <br> Three (3) months before re-staking / compounding</p>
               </div>
 
               <button type="button" data-bs-toggle="modal" data-bs-target="#signupModal" class="btn btn-primary btn-transition px-6">Get started</button>

@@ -62,6 +62,7 @@ class MT4DashboardController extends Controller
         $mt4dashboard->account_name = $request->account_name;
         $mt4dashboard->account_number = $request->account_number;
         $mt4dashboard->broker_name = $request->broker_name;
+        $mt4dashboard->platform_type=$request->platform_type;
         $mt4dashboard->mt4_server = $request->mt4_server;
         $mt4dashboard->user_id = $request->user_id;
         $mt4dashboard->leverage = $request->leverage;
@@ -76,6 +77,7 @@ class MT4DashboardController extends Controller
             'leverage' => 'required | min:3',
             'broker_name' => 'required | min:4',
             'mt4_server'=> 'required | min:4',
+            'platform_type' => 'required',
             '_password'=> 'required | min:20 | max:30',
             'investor_password'=> 'required | min:5',
         ];

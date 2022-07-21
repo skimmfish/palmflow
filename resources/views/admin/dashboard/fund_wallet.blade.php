@@ -26,13 +26,17 @@
 				</ul>
 				
 				<!--3d bar code for the crypto payment-->
+				@if($processingAPI==='coinremitter')
 				<div>
 					<span><small style="font-size:10px">Use the 2D bar code below to complete your transaction or use the wallet ID string below, and afterwards fill the form below to notify us of your payment.</small></span>
 				</div>
+				
+				
 				<img src="{{ $instantWallet['data']['qr_code'] }}" alt="3d-bar code for our wallet" class="img-responsive" lazyload loading="lazy"/>
 				<div><b style="font-size:10px">Wallet ID: <u class="text-primary">{{ $instantWallet['data']['address'] }}</u></b></div><Br/>
-				<div class="row text text-danger"><small>Kindly fill the form below soon as your transaction goes through. Thank you.</small></div>
+				<div class="row text text-danger"><small>Kindly fill the form below to fund your wallet reserve. Thank you.</small></div>
 			</p>
+			@endif
 					
 					{!! Form::open(['route' => 'transactions.store', 'method'=>'POST'], ['class' => 'form']) !!}
 					@csrf
@@ -55,6 +59,7 @@
 
 								{!! Form::label('destination_wallet_id', 'Destination Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
 
+								@if($processingAPI=='coinremitter')
 					<input type="text" name="destination_wallet_id" class="form-control @error('destination_wallet_id') is-invalid @enderror" Placeholder="Destination Wallet ID you sent funds to" value="{{ $instantWallet['data']['address'] }}" style="font-size:10px" required />
 					
 					@if ($errors->has('destination_wallet_id'))
@@ -62,6 +67,8 @@
                                         <strong>{{ $errors->first('destination_wallet_id') }}</strong>
                                     </span>
                                 @endif
+					
+								@endif
 					
 					
 					{!! Form::hidden('user_id', Auth::user()->id, [ 'class' => 'form-control input-md', 'placeholder' => 'Paste your transaction hash here','style'=>'font-size:10px;' ])  !!}

@@ -117,20 +117,31 @@ public function newbroadcast(){
 */
 
 public function broad_to_all(Request $request){
-
 $notifications = new \App\NotificationModel;
-
-$notifications->subject = $request->message;
+$notifications->subject = $request->subject;
+$notifications->message = $request->message;
 $notifications->reply_email = 'no-reply@balmflow.com';
 $notifications->note = $request->message;
 $notifications->sender_id = 14;
-$notifications->receiver_id = 'all';
+$notifications->receiver_id = $request->recipient;
 $notifications->notification_type = 'system_wide';
+$recipient = $request->recipient;
 
 //saving a copy in the database
 $notifications->save();
 //sending a copy of the email
-Mail::to(\App\User::all()->email)->send();
-	
-	
+
+if($recipient=='all'){
+    foreach((\App\User::where("active",1)->get()) as $r){
+        Mail::to($r->email)->send(new \App\Mail\GeneralBroadcast($notifications->subject,$notifications->message));
+    }	
+}else{
+
+    Mail::to($recipient)->send(new \App\Mail\GeneralBroadcast($notifications->subject,$notifications->message));
+    
+}
+
+}
+
+//end of class
 }

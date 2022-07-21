@@ -247,7 +247,7 @@ return $newWallet;
 *@return Response <$response>
 */
 
-public static function createPayment(){
+public static function createPayment($amount){
 /*
     $curl = curl_init();
     curl_setopt_array($curl, [
@@ -283,7 +283,7 @@ return   $response = Http::withHeaders([
         "Content-Type" =>"application/json"
        
         ])->post('https://api.nowpayments.io/v1/payment', [
-            'price_amount' => 20,
+            'price_amount' => $amount,
             'price_currency'=> 'USD',
             'pay_currency' => 'USDTTRC20',
             'ipn_callback_url' => 'https://nowpayments.io',

@@ -93,12 +93,10 @@ class CryptoAPIController extends Controller
             //$cryptoSettings->save();
     }
 
-    //sending notification to the flash storage
-    flash('Settings saved successfully')->success();
-    return redirect()->route('admin.dashboard.core-admin.settings')->with('message','Settings saved successfully');
-
-
-    }
+//sending notification to the flash storage
+flash('Settings saved successfully')->success();
+return redirect()->route('admin.dashboard.core-admin.settings')->with('message','Settings saved successfully');
+}
   
 
 

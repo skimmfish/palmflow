@@ -96,6 +96,26 @@
                                 @endif   
 
                   </div>
+				  
+				  
+				  <!--the server list is populated based on the selected broker-->
+                  <div class="form-group" id="platform_type">
+				<label>Platform Type **</label>
+                	
+					<select name="platform_type" class="form-control input-md">
+						<option value="mt4">Select platform Type - MT4/MT5</option>
+						<option value="mt4">MT4</option>
+						<option value="mt5">MT5</option>
+						</select>
+                  @if ($errors->has('platform_type'))
+                                    <span class="help-block">
+                                        <strong class="text-tiny weight-400 red">{{ $errors->first('platform_type') }}</strong>
+                                    </span>
+                                @endif   
+
+                  </div>
+				  
+				  
                  
                   <div class="form-group">
 <label>Preferred Leverage **</label>

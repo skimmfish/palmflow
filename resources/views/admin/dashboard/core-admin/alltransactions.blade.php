@@ -25,9 +25,19 @@
                      <div class="col-3"><label class="form-label">Start Date</label>
 					 <input type="date" name="start_at" class="form-control input-sm" placeholder="Start Date"/></div>
                      <div class="col-3"><label class="form-label">End Date</label>
-					 <input type="date" name="ends_at" class="form-control input-sm" placeholder="End Date"/></div>
-                     <div class="col-3" style="margin-top:-5px;">
-						OR 
+					 <input type="date" name="ends_at" class="form-control input-sm" placeholder="End Date"/>
+					</div>
+
+					<div class="col-3"><label class="form-label">End Date</label>
+					 <select name="" class="form-control input-sm">
+					<option>Select Transaction Type</option>
+					</select>
+					</div>
+
+
+					 <div class="col-3" style="margin-top:-5px;">
+
+					 OR 
                          <label>Select period</label>
                          <select name="date_filter" class="form-control input-md filterbyperiod" onChange="fetchRecordsByPeriod(this.value,user_id.value+'_'+stype.value)">
                         <option value="today">Select an option</option>

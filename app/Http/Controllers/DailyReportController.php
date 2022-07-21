@@ -67,7 +67,7 @@ return $response= array(['val'=>$value,'iter'=>$iteratedValue]);
      */
     public function store(Request $request)
     {
-    $report = new Report;
+    $report = new \App\DailyReportModel;
     $report->futures_roi = $request->futures_roi;
     $report->fx_roi = $request->fx_roi;
     $report->highest_daily_dd = $request->highest_daily_dd;

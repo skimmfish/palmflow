@@ -226,11 +226,14 @@ Route::get('view-transaction/{id}',function($id){
 Route::get('/fund_wallet', function(User $user){
 //$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
 
+//get the active processor 
+$processor = \App\CryptoAPIManager::get_value('processing_api');
+
 //calling the coinremitter API to get the wallet to pay into
 $instantWalletHandler = \App\Http\Controllers\TransactionController::getNewWallet();
 $txfees = \App\Http\Controllers\GasFeeController::getTotalTxFees(auth()->id());
 
-return view('admin.dashboard.fund_wallet')->with(['totalTxFees'=>$txfees['totalFees'],'stakedValue'=>$txfees['stakedValue'],'title'=>'Fund My Wallet - OliveFlowFX Project','instantWallet'=>$instantWalletHandler]);
+return view('admin.dashboard.fund_wallet')->with(['processingAPI'=>$processor,'totalTxFees'=>$txfees['totalFees'],'stakedValue'=>$txfees['stakedValue'],'title'=>'Fund My Wallet - OliveFlowFX Project','instantWallet'=>$instantWalletHandler]);
 
 })->name('admin.dashboard.fund_wallet');
 
@@ -433,6 +436,10 @@ Route::middleware(['auth','admin'])->prefix('dashboard/admin')->namespace('admin
 //for fetching all notifications meant for the super admins
 	Route::get('notification-board','\App\Http\Controllers\Notifications@notifyboard')->name('admin.dashboard.core-admin.notifications');
 
+//for pushing general broadcast for all users
+Route::post('send-general-broadcast','\App\Http\Controllers\Notifications@broad_to_all')->name('send_broadcast');
+
+	//this is for super admins to view notifications and respond to them
 Route::get('view-notification/{id}','\App\Http\Controllers\Notifications@show')->name('admin.dashboard.core-admin.view-single');
 
 //for logs
@@ -606,7 +613,9 @@ print_r($jsonResponse);
 })->name('arbitragetester');
 
 
-Route::get('nowpayment_api','\App\Http\Controllers\TransactionController@createPayment')->name('create_wallet');
+
+//to create a new wallet
+Route::get('nowpayment_api/{amount}','\App\Http\Controllers\TransactionController@createPayment')->name('create_wallet');
 
 	//getwallet test
 	Route::get('getwallet',function(){
@@ -619,11 +628,15 @@ Route::get('nowpayment_api','\App\Http\Controllers\TransactionController@createP
 	
 	})->name('getwallet');
 	
+
+	//this is a helper route to get my api_key, its an authenticated route so can't be accessed by non-admin users
 	Route::get('getparam',function(){
+	
 		echo $param = \App\CryptoAPIManager::get_value('coinremitter_api_key');
 		
 	})->name('getparam');
 
+	
 	//this route is for validating a wallet
 	Route::get('validatewallet/{wallet}',function($wallet){
 		$tx = new \App\Http\Controllers\TransactionController;
