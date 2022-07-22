@@ -81,7 +81,9 @@ label{
 .copyToClip:hover{
 	width:40px;height:40px;border-radius: 50%;border:2px solid #0d2453;
 }
-
+.unread_notebox{
+	width:25px;height:25px;background:#0d2453;border-radius:50%;border:0;text-align:center;line-height: 22px;color:#fff;
+}
 
 
 /**

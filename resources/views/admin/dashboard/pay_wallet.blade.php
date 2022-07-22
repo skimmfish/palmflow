@@ -20,6 +20,7 @@
     <div><a href="#" class="copyToClip" onClick="copyToClipBoard()" title="Copy to Clipboard"><img src="{{asset('img/clipboard.ico')}}" class="img-responsive" style="margin-top:-15px" width="25" height="25"/></a></div>
 </div>
 
+<a href="{{route('set_payment_completed',['pay_id'=>$pay_id])}}" class="btn btn-primary btn-md" style="display:block;margin:auto;width:auto;padding:10px 45px 10px 45px;margin-bottom:5px;">Complete Payment</a>
 @endif
 
 

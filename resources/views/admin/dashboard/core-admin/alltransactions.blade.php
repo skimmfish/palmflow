@@ -28,26 +28,29 @@
 					 <input type="date" name="ends_at" class="form-control input-sm" placeholder="End Date"/>
 					</div>
 
-					<div class="col-3"><label class="form-label">End Date</label>
-					 <select name="" class="form-control input-sm">
-					<option>Select Transaction Type</option>
-					</select>
+					<div class="col-2"><label class="form-label">Transaction Type</label>
+					 <select name="transaction_type" class="form-control input-sm">
+					<option>Select Type</option>
+					<option value="withdrawals">Withdrawals</option>
+					<option value="funding">Funding</option>
+					<option value="wallet_reserve_staking">Wallet Reserve Staking</option>
+				</select>
 					</div>
 
 
-					 <div class="col-3" style="margin-top:-5px;">
+					 <div class="col-2" style="margin-top:-5px;">
 
 					 OR 
                          <label>Select period</label>
                          <select name="date_filter" class="form-control input-md filterbyperiod" onChange="fetchRecordsByPeriod(this.value,user_id.value+'_'+stype.value)">
-                        <option value="today">Select an option</option>
+                        <option value="today">Select Period</option>
                          <option value="today">Today</option>
                              <option value="last_7">Last Week (Last 7 Days)</option>
                              <option value="last_30">Last Month (Last 30 days)</option>
 							 <option value="last_90_days">Last 3 Months (Last 90 Days)</option>
 
                     </select></div>
-                     <div class="col-3 margin-35">
+                     <div class="col-2 margin-35">
 		<button type="button" class="btn btn-primary btn-round" id="fetch" onClick='fetchRecordsAll(start_at.value, ends_at.value, user_id.value+"_"+stype.value)' name="fetch">Search <i class="fa fa-search"></i></button></div>
                     </div>
                     </form><br/>
@@ -117,7 +120,7 @@
             </div>
 		
 			
-		 <!-- view user modal -->
+		 <!-- view transaction modal -->
 		 <div class="modal fade" id="transactionmodal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

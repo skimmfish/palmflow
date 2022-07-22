@@ -124,6 +124,32 @@ class TransactionController extends Controller
         'title'=>'Send your transaction fees with this wallet']);
     }
 
+    /*
+    *@param Intet=ger <$pay_id>
+    *@return Illuminate\Response <$response>
+    */
+    public function completepay($payid){
+
+        $txID=0;
+        $res = DB::update("UPDATE transactions SET trxn_complete_status=? WHERE transaction_id=?",[2,$pay_id]);
+    
+        $tx = \App\Transactions::where('transaction_id',$payid)->get();
+
+        foreach($tx as $e){$txID = $e->id;}
+
+        //send message to the admin of this notification
+        $notifications = new \App\NotificationModel;
+        $notifications->subject = "Payment Notification";
+        $notifications->sender_id = auth()->id();
+        $notifications->receiver_id = 'admin';
+        $notifications->note = "A client just completed his payment, with transaction ID: <a href='#' data-attr='{{route('admin.dashboard.view-transaction',['id'=>$txID])}}' data-toggle='modal' id='smallButton' data-target='#transactionmodal'>$payid</a>, kindly check the dashboard for confirmations.";
+        $notifications->read_status=0;
+        $notifications->reply_email = Auth::user()->email;
+        $notifications->pub_status=1;
+        $notifications->save();
+        return redirect()->route();
+    }
+
     /**
      * Display the specified resource.
      *

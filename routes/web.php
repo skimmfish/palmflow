@@ -134,11 +134,7 @@ route for all non-admin authenticated routes accessible by super admins as well
 ================================
 */
 
-//resetting the read_status of notification to true for all messages belonging to the logged in user
-Route::get('notification_mark_all_read', function(){
-$getAllRecords = NotificationModel::where(['pub_status'=>1,'read_status'=>0,'receiver_id'=>Auth::user()->id])->get();
-foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); 
-} return redirect()->route('login')->with('message','All notifications set to read'); })->middleware(['auth','verified'])->name('notification_mark_all_read');
+
 
 
 //add new wallet
@@ -336,7 +332,17 @@ Route::middleware(['auth','verified'])->prefix('dashboard/admin')->namespace('ad
 	//view()->share('user',new \App\User);
 	//view()->share('dashboardNotification',$dashboardNotification);
 
-	//registering
+	//resetting the read_status of notification to true for all messages belonging to the logged in user
+Route::get('notification_mark_all_read', function(){
+	$getAllRecords = NotificationModel::where(['pub_status'=>1,'read_status'=>0,'receiver_id'=>Auth::user()->id])->get();
+	foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); 
+	} return redirect()->route('login')->with('message','All notifications set to read'); 
+	})->middleware(['auth','verified'])->name('notification_mark_all_read');
+
+	//making payment notification to the admins to verify
+Route::get('payment-complete/{pay_id}','\App\Http\Controllers\TransactionController@completepay')->name('set_payment_completed');
+	
+//registering pay_id and creating a wallet QR code for clients to use
 Route::get('pay_wallet/{pay_id}',function($pay_id){
 
 $amount=0;
@@ -350,7 +356,7 @@ foreach($wallet as $bx){
 }
 
 return view('admin.dashboard.pay_wallet')->with(['title'=>'Send Payment with NowPayments Wallet',
-'wallet'=>$destination_wallet,'amount'=>$amount]);
+'wallet'=>$destination_wallet,'amount'=>$amount,'pay_id'=>$pay_id]);
 
 })->name('admin.dashboard.pay_wallet');
 
@@ -452,7 +458,15 @@ Route::get('get_transaction_record_by_period',function(){
 
 
 //grouping all routes under the dashboard/admin namespace for super-admin users
-Route::middleware(['auth','admin'])->prefix('dashboard/admin')->namespace('admin')->group(function(){
+Route::middleware(['auth','admin'])->prefix('dashboard/superadmin')->namespace('admin')->group(function(){
+
+$unreadMessageCounter = sizeof(\App\NotificationModel::where(['read_status'=>0,'receiver_id'=>14])->get());
+
+view()->share('unreadMessageCounter',$unreadMessageCounter);
+
+
+//delete notifications for super admins
+Route::delete('delete_notification/{id}','\App\Http\Controllers\Notifications@delete')->name('delete_notification');
 
 //for fetching all notifications meant for the super admins
 	Route::get('notification-board','\App\Http\Controllers\Notifications@notifyboard')->name('admin.dashboard.core-admin.notifications');

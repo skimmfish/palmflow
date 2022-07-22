@@ -481,7 +481,9 @@ $(document).on('click', '#view_history', function(event) {
                   </a>
                   <ul class="nav collapse" id="email">
                     <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.core-admin.notifications')}}" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Inbox</span></div>
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Inbox</span>
+                      <p class="unread_notebox">{{$unreadMessageCounter}}</p>
+                      </div>
                       </a><!-- more inner pages-->
                     </li>
                     <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard.core-admin.general_broadcast')}}" data-bs-toggle="" aria-expanded="false">
