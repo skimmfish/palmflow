@@ -226,11 +226,13 @@ Route::get('view-transaction/{id}',function($id){
 Route::get('/fund_wallet', function(User $user){
 //$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>Auth::user()->id])->get();
 
-//get the active processor 
+//get the active processor getNewWallet
 $processor = \App\CryptoAPIManager::get_value('processing_api');
-
+$instantWalletHandler = NULL;
 //calling the coinremitter API to get the wallet to pay into
+if($processor=='coinremitter'){
 $instantWalletHandler = \App\Http\Controllers\TransactionController::getNewWallet();
+}
 $txfees = \App\Http\Controllers\GasFeeController::getTotalTxFees(auth()->id());
 
 return view('admin.dashboard.fund_wallet')->with(['processingAPI'=>$processor,'totalTxFees'=>$txfees['totalFees'],'stakedValue'=>$txfees['stakedValue'],'title'=>'Fund My Wallet - OliveFlowFX Project','instantWallet'=>$instantWalletHandler]);
@@ -333,7 +335,26 @@ Route::middleware(['auth','verified'])->prefix('dashboard/admin')->namespace('ad
 	
 	//view()->share('user',new \App\User);
 	//view()->share('dashboardNotification',$dashboardNotification);
-	
+
+	//registering
+Route::get('pay_wallet/{pay_id}',function($pay_id){
+
+$amount=0;
+$destination_wallet=NULL;
+ $pay_id;
+$wallet = \App\Transactions::where('transaction_id',$pay_id)->get();
+
+foreach($wallet as $bx){
+	$destination_wallet = $bx->destination_wallet_id;
+	$amount=$bx->trx_amount;
+}
+
+return view('admin.dashboard.pay_wallet')->with(['title'=>'Send Payment with NowPayments Wallet',
+'wallet'=>$destination_wallet,'amount'=>$amount]);
+
+})->name('admin.dashboard.pay_wallet');
+
+
 	Route::get('mt4-setup',function(){
 		$user = new User;
 		$brokers = array(
@@ -615,7 +636,7 @@ print_r($jsonResponse);
 
 
 //to create a new wallet
-Route::get('nowpayment_api/{amount}','\App\Http\Controllers\TransactionController@createPayment')->name('create_wallet');
+Route::post('nowpayment_api/{amount}','\App\Http\Controllers\TransactionController@createPayment')->name('create_wallet');
 
 	//getwallet test
 	Route::get('getwallet',function(){

@@ -76,11 +76,11 @@ label{
 
 .sub_group{display:grid;grid-template-columns:85% 15%;grid-gap:4px;}
 
-
-
-
-
-
+.qr_code{	display:block;margin:auto; padding:20px;} 
+._copybtn{display:grid;grid-template-columns: 96% 4%;align-self:center;grid-gap:15px;padding-bottom:15px;}
+.copyToClip:hover{
+	width:40px;height:40px;border-radius: 50%;border:2px solid #0d2453;
+}
 
 
 

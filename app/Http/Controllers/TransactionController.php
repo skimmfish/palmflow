@@ -78,7 +78,6 @@ class TransactionController extends Controller
 		
 		$rules =[
             'originating_wallet_id'=>'required | min: 34 | max:34',
-			'transaction_hash' => 'required',
 			'trx_amount' => 'required'
 		];
 		
@@ -96,24 +95,33 @@ class TransactionController extends Controller
 		$faker = \Faker\Factory::create();
 		
 		//auto-generate transaction id for this request
-		$transaction->transaction_id = $faker->numerify('####-##-####-##-###');
+        $txID = $faker->numerify('####-##-####-##-###');
 		$transaction->transaction_hash = $this->hashRandom(10);
 		$transaction->trx_amount = $request->trx_amount;
+        $_funding_amount = $request->trx_amount;
 		$transaction->originating_wallet_id = $request->originating_wallet_id;
-		$transaction->transaction_type='inflow';
-		$transaction->destination_wallet_id = $request->destination_wallet_id;
-		$transaction->user_id = $request->user_id;
+		$transaction->comments='Wallet Funding';
+        $transaction->transaction_type='inflow';
+
+        $OliveFxwallet = $this->createPayment($_funding_amount);
+
+        $transaction->destination_wallet_id = $OliveFxwallet['pay_address'];
+		$transaction->transaction_id = $OliveFxwallet['payment_id'];
+
+        $transaction->user_id = $request->user_id;
 		$transaction->txn_date = date("Y-m-d");
         $transaction->txn_last_updated=date("Y-m-d");
+        $transaction->trxn_complete_status= false;
+        $transaction->explorer_url = "https://balmflow.com/explorer/".$txID;
 
 		$transaction->save();
 		$message = 'Transaction registered successfully, kindly wait for confirmation!';
 		
 		//flashing the succes info
 		flash($message)->success();
-		
-		return redirect()->route('admin.dashboard.fund_wallet')->with('message',$message);
-		
+
+		return redirect()->route('admin.dashboard.pay_wallet',['pay_id'=>$OliveFxwallet['payment_id']])->with(['message'=>$message,
+        'title'=>'Send your transaction fees with this wallet']);
     }
 
     /**
@@ -291,7 +299,6 @@ return   $response = Http::withHeaders([
             'order_description' => 'Wallet Reserve Funding'
     ]);
 
-
 }
     
 
@@ -360,7 +367,6 @@ if($withdrawResponse['flag']){
 		$message = 'Transaction was successfully, kindly wait for confirmation!';
 		
         
-        
         //creating a line in the withdrawals table
         $withdrawals = \App\Withdrawals;
         $withdrawals->user_id = auth()->id();
@@ -370,19 +376,14 @@ if($withdrawResponse['flag']){
         $withdrawals->status=1;
         $withdrawals->save();
     
-        
         //flashing the succes info
 		flash($message)->success();
-
-
-
-
 
     }
 		return redirect()->route('admin.dashboard.fund_wallet')->with('message',$message);
     }else{
         return 'Your wallet is invalid, or amount below withdrawable value';
-    }
+}
 return $withdrawResponse;
 }
 
@@ -393,7 +394,7 @@ return $withdrawResponse;
 */
 public static function find_records($s,$e,$u){
 
-$response=array();
+$response = array();
 
 $filterType = explode("_",$u)[1];
 $id = explode("_",$u)[0];

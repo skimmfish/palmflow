@@ -51,7 +51,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 
-
+<!--For fetching all brokers server-->
 <script type="text/javascript">
 
 function fetchServersList(brokerName){
@@ -120,6 +120,26 @@ function fetchRecordsByPeriod(period,uid){
    }
 }
 </script>
+
+<!--for coping wallets to clipboard-->
+
+<script>
+function copyToClipBoard() {
+  /* Get the text field */
+  var copyText = document.getElementById("walletTag");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+   /* Copy the text inside the text field */
+  navigator.clipboard.writeText(copyText.value);
+
+  /* Alert the copied text */
+  alert("Wallet Copied to Clipboard");
+}</script>
+
+
 
  <script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
@@ -611,8 +631,6 @@ $(modalToClose).modal('hide');
 }); 
 }
 </script>	
-
-
 
 </body>
 </html>

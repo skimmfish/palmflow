@@ -8,7 +8,7 @@
 			<!--navigation row-->
 		 <div class="col-5">
               <div class="card mb-3 btn-reveal-trigger">
-  <div class="container"> @if (session('message'))   <div class="alert alert-success">  {{ session('message') }}</div>@endif</div>	  
+  <div class="container"> @if (session('message'))   <div class="alert alert-success" style="font-size:12px;">  {{ session('message') }}</div>@endif</div>	  
                 <div class="card-header position-relative min-vh-25 mb-8">
                   <h6>Transact Fees Funding</h6><div class="text-right" 
 				  style="float:right;position:relative;top:-45px;left:-10px;">
@@ -40,11 +40,12 @@
 					
 					{!! Form::open(['route' => 'transactions.store', 'method'=>'POST'], ['class' => 'form']) !!}
 					@csrf
-					{!! Form::label('trx_amount', 'Transaction Amount', ['class' => 'control-label', 'style'=>'font-size:10px;']) !!}
-					{!! Form::text('trx_amount', null, [ 'class' => 'form-control input-md', 'placeholder' => 'How much did you send?','style'=>'font-size:10px;' ])  !!}
+					{!! Form::label('trx_amount', 'Transaction Amount (USDT)', ['class' => 'control-label', 'style'=>'font-size:10px;']) !!}
+					{!! Form::text('trx_amount', null, [ 'class' => 'form-control input-md', 'placeholder' => 'How much do you want to fund?','style'=>'font-size:10px;' ])  !!}
 					
-					{!! Form::label('transaction_hash', 'Transaction Hash', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
+					{{-- {!! Form::label('transaction_hash', 'Transaction Hash', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
 					{!! Form::text('transaction_hash', null, [ 'class' => 'form-control input-md', 'placeholder' => 'Paste your transaction hash here','style'=>'font-size:10px;' ])  !!}
+					--}}
 					
 					{!! Form::label('originating_wallet_id', 'Originating Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
 
@@ -52,14 +53,12 @@
 					
 					@if ($errors->has('originating_wallet_id'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('originating_wallet_id') }}</strong>
+                                        <strong class="text-danger text-tiny">{{ $errors->first('originating_wallet_id') }}</strong>
                                     </span>
                                 @endif
 					
-
-								{!! Form::label('destination_wallet_id', 'Destination Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
-
-								@if($processingAPI=='coinremitter')
+				@if($processingAPI=='coinremitter')
+					{!! Form::label('destination_wallet_id', 'Destination Wallet ID', ['class' => 'control-label', 'style'=>'font-size:10px']) !!}
 					<input type="text" name="destination_wallet_id" class="form-control @error('destination_wallet_id') is-invalid @enderror" Placeholder="Destination Wallet ID you sent funds to" value="{{ $instantWallet['data']['address'] }}" style="font-size:10px" required />
 					
 					@if ($errors->has('destination_wallet_id'))
@@ -77,7 +76,15 @@
 					
 					{!! Form::close() !!}
 					
-					<p></p>
+					<p class="row wallet_id_box">
+@if(isset($walletIdentifier))
+<span class="text-md">{{ 'Please use this wallet to send your $walletFunds' }}</span>
+<b>{{ $walletIdentifier['pay_address'] }}</b>
+{{$walletIdentifier}}
+	@endif
+
+
+					</p>
 			   
                 </div>
               </div>
