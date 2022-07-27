@@ -98,6 +98,32 @@ function fetchRecordsAll(start,end,uid){
 }
 </script>
 
+
+
+<!--filter by transaction ID-->
+<script>
+function filterByTxId(txid){
+  if(txid){
+    $.ajax({
+    type: 'GET',
+    url: "{{ route('admin.dashboard.getrecord') }}",
+    data: {
+    transactionID: txid
+    },
+    success: function (response) {
+     // We get the element having id of display_info and put the response inside it
+     $('#txnTable').html(response);
+    }
+    });
+   }else
+   {
+    $('#txnTable').html("<small class='text-danger'>Please enter transaction ID</small>");
+   }
+}
+</script>
+
+
+<!--Filter records by period-->
 <script type="text/javascript">
 //for fetchUserRecords() for a single and admin user
 function fetchRecordsByPeriod(period,uid){

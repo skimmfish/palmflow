@@ -5,7 +5,10 @@
 
           <div class="card mb-3">
             <div class="card-body d-flex justify-content-between">
-              <div><a class="btn btn-falcon-default btn-sm" href="{{route('admin.dashboard.core-admin.notifications')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Back to inbox"><span class="fas fa-arrow-left"></span></a><span class="mx-1 mx-sm-2 text-300">|</span><button class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Archive"><span class="fas fa-archive"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark as unread"><span class="fas fa-envelope"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Snooze"><span class="fas fa-clock"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2 d-none d-sm-inline-block" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Print"><span class="fas fa-print"></span></button></div>
+              <div><a class="btn btn-falcon-default btn-sm" href="{{route('admin.dashboard.core-admin.notifications')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Back to inbox"><span class="fas fa-arrow-left"></span></a><span class="mx-1 mx-sm-2 text-300">|</span>
+              <a href="{{route('delete_notification',['id'=>$singleNotification->id])}}" class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></a>
+              <a href="{{route('notification_mark_single_as_read',['id'=>$singleNotification->id,'status'=>0])}}" class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark as unread"><span class="fas fa-envelope"></span></a>
+              <a onClick="print()" class="btn btn-falcon-default btn-sm ms-1 ms-sm-2 d-none d-sm-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="Print"><span class="fas fa-print"></span></a></div>
               <div class="d-flex">
                 <div class="d-none d-md-block">
                   <!--<small>2 of 354</small>
@@ -27,7 +30,14 @@
               <div class="row">
                 <div class="col-md d-flex">
                   <div class="avatar avatar-2xl">
-                    <img class="rounded-circle" src="{{ asset('img/160x160/'.\App\Profile::get_profile_data($singleNotification->sender_id,'profile_img')) }}" alt="" />
+                  
+
+    @if(\App\Profile::get_profile_data($singleNotification->sender_id,'profile_img')!=NULL && file_exists('img/160x160/'.\App\Profile::get_profile_data($singleNotification->sender_id,'profile_img')))
+    <img class="rounded-soft img-round" style="border-radius:50% !important;width:25px;height:25px;" src="{{ asset('img/160x160/'.\App\Profile::get_profile_data($singleNotification->sender_id,'profile_img')) }}" alt="{{ asset('img/160x160/'.\App\User::get_profile_data($singleNotification->sender_id,'username')) }}" />
+    @else
+    <img class="rounded-soft img-round" style="border-radius:50% !important;width:25px;height:25px;" src="{{ asset('img/160x160/img1.jpg') }}" alt="{{ asset('img/160x160/'.\App\User::get_profile_data($singleNotification->sender_id,'username')) }}" />    
+    @endif
+                  
                   </div>
                   <div class="flex-1 ms-2">
                     <h5 class="mb-0">Stake your wallet Reset, Earn while Helping Humanity</h5><a class="text-800 fs--1" href="mailto:{{\App\User::get_profile_data($singleNotification->sender_id,'email')}}" target="_blank"><span class="fw-semi-bold">{{ \App\Profile::get_profile_data($singleNotification->sender_id,'first_name')}} {{ \App\Profile::get_profile_data($singleNotification->sender_id,'last_name') }}</span><span class="ms-1 text-500">&lt; {{\App\User::get_profile_data($singleNotification->sender_id,'email')}} &gt;</span></a>

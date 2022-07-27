@@ -18,16 +18,31 @@
                   <div class="cover-image">
                     <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image:url({{ asset('img/1920x1080/img15.jpg') }} );"></div>
                     <!--/.bg-holder-->
-                    <input class="d-none" id="upload-cover-image" type="file" /><label class="cover-image-file-input" for="upload-cover-image"><span class="fas fa-camera me-2"></span><span style="font-family:'Spartan','Brandon Grotesque';color:#fff">Change cover photo</span></label>
+                    <input class="d-none" id="upload-cover-image" type="file" />
+                    <label class="cover-image-file-input" for="upload-cover-image">
+                      <span class="fas fa-camera me-2"></span><span style="font-family:'GD Sherpa Regular','Brandon Grotesque';color:#fff">Change cover photo</span></label>
                   </div>
                   <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
-                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="{{ asset('img/160x160/'.\App\Profile::get_profile_data(auth()->id(),'profile_img'))}}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
-                    <form action="{{ route('admin.dashboard.update_picture',['id'=>auth()->id()]) }}" method="POST">
+                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> 
+                      <img src="{{ asset('img/160x160/'.\App\Profile::get_profile_data(auth()->id(),'profile_img'))}}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
+                    
+                    <form action="{{ route('update_picture',['id'=>auth()->id()]) }}" method="POST" enctype="multipart/form-data">
                       @csrf
-                        @method('PUT')
-                      <input class="d-none" id="profile-image" name="my_avatar" type="file" /><label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span>
-                    </form>
-                    <span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block" style="font-family:'Spartan','Brandon Grotesque';">Update</span></span></label></div>
+                      @method('PUT')
+                       <input class="d-none" id="profile-image" name="my_avatar" type="file" />
+                      <label class="mb-0 overlay-icon d-flex flex-center" for="profile-image">
+                        <span class="bg-holder overlay overlay-0"></span>
+                      
+                    <span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span>
+                    <span class="d-block" style="font-family:'Spartan','Brandon Grotesque';">Select Avatar</span>
+                  </span>
+                </label>
+              </div>
+
+              <button name="save_avatar" class="btn btn-primary move_to_top" style="width:40px !important;height:40px !important;border:2px solid #fff;"><i class="fas fa-save"></i></button>
+                    
+              </form>
+
                   </div>
                 </div>
               </div>
@@ -80,7 +95,8 @@
 					@endif
 					</select>
 					</div>
-                    <div class="col-6 d-flex" style="margin-top:45px;"><button class="btn btn-primary btn-lg" style="padding-top:5px;width:100%;height:35px;" type="submit">Update </button></div>
+                    <div class="col-6 d-flex" style="margin-top:45px;">
+                    <button class="btn btn-primary btn-lg" style="padding-top:5px;width:100%;height:35px;" type="submit">Update </button></div>
                   
 				  @endforeach
          @else

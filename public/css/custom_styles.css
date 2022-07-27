@@ -85,7 +85,13 @@ label{
 	width:25px;height:25px;background:#0d2453;border-radius:50%;border:0;text-align:center;line-height: 22px;color:#fff;
 }
 
+.move_to_top{
+display:block;
+position:relative;
+width:40px !important;height:40px !important;
+top:-100px;left:140px;border-radius:50%;border:2px solid #fff;
 
+}
 /**
 *Mobile and Ipad/tablets size
 ***/

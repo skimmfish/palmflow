@@ -13,7 +13,6 @@ use Coinremitter\Coinremitter;
 use Illuminate\Support\Facades\Http;
 
 use DB;
-
 //use Illuminate\Contracts\Validation\Validator;
 
 
@@ -45,7 +44,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transactions::orderBy('id','desc')->paginate(40);
+        $transactions = Transactions::orderBy('created_at','desc')->paginate(40);
 		$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>auth()->id()])->get();
 		return view('admin.dashboard.core-admin.alltransactions')->with(['transactions'=>$transactions,'id'=>1,'user'=>new \App\User,'title'=>'All Transactions Record']);
     }
@@ -101,7 +100,7 @@ class TransactionController extends Controller
         $_funding_amount = $request->trx_amount;
 		$transaction->originating_wallet_id = $request->originating_wallet_id;
 		$transaction->comments='Wallet Funding';
-        $transaction->transaction_type='inflow';
+        $transaction->transaction_type='wallet_reserve_funding';
 
         $OliveFxwallet = $this->createPayment($_funding_amount);
 
@@ -131,23 +130,30 @@ class TransactionController extends Controller
     public function completepay($payid){
 
         $txID=0;
-        $res = DB::update("UPDATE transactions SET trxn_complete_status=? WHERE transaction_id=?",[2,$pay_id]);
+        $res = DB::update("UPDATE transactions SET trxn_complete_status=? WHERE transaction_id=?",[2,$payid]);
     
         $tx = \App\Transactions::where('transaction_id',$payid)->get();
+        $userID = auth()->id();
+
+        $user = \App\User::where(['id'=>$userID])->get();
+        $userEmail=null;
+
+        foreach($user as $u){$userEmail = $u->email;}
 
         foreach($tx as $e){$txID = $e->id;}
 
         //send message to the admin of this notification
         $notifications = new \App\NotificationModel;
         $notifications->subject = "Payment Notification";
-        $notifications->sender_id = auth()->id();
-        $notifications->receiver_id = 'admin';
+        $notifications->sender_id = $userID;
+        $notifications->receiver_id = 14;
         $notifications->note = "A client just completed his payment, with transaction ID: <a href='#' data-attr='{{route('admin.dashboard.view-transaction',['id'=>$txID])}}' data-toggle='modal' id='smallButton' data-target='#transactionmodal'>$payid</a>, kindly check the dashboard for confirmations.";
         $notifications->read_status=0;
-        $notifications->reply_email = Auth::user()->email;
+        $notifications->reply_email = $userEmail;
+        $notifications->notification_type = 'funding';
         $notifications->pub_status=1;
         $notifications->save();
-        return redirect()->route();
+        return redirect()->route("admin.dashboard.fund_wallet")->with('message','Your funding notification has been sent successful. Kindly check your e-mail for more information');
     }
 
     /**
@@ -161,8 +167,29 @@ class TransactionController extends Controller
         //
     }
 
-	
-	
+	/*
+    *This static function activates transaction, this is to be called by cronjob in future updates
+    *@param Integer <$id>
+    *@param Double <$amt>
+    @param Boolean <$status>
+    @return \Illuminate\Response $response
+    */
+
+    public static function activateTxn($id,$amt,$uid,$txid){
+
+        //updating the transaction DB table
+        $txx = DB::update("UPDATE transactions SET trxn_complete_status=? WHERE id=?",[1,$id]);
+
+        //adding the funds to the gasfees table to update the requisite status of transaction funds
+        $txx = DB::update("UPDATE gas_fees SET amount=amount+?, txn_id=? WHERE user_id=?",[$amt,$txid,$uid]);
+    
+    return redirect()->route('admin.dashboard.core-admin.alltransactions');
+}
+
+
+
+
+
 	/*
 	*This function fetches all the transaction records for the specified user with the $uid parameter passed, the recorsd sare paginated at 20 records per table
 	*
@@ -173,7 +200,7 @@ class TransactionController extends Controller
 	$uid = auth()->id();
 	$dashboardNotification = NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>$uid])->get();
 
-	$transactions = Transactions::select('transaction_id','transaction_hash','trx_amount','created_at','trxn_complete_status','originating_wallet_id','transaction_type','comments')->where(['user_id'=>$uid])->orderBy('id','DESC')->paginate(20);	
+	$transactions = Transactions::select('id','transaction_id','transaction_hash','trx_amount','created_at','trxn_complete_status','originating_wallet_id','destination_wallet_id','transaction_type','comments')->where(['user_id'=>$uid])->orderBy('id','DESC')->paginate(20);	
 	
 	return view('admin.dashboard.transactions')->with(['Transactions'=>$transactions,'id'=>1,'title'=>'Transactions History','active'=>'active','user'=>new \App\User,]);
 	
@@ -482,8 +509,72 @@ return $data;
 }
 
 
+
+/*
+*@param Integer <$txID>
+*@param Illuminate\Response <$response>
+*/
+
+public static function findTxRecord($txID){
+
+$res = \App\Transactions::where('transaction_id',$txID)->get();
+$id=1;
+
+if(sizeof($res)>0){
+echo '
+<table class="table table-responsive table-bordered table_rws">
+<thead>
+<tr><th>S/n</th><th>Transaction ID</th><th>Amount (USDT)</th><th>Check Transaction</th><th>Origin/Receiving Wallet</th><th>Transaction <br/> Type</th><th>Comments</th>
+<th>Date</th><th>Txn Status</th></tr></thead><tbody>';
+
+foreach($res as $trx){
+   echo '<tr>
+   <td>'. $id++ .'</td>
+   <td>'.$trx->transaction_id.'</td>
+   <td>'.$trx->trx_amount.'</td>
+   <td><span class="text-black"><a href="'.$trx->explorer_url.'" target="_blank">Explore Transaction</a></span></td>
+   <td><span class="text-warning">'.\Illuminate\Support\Str::limit($trx->originating_wallet_id,20).'</span>
+   <hr/><span class="text-primary">'.
+   $trx->destination_wallet_id.'
+   </span></td>
+   <td><span class="text-info">'.\Illuminate\Support\Str::limit(ucfirst($trx->transaction_type),9).'</span></td>
+   <td>'. $trx->comments .'</td>
+   <td><span class="text-info">'. date('d F Y, H:i:s a', strtotime($trx->created_at)).'</span></td>
+   <td>'; 
+   $trxID = $trx->id;
+   if($trx->trxn_complete_status==1){ 
+       echo '<span class="text-success"><u>Completed</u><Br/>';     
+       echo '<a href="#" data-attr="'.'http://localhost:8000/view-transaction/'.$trxID.'" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>';
+       echo '</span>';}else if($trx->trxn_complete_status==3){
+   
+     echo '<i class="text-danger">Incomplete</i><Br/>';
+       echo '<a href="#" data-attr="'.'http://localhost:8000/view-transaction/'.$trxID.'" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>';
+       }else if($trx->trxn_complete_status==2){
+        echo '<i class="text-danger">In-processing</i><Br/>';
+        echo '<a href="#" data-attr="'.'http://localhost:8000/view-transaction/'.$trxID.'" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>'; 
+       }
+       echo '</td></tr>';
+     
+
+echo '</tbody><tfoot><th>S/n</th><th>Transaction ID</th>
+<th>Amount (USDT)</th><th>Txn Hash</th>
+<th>Origin/Receiving Wallet</th><th>Transaction Type</th>
+<th>Comments</th><th>Date</th>
+<th>Txn Status</th></tfoot>
+</table>';
+
+}
+}else{
+    echo "<small class='text-sm text-danger'><b>Transaction ID</b> not found</small>";
+}
+}
+
+
 /*
 *@param Response <$response>
+*@param DateTime <$s - StartDate>
+*@param DateTime <$e - End Date>
+*@param String <$type>
 */
 public static function show_record($res,$s,$e,$type){
 $walletCurrency = \App\CryptoAPIManager::get_value('funding_currency');
@@ -518,7 +609,7 @@ foreach($res as $trx){
        echo '<span class="text-success"><u>Completed</u></span>';
    else 
      echo '<i class="text-danger">Incomplete</i><Br/>
-       <a href="#" data-attr="'.'http://localhost:8000/dashboard/view-transaction/'.$trx->id.'" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>';
+       <a href="#" data-attr="'.'https://balmflow.com/explorer/view-transaction/'.$trx->id.'" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>';
      echo '</td>
 
    </tr>';

@@ -48,14 +48,62 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-	
-		$profile = DB::table('profiles')->where('id',$id)->get();
-		
-		return view('admin.dashboard.core-admin.viewuser')->with(['title'=>'View User','profile'=>$profile]);
-
-	 
+    {	
+	$profile = DB::table('profiles')->where('id',$id)->get();	
+	return view('admin.dashboard.core-admin.viewuser')->with(['title'=>'View User','profile'=>$profile]);
     }
+
+
+
+    /*
+    *@param Illuminate\Request <$request>
+    *@param String <$formFieldHandler>
+    *@param String <$location>
+    *@return String <$fileName>
+    *This file picks the selected file and upload it to the directory specified with the $location variable
+    */
+    public function saveFile(Request $request,$formFieldHandler,$location){
+        
+        $fileName = NULL;
+        //validating if a file is uploaded
+        if($request->file($formFieldHandler)->isValid()){
+        $fileName = time().'.'.$request->$formFieldHandler->guessExtension();
+        //$request->$formFieldHandler->move(public_path($location), $fileName);   
+        
+        $request->$formFieldHandler->move(public_path($location),$fileName);   
+    
+    }else{
+        flash('No file was uploaded')->fail();
+        return redirect()->back()->with('message','No file was uploaded, kindly check and try again');
+    }
+
+    return $fileName;
+ }
+        
+ /*
+ *@param Integer <$id>
+ * @param \Illuminate\Request
+ */
+
+    public function uploadAvatar(Request $request, $id){
+    
+    $profile = \App\Profile::where('user_id',$id);
+    $profile_img = $this->saveFile($request,'my_avatar','img/160x160');
+
+    //$fileName = time().'.'.$request->my_avatar->extension();
+    //$request->$formFieldHandler->move(public_path($location), $fileName);
+        
+    //$profile->profile_img = $fileName;
+
+    //$profile->save();
+    
+    $response = DB::update("UPDATE profiles SET profile_img=? WHERE user_id=?",[$profile_img,$id]);
+    $msg= "Avatar uploaded and modified successfully";
+
+    $msg= "Avatar uploaded and modified successfully";
+    flash($msg)->success();
+    return redirect()->route('admin.dashboard.user')->with(['message'=>$msg]);
+}
 
     /**
      * Show the form for editing the specified resource.

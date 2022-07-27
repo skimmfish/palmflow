@@ -17,7 +17,7 @@
 				
 				  <p style="margin-top:25px">
 				  <ul>
-				  <li><small class="text text-danger" style="font-size:11px;font-family:'GD Sherpa Regular';"><b>Ensure that you send only BTC into the wallet below, anything different than this would result in losses!</b></small></li>
+				  <li><small class="text text-danger" style="font-size:11px;font-family:'GD Sherpa Regular';"><b>Ensure that you send only {{$defaultCurrency}} into the wallet below, anything different than this would result in losses!</b></small></li>
 				  <li><small style="font-size:11px">To stake part of your transact funds to earn passive profit, kindly <a href="#" data-attr="{{ route('admin.dashboard.stakevalue',['uid'=>Auth::user()->id]) }}" data-toggle="modal" data-target="#stakeModal" id="stakeButton"><u>use this link</u></a> to do that</small></li>
 				<li><small style="font-size:11px"><b>It could take between one minute  to 24hrs before your payment reflects on our portal, kindly be patient.</b></small></li>
 				<li><small style="font-size:11px"><b>Your rebates (if you opt for wallet reserve stakings) would be effected at exactly 24hrs (22:00 UTC + 1) after your payment reflects on our end. 

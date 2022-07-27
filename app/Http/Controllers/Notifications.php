@@ -96,7 +96,7 @@ class Notifications extends Controller
     public function notifyboard(){
         $dashboardNotification = \App\NotificationModel::where(['pub_status'=>1, 'read_status'=>0, 'receiver_id'=>auth()->id()])->get();
 
-        $notifications = \App\NotificationModel::paginate(20);
+        $notifications = \App\NotificationModel::where('read_status',0)->paginate(20);
         return view('admin.dashboard.core-admin.notifications')->with(['notifications'=>$notifications,'title'=>'Notifications and Incoming E-mails',
         'dashboardNotification'=>$dashboardNotification]);    
     }

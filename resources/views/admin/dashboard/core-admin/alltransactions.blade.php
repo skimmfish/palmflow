@@ -54,7 +54,17 @@
 		<button type="button" class="btn btn-primary btn-round" id="fetch" onClick='fetchRecordsAll(start_at.value, ends_at.value, user_id.value+"_"+stype.value)' name="fetch">Search <i class="fa fa-search"></i></button></div>
                     </div>
                     </form><br/>
-
+<div class="row">
+	<label>Filter by Transaction ID</label>
+					<form method="GET">
+					@csrf
+					<div class="row">
+<div class="col-8">
+<input type="text" name="transaction_id" PLACEHOLDER="Enter Transaction ID" class="form-control" onChange="filterByTxId(this.value)">
+</div>	<div class="col-4"><a href="" class="btn btn-danger btn-round"><small class="text-tiny" style="color:#fff;font-weight:500">Refresh</small></a></div>
+</div>
+</form>
+</div>
 		 <div class="col-12 margin-35">
               <div class="card mb-3 btn-reveal-trigger">
                 <div class="card-header position-relative min-vh-25 mb-12">
@@ -66,7 +76,7 @@
 				  <th>Transaction ID</th>
 				  <th>Amount (USDT)</th>
 				  <th>Check Transaction</th>
-				  <th>Origin/Receiving Wallet</th>
+				  <th>Origin <br/> Receiving Wallet</th>
 				  <th>Transaction <br/> Type</th>
 				  <th>Comments</th>
 				  <th>Date</th>
@@ -84,19 +94,35 @@
 				  <td>{{ $trx->trx_amount }}</td>
 				  
 				  <td><span class="text-black"><a href="{{ $trx->explorer_url }}" target="_blank">Explore Transaction</a></span></td>
-				  <td><span class="text-warning">{{ Illuminate\Support\Str::limit($trx->originating_wallet_id,20) }}</span></td>
-				  <td><span class="text-info">{{ $trx->transaction_type }}</span></td>
+				  <td><span class="text-warning">
+					{{ Illuminate\Support\Str::limit($trx->originating_wallet_id,20) }}</span>
+				<hr/>
+
+				<span>{{ $trx->destination_wallet_id }}</span>
+
+				</td>
+				  <td><span class="text-info">{{ Illuminate\Support\Str::limit($trx->transaction_type,9) }}</span></td>
 				  <td>{{$trx->comments}}</td>
 				  <td><span class="text-info">{{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</span></td>
 				  
-				  <td> @if($trx->trxn_complete_status) 
-					   <span class="text-success"><u>Completed</u></span> 
-				  @else 
-					' <i class="text-danger">Incomplete</i><Br/>
-					  <a href="#" data-attr="{{ route('admin.dashboard.view-transaction',['id'=>$trx->id]) }}" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>
-					 @endif
+				  <td>
+					 @if($trx->trxn_complete_status==1) 
+					   <span class="text-success"><u>Completed</u>
+					   <a href="#" data-attr="{{ route('admin.dashboard.view-transaction',['id'=>$trx->id]) }}" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-success"><u>View Transaction</u></a>
+					</span> 
+				  @elseif($trx->trxn_complete_status==2) 
+					 <i class="text-danger">In-processing</i><Br/>
+
+					 <a href="#" data-attr="{{ route('admin.dashboard.view-transaction',['id'=>$trx->id]) }}" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>
+					 @elseif($trx->trxn_complete_status==0)
+					 <i class="text-danger">Incomplete</i><Br/>
+					 <a href="#" data-attr="{{ route('admin.dashboard.view-transaction',['id'=>$trx->id]) }}" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-danger"><u>Query Txn</u></a>
+
+					 
+					  @endif
 					</td>
-				  @endforeach
+				  
+					@endforeach
 				  </tr>
 				  </tbody>
 				 

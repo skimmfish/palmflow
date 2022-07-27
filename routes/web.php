@@ -188,6 +188,15 @@ Route::get('dashboard/user/profile', function(){
 		
 	})->middleware(['auth','verified'])->name('admin.dashboard.user');
 	
+//this route is for viewing transaction details across the blockchain
+Route::get('view-transaction/{id}',function($id){
+
+	$coinremitterTransactionLog = null;
+	$singleTransaction = DB::table('transactions')->where(['id'=>$id])->get();
+	//$coinremitterTransactionLog = \App\Http\Controllers\TransactionController::get_transaction($id);
+	//this adds the coinremitter transaction log to the array of variables to be transferred to the frontend
+	return view('admin.dashboard.view-transaction',['singleTransaction'=>$singleTransaction,'coinremitterModel'=>$coinremitterTransactionLog]);
+	})->middleware(['auth','verified'])->name('admin.dashboard.view-transaction');
 
 
 
@@ -205,17 +214,6 @@ view()->share('dashboardNotification',$dashboardNotification);
 Route::get('/', function(User $user){ 
 return view('admin.dashboard.index')->with(['title'=>'Dashboard - OliveFlowFX Project','user'=>$user]); 
 })->name('admin.dashboard.index');
-
-//this route is for viewing transaction details across the blockchain
-Route::get('view-transaction/{id}',function($id){
-
-	$coinremitterTransactionLog = null;
-	$singleTransaction = DB::table('transactions')->where(['id'=>$id])->get();
-	//$coinremitterTransactionLog = \App\Http\Controllers\TransactionController::get_transaction($id);
-
-	//this adds the coinremitter transaction log to the array of variables to be transferred to the frontend
-	return view('admin.dashboard.view-transaction',['singleTransaction'=>$singleTransaction,'coinremitterModel'=>$coinremitterTransactionLog]);
-	})->name('admin.dashboard.view-transaction');
 	
 
 //for fund-wallet route
@@ -230,8 +228,9 @@ if($processor=='coinremitter'){
 $instantWalletHandler = \App\Http\Controllers\TransactionController::getNewWallet();
 }
 $txfees = \App\Http\Controllers\GasFeeController::getTotalTxFees(auth()->id());
-
-return view('admin.dashboard.fund_wallet')->with(['processingAPI'=>$processor,'totalTxFees'=>$txfees['totalFees'],'stakedValue'=>$txfees['stakedValue'],'title'=>'Fund My Wallet - OliveFlowFX Project','instantWallet'=>$instantWalletHandler]);
+$defaultCurrency = \App\CryptoAPIManager::get_value('funding_currency');
+return view('admin.dashboard.fund_wallet')->with(['processingAPI'=>$processor,'defaultCurrency'=>$defaultCurrency,
+'totalTxFees'=>$txfees['totalFees'],'stakedValue'=>$txfees['stakedValue'],'title'=>'Fund My Wallet - OliveFlowFX Project','instantWallet'=>$instantWalletHandler]);
 
 })->name('admin.dashboard.fund_wallet');
 
@@ -326,6 +325,12 @@ return view('admin.dashboard.withdraw-rebate')->with('title','Withdraw rebates v
 All the routes below for users who has is-admin authorization and email_verified priviledge
 =============================================
 ***/
+
+//update user's avatar
+Route::put('upload-avatar/{id}','\App\Http\Controllers\ProfileController@uploadAvatar')->middleware(['auth','verified'])->name('update_picture');
+
+
+//grouped route definitions
 Route::middleware(['auth','verified'])->prefix('dashboard/admin')->namespace('admin')->group(function(){
 
 	
@@ -333,11 +338,19 @@ Route::middleware(['auth','verified'])->prefix('dashboard/admin')->namespace('ad
 	//view()->share('dashboardNotification',$dashboardNotification);
 
 	//resetting the read_status of notification to true for all messages belonging to the logged in user
-Route::get('notification_mark_all_read', function(){
+	Route::get('notification_mark_all_read', function(){
 	$getAllRecords = NotificationModel::where(['pub_status'=>1,'read_status'=>0,'receiver_id'=>Auth::user()->id])->get();
 	foreach($getAllRecords as $x){ $notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=? AND receiver_id=?", [1,$x['id'],Auth::user()->id]); 
 	} return redirect()->route('login')->with('message','All notifications set to read'); 
 	})->middleware(['auth','verified'])->name('notification_mark_all_read');
+
+
+	Route::get('notification_mark_as_read/{id}/{status}', function($id,$status){
+	$notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=?", [$status,$id]); 
+	//		return redirect()->route('admin.dashboard.core-admin.notifications');
+	return redirect()->back();
+	})->middleware(['auth'])->name('notification_mark_single_as_read');
+	
 
 	//making payment notification to the admins to verify
 Route::get('payment-complete/{pay_id}','\App\Http\Controllers\TransactionController@completepay')->name('set_payment_completed');
@@ -465,6 +478,20 @@ $unreadMessageCounter = sizeof(\App\NotificationModel::where(['read_status'=>0,'
 view()->share('unreadMessageCounter',$unreadMessageCounter);
 
 
+//for filtering records by transaction ID
+Route::get('getrecord-by-txid',function(){
+$txID = htmlspecialchars($_GET['transactionID']);
+
+$records = \App\Http\Controllers\TransactionController::findTxRecord($txID);
+
+})->name('admin.dashboard.getrecord');
+
+/*this route activates transactions for users, for now until we can automate the process via IPN notifications and 
+*cron jobs
+*/
+
+Route::get('activate-user-transact/{id}/{amt}/{uid}/{txid}','\App\Http\Controllers\TransactionController@activateTxn')->name('admin.dashboard.core-admin.activatetxn');
+
 //delete notifications for super admins
 Route::delete('delete_notification/{id}','\App\Http\Controllers\Notifications@delete')->name('delete_notification');
 
@@ -525,7 +552,7 @@ Route::get('assets/store','AssetManagerController@store')->name('assetmanager.st
 Route::get('assets/update/{id}','AssetManagerController@store')->name('assetmanager.update');
 
 //viewing a user's profile
-Route::get('viewuser/{id}', '\App\Http\Controllers\ProfileController@show')->middleware(['admin','auth','verified'])->name('viewuser');
+Route::get('viewuser/{id}', '\App\Http\Controllers\ProfileController@show')->middleware(['admin','auth'])->name('viewuser');
 
 //settings endpoint
 Route::get('settings-and-config',function(){

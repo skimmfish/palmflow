@@ -43,7 +43,20 @@
                     </select>
 				</div>
 				</form>
-                    					
+
+				<div class="row">
+	<label>Filter by Transaction ID</label>
+					<form method="GET">
+					@csrf
+					<div class="row">
+<div class="col-8">
+<input type="text" name="transaction_id" PLACEHOLDER="Enter Transaction ID" class="form-control" onChange="filterByTxId(this.value)">
+</div>	<div class="col-4"><a href="" class="btn btn-danger btn-round"><small class="text-tiny" style="color:#fff;font-weight:500">Refresh</small></a></div>
+</div>
+</form>
+</div>
+
+
 					<br/>
 
  @if(count($Transactions)>0)
@@ -60,7 +73,9 @@
 				  <th>Transaction ID</th>
 				  <th>Amount (USDT)</th>
 				  <th>Check Transaction</th>
-				  <th>Origin/Receiving Wallet</th>
+				  <th>Origin Wallet <br/> Receiving Wallet
+				
+				</th>
 				  <th>Transaction <br/> Type</th>
 				  <th>Comments</th>
 				  <th>Date</th>
@@ -78,12 +93,38 @@
 				  <td>{{ $trx->trx_amount }}</td>
 				  
 				  <td><span class="text-black"><a href="{{ $trx->explorer_url }}">Check Transaction</a></span></td>
-				  <td><span class="text-warning">{{ Illuminate\Support\Str::limit($trx->originating_wallet_id,15) }}</span></td>
-				  <td><span class="text-info">{{ $trx->transaction_type }}</span></td>
+				  <td><span class="text-warning">
+					{{ Illuminate\Support\Str::limit($trx->originating_wallet_id,15) }}</span> <hr/>
+				<span>{{ $trx->destination_wallet_id }}</span>
+				</td>
+				  <td><span class="text-info">{{ Illuminate\Support\Str::limit($trx->transaction_type,9) }}</span></td>
 					<td>{{ $trx->comments }}</td>
 				  <td><span class="text-info">{{ date('d F Y, H:i:s a', strtotime($trx->created_at)) }}</span></td>
 				  
-				  <td> <?php if(($trx->trxn_complete_status)==1){echo ' <u class="text-success">Completed</u>'; }else{ echo '<i class="text-danger">Incomplete</i><Br/><a href="#" data-href="" id="query_txn" class="text-warning"><u>Query Txn?</u></a>'; } ?>	  </td>
+				  
+				<td>
+					 @if($trx->trxn_complete_status==1) 
+					   <span class="text-success"><u>Completed</u>
+					   <a href="#" data-attr="{{ route('admin.dashboard.view-transaction',['id'=>$trx->id]) }}" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-success"><u>View Transaction</u></a>
+					</span> 
+				  @elseif($trx->trxn_complete_status==2) 
+					 <i class="text-danger">In-processing</i><Br/>
+
+					 <a href="#" data-attr="{{ route('admin.dashboard.view-transaction',['id'=>$trx->id]) }}" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-warning"><u>Query Txn</u></a>
+					 @elseif($trx->trxn_complete_status==0)
+					 <i class="text-danger">Incomplete</i><Br/>
+					 <a href="#" data-attr="{{ route('admin.dashboard.view-transaction',['id'=>$trx->id]) }}" data-toggle="modal" id="smallButton" data-target="#transactionmodal" class="text-danger"><u>Query Txn</u></a>
+
+					 
+					  @endif
+					</td>
+				  
+
+				</td>
+				 
+				 
+				 
+				 
 				  @endforeach
 				  </tr>
 				  </tbody>
@@ -111,6 +152,29 @@
 		@else
 		<div><hr/><p class="alert alert-info">Oops! You don't have any transactions recorded yet</p></div>
 				@endif
+
+
+
+
+		 <!-- view transaction modal -->
+		 <div class="modal fade" id="transactionmodal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"style="border-radius:50%;width:35px;height:35px;border:0;color:#0d2453;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+		
 
 
 @endsection
