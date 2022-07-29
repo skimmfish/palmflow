@@ -348,7 +348,8 @@ Route::middleware(['auth','verified'])->prefix('dashboard/admin')->namespace('ad
 	Route::get('notification_mark_as_read/{id}/{status}', function($id,$status){
 	$notificationX = DB::update("UPDATE notification_models SET read_status=? WHERE id=?", [$status,$id]); 
 	//		return redirect()->route('admin.dashboard.core-admin.notifications');
-	return redirect()->back();
+		flash('Message set to unread')->success();
+	//return redirect()->back()->with('message','Message set to unread');
 	})->middleware(['auth'])->name('notification_mark_single_as_read');
 	
 

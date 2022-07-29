@@ -90,7 +90,9 @@ display:block;
 position:relative;
 width:40px !important;height:40px !important;
 top:-100px;left:140px;border-radius:50%;border:2px solid #fff;
-
+}
+.email_img_ct{
+	border-radius:50% !important;width:25px;height:25px;display:block;margin:auto;
 }
 /**
 *Mobile and Ipad/tablets size
